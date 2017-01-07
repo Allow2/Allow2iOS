@@ -12,6 +12,7 @@
 		497D6B731E1F962A0021EAB8 /* Allow2Framework.h in Headers */ = {isa = PBXBuildFile; fileRef = 497D6B651E1F962A0021EAB8 /* Allow2Framework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		497D6B911E1F97390021EAB8 /* Allow2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D6B901E1F97390021EAB8 /* Allow2.swift */; };
 		497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */; };
+		497D6B9B1E20750B0021EAB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497D6B9A1E20750B0021EAB8 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		497D6B721E1F962A0021EAB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		497D6B901E1F97390021EAB8 /* Allow2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2.swift; sourceTree = "<group>"; };
 		497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		497D6B9A1E20750B0021EAB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				497D6B661E1F962A0021EAB8 /* Info.plist */,
 				497D6B901E1F97390021EAB8 /* Allow2.swift */,
 				497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */,
+				497D6B9A1E20750B0021EAB8 /* Assets.xcassets */,
 			);
 			path = Allow2Framework;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497D6B9B1E20750B0021EAB8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Allow2 Pty Ltd. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class Allow2 {
     
@@ -24,7 +24,20 @@ public class Allow2 {
         set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2ChildId") }
     }
     
+    public var isPaired : Bool {
+        get {
+            return (self.userId != nil) && (self.pairId != nil)
+        }
+    }
+    
     public static let PairingChangedNotification = "Allow2PairingChangedNotification"
+    public static let CheckResultNotification = "Allow2CheckResultNotification"
+    
+    public static var AllowLogo : UIImage {
+        get {
+            return UIImage(named: "Allow2 Logo", inBundle: NSBundle(forClass: Allow2.self), compatibleWithTraitCollection: nil)!
+        }
+    }
     
     let apiUrl = "https://api.allow2.com:8443"
     let deviceToken = "fkptV9fm4OCbhGv6"
@@ -50,18 +63,22 @@ public class Allow2 {
         
         var jsonObject : [ String : AnyObject! ]
         
-        init(id: Int, log: Bool = true) {
+        public init(activity: Allow2.Activity, log: Bool = true) {
             jsonObject = [
-                "id": id,
+                "id": activity.rawValue,
                 "log": log
             ]
         }
     }
     
+    public enum Activity : Int {
+        case Internet = 1
+    }
+
     /**
      *  Error Types
      */
-    enum Allow2Error: ErrorType {
+    public enum Allow2Error: ErrorType {
         case NotPaired
         case AlreadyPaired
         case MissingChildId
@@ -104,7 +121,7 @@ public class Allow2 {
      */
     public func pair(user : String!, password: String!, deviceName : String!, completion: ((Allow2Response) -> Void)? = nil) {
         
-        guard (self.userId == nil) && (self.pairId == nil) else {
+        guard !self.isPaired else {
             if completion != nil {
                 completion!(Allow2Response.Error( Allow2Error.AlreadyPaired ))
             }
@@ -170,7 +187,7 @@ public class Allow2 {
      */
     public func check(childId: String!, activities: [Allow2Activity]!, log: Bool = true, completion: ((Allow2Response) -> Void)? = nil) {
         
-        guard (self.userId != nil) && (self.pairId != nil) else {
+        guard self.isPaired else {
             if completion != nil {
                 completion!(Allow2Response.Error( Allow2Error.NotPaired ))
             }
@@ -205,6 +222,13 @@ public class Allow2 {
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {(data, response, error) in
                 print(NSString(data: data!, encoding: NSUTF8StringEncoding))
                 // cache the result first
+                
+                // notify everyone
+                NSNotificationCenter.defaultCenter() .postNotificationName(
+                    "CheckResultNotification",
+                    object: nil,
+                    userInfo: ["message":"Hello there!", "date":NSDate()]
+                )
                 
                 // now return the result
                 if completion != nil {
