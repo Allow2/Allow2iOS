@@ -59,12 +59,12 @@ func Allow2CheckResultNotification(notification:NSNotification) {
 
 ## Integration
 
-#### CocoaPods (iOS 8+, OS X 10.9+)
+#### CocoaPods (iOS 9+)
 
 You can use [CocoaPods](http://cocoapods.org/) to install `Allow2iOS` by adding it to your `Podfile`:
 
 ```ruby
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 target 'MyApp' do
@@ -75,7 +75,7 @@ end
 Note that this requires CocoaPods version 36, and your iOS deployment target to be at least 9.0:
 
 
-#### Carthage (iOS 8+, OS X 10.9+)
+#### Carthage (iOS 9+)
 
 You can use [Carthage](https://github.com/Carthage/Carthage) to install `Allow2iOS` by adding it to your `Cartfile`:
 
@@ -94,7 +94,7 @@ let package = Package(
 name: "YOUR_PROJECT_NAME",
 targets: [],
 dependencies: [
-.Package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", versions: Version(1,0,0)..<Version(3, .max, .max)),
+.Package(url: "https://github.com/Allow2/allow2iOS.git", versions: Version(1,0,0)..<Version(2, .max, .max)),
 ]
 )
 ```
@@ -115,16 +115,3 @@ To use this library in your project manually you may:
 import Allow2
 ```
 
-```swift
-let json = JSON(data: dataFromNetworking)
-```
-
-```swift
-let json = JSON(jsonObject)
-```
-
-```swift
-if let dataFromString = jsonString.data(using: .utf8, allowLossyConversion: false) {
-let json = JSON(data: dataFromString)
-}
-```
