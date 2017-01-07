@@ -33,13 +33,22 @@ public class Allow2 {
     public static let PairingChangedNotification = "Allow2PairingChangedNotification"
     public static let CheckResultNotification = "Allow2CheckResultNotification"
     
+    // todo: should do this better
+    public static var allow2BlockViewController : Allow2BlockViewController {
+        get {
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: nil)
+            return storyboard.instantiateViewControllerWithIdentifier("Allow2BlockViewController") as! Allow2BlockViewController
+        }
+    }
+    
     public static var AllowLogo : UIImage {
         get {
             return UIImage(named: "Allow2 Logo", inBundle: NSBundle(forClass: Allow2.self), compatibleWithTraitCollection: nil)!
         }
     }
     
-    let apiUrl = "https://api.allow2.com:8443"
+    let appUrl = "https://api.allow2.com:8443"
+    let apiUrl = "https://api.allow2.com:9443"
     let deviceToken = "fkptV9fm4OCbhGv6"
     
     public static let sharedInstance = Allow2()
@@ -53,7 +62,7 @@ public class Allow2 {
      * 
      * Simplistic initial implementation uses the full hashed request as the key, probably should cache more intelligently in future
      */
-    var resultCache : [ String : Allow2Response! ] = [ : ]
+    var resultCache : [ String : Allow2CheckResult! ] = [ : ]
     
 
     /**
@@ -83,6 +92,7 @@ public class Allow2 {
         case AlreadyPaired
         case MissingChildId
         case NotAuthorised
+        case InvalidResponse
     }
     
     /**
@@ -92,6 +102,20 @@ public class Allow2 {
         case Error(ErrorType)
         case PairResult(Allow2PairResult)
         case CheckResult(Allow2CheckResult)
+        
+        static func parseFromJSON(response : JSON) -> Allow2Response {
+            guard let allowed = response["allowed"].bool else {
+                return .Error(Allow2Error.InvalidResponse)
+            }
+            let activities = response["activities"]
+            let dayTypes = response["dayTypes"]
+            
+            return .CheckResult(Allow2CheckResult(
+                allowed: allowed,
+                activities: activities,
+                dayTypes: dayTypes
+            ))
+        }
     }
 
     /**
@@ -104,9 +128,27 @@ public class Allow2 {
     /**
      * Result from a successful check call
      */
-    public struct Allow2CheckResult {
-        var allowed : Bool
-        var description : String?
+    public class Allow2CheckResult {
+        var _allowed : Bool
+        var _activities : JSON
+        var _dayTypes : JSON
+        public var allowed : Bool { get { return _allowed } }
+        public var activities : JSON { get { return _activities } }
+        public var dayTypes : JSON { get { return _dayTypes } }
+        
+        var expires: NSDate {
+            get {
+                return NSDate(timeIntervalSince1970: activities["0"]["expires"].double ?? 0.0)
+            }
+        }
+        
+        private init(allowed: Bool,
+             activities: JSON,
+             dayTypes: JSON) {
+            self._allowed = allowed
+            self._activities = activities
+            self._dayTypes = dayTypes
+        }
     }
 
     
@@ -128,7 +170,7 @@ public class Allow2 {
             return
         }
         
-        let url = NSURL(string: "\(apiUrl)/api/pairDevice")
+        let url = NSURL(string: "\(appUrl)/api/pairDevice")
         
         let body : JSON = [
             "user": user,
@@ -194,14 +236,6 @@ public class Allow2 {
             return
         }
         
-        // check the cache first
-        if (false) {
-            // use cached value
-            return
-        }
-        
-        let url = NSURL(string: "\(apiUrl)/serviceapi/check")
-
         let body : JSON = [
             "userId": self.userId!,
             "pairId": self.pairId!,
@@ -211,9 +245,27 @@ public class Allow2 {
             "activities": activities.jsonArray,
             "log": log
         ];
+        let key = body.rawString()!
         
+        // check the cache first
+        if let checkResult = self.resultCache[key] {
+            
+            if !checkResult.expires.timeIntervalSinceNow.isSignMinus {
+                // not expired yet, use cached value
+                if completion != nil {
+                    completion!( Allow2Response.CheckResult(checkResult) )
+                }
+                return
+            }
+            
+            // clear cached value and ask the server again
+            self.resultCache.removeValueForKey(key)
+        }
+        
+        let url = NSURL(string: "\(apiUrl)/serviceapi/check")
         let request = NSMutableURLRequest(URL: url!)
         request.HTTPMethod = "POST";
+        request.addValue("application/json", forHTTPHeaderField:"Content-Type")
         //json: true,
         
         do {
@@ -221,21 +273,40 @@ public class Allow2 {
         
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {(data, response, error) in
                 print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-                // cache the result first
+                // interpret the result
+                // todo: 403 is disconnected, clear everything out
                 
-                // notify everyone
-                NSNotificationCenter.defaultCenter() .postNotificationName(
-                    "CheckResultNotification",
-                    object: nil,
-                    userInfo: ["message":"Hello there!", "date":NSDate()]
-                )
+                // handle other errors
+                
+                // attempt to handle valid response
+                let result = Allow2Response.parseFromJSON(JSON(data: data!))
+                
+                switch result {
+                case let .CheckResult(checkResult):
+                    
+                    // good response, cache the result first
+                    self.resultCache[key] = checkResult
+
+                    // notify everyone
+                    NSNotificationCenter.defaultCenter().postNotificationName(
+                        Allow2.CheckResultNotification,
+                        object: nil,
+                        userInfo: [ "result" : checkResult ]
+                    )
+
+                    break
+                default:
+                    if completion != nil {
+                        completion!(result)
+                    }
+                    return
+                }
+
+                
                 
                 // now return the result
                 if completion != nil {
-                    completion!(Allow2Response.CheckResult(Allow2CheckResult(
-                        allowed: true,
-                        description: nil
-                        )))
+                    completion!(result)
                 }
             }
             task.resume()
@@ -245,6 +316,23 @@ public class Allow2 {
             if completion != nil {
                 completion!(Allow2Response.Error( err ))
             }
+        }
+    }
+    
+    public class Allow2Day {
+        public var id : Int {
+            get {
+                return self.id
+            }
+        }
+        public var name : String {
+            get {
+                return self.name
+            }
+        }
+        
+        init (json: JSON) {
+            
         }
     }
 }

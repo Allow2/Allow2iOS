@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		495A90BF1E20F79500439C70 /* Allow2BlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A90BE1E20F79500439C70 /* Allow2BlockViewController.swift */; };
+		495A90C31E20F8B800439C70 /* Allow2Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */; };
 		497D6B6C1E1F962A0021EAB8 /* Allow2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497D6B621E1F962A0021EAB8 /* Allow2.framework */; };
 		497D6B711E1F962A0021EAB8 /* Allow2FrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D6B701E1F962A0021EAB8 /* Allow2FrameworkTests.swift */; };
 		497D6B731E1F962A0021EAB8 /* Allow2Framework.h in Headers */ = {isa = PBXBuildFile; fileRef = 497D6B651E1F962A0021EAB8 /* Allow2Framework.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,6 +28,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		495A90BE1E20F79500439C70 /* Allow2BlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2BlockViewController.swift; sourceTree = "<group>"; };
+		495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Allow2Storyboard.storyboard; sourceTree = "<group>"; };
+		495A90C41E21083C00439C70 /* Allow2iOS.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Allow2iOS.podspec; sourceTree = SOURCE_ROOT; };
+		495A90C51E21099E00439C70 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		497D6B621E1F962A0021EAB8 /* Allow2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Allow2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		497D6B651E1F962A0021EAB8 /* Allow2Framework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Allow2Framework.h; sourceTree = "<group>"; };
 		497D6B661E1F962A0021EAB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,11 +83,15 @@
 		497D6B641E1F962A0021EAB8 /* Allow2Framework */ = {
 			isa = PBXGroup;
 			children = (
-				497D6B651E1F962A0021EAB8 /* Allow2Framework.h */,
-				497D6B661E1F962A0021EAB8 /* Info.plist */,
 				497D6B901E1F97390021EAB8 /* Allow2.swift */,
-				497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */,
+				495A90BE1E20F79500439C70 /* Allow2BlockViewController.swift */,
+				495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */,
 				497D6B9A1E20750B0021EAB8 /* Assets.xcassets */,
+				497D6B651E1F962A0021EAB8 /* Allow2Framework.h */,
+				497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */,
+				497D6B661E1F962A0021EAB8 /* Info.plist */,
+				495A90C41E21083C00439C70 /* Allow2iOS.podspec */,
+				495A90C51E21099E00439C70 /* README.md */,
 			);
 			path = Allow2Framework;
 			sourceTree = "<group>";
@@ -191,6 +201,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				495A90C31E20F8B800439C70 /* Allow2Storyboard.storyboard in Resources */,
 				497D6B9B1E20750B0021EAB8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				497D6B911E1F97390021EAB8 /* Allow2.swift in Sources */,
+				495A90BF1E20F79500439C70 /* Allow2BlockViewController.swift in Sources */,
 				497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

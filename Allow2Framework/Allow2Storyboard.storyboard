@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Allow2 Block View Controller-->
+        <scene sceneID="oux-Fw-ZDP">
+            <objects>
+                <viewController storyboardIdentifier="Allow2BlockViewController" id="eSe-US-p3p" customClass="Allow2BlockViewController" customModule="Allow2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="On7-Sz-q6N"/>
+                        <viewControllerLayoutGuide type="bottom" id="xhl-Hu-ZkH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Pz-WK-Q7y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5pm-KE-Wue">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Allow2 Logo" translatesAutoresizingMaskIntoConstraints="NO" id="0hs-00-lbZ">
+                                        <rect key="frame" x="113" y="77" width="148" height="148"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="148" id="jlY-dD-6fa"/>
+                                            <constraint firstAttribute="height" constant="148" id="x1N-S1-R0G"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow2 Limited" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HGo-dd-T1d">
+                                        <rect key="frame" x="113" y="233" width="148" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="148" id="NYg-kq-J8G"/>
+                                            <constraint firstAttribute="height" constant="25" id="uhq-px-z2w"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holiday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxY-qQ-cdx">
+                                        <rect key="frame" x="68" y="266" width="238" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="238" id="MAp-Km-s6m"/>
+                                            <constraint firstAttribute="height" constant="21" id="uPq-aW-SSF"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="REb-7o-TyH">
+                                        <rect key="frame" x="121" y="413" width="132" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="YGK-vs-uFR"/>
+                                            <constraint firstAttribute="width" constant="132" id="xgh-CY-hEH"/>
+                                        </constraints>
+                                        <state key="normal" title="New Request"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are currently banned from internet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sap-ie-4uy">
+                                        <rect key="frame" x="27" y="295" width="321" height="110"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="v3p-Y2-eQ9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="sap-ie-4uy" firstAttribute="leading" secondItem="5pm-KE-Wue" secondAttribute="leading" constant="27" id="6PX-ec-32Y"/>
+                                    <constraint firstItem="REb-7o-TyH" firstAttribute="centerX" secondItem="5pm-KE-Wue" secondAttribute="centerX" id="Iwv-oc-LBG"/>
+                                    <constraint firstItem="0hs-00-lbZ" firstAttribute="top" secondItem="5pm-KE-Wue" secondAttribute="top" constant="77" id="Jhs-gC-svY"/>
+                                    <constraint firstItem="0hs-00-lbZ" firstAttribute="leading" secondItem="5pm-KE-Wue" secondAttribute="leading" constant="113" id="Ng0-SM-ddg"/>
+                                    <constraint firstItem="HGo-dd-T1d" firstAttribute="top" secondItem="0hs-00-lbZ" secondAttribute="bottom" constant="8" id="QDe-1Z-y66"/>
+                                    <constraint firstItem="oxY-qQ-cdx" firstAttribute="centerX" secondItem="5pm-KE-Wue" secondAttribute="centerX" id="R9R-Xa-BGH"/>
+                                    <constraint firstItem="HGo-dd-T1d" firstAttribute="centerX" secondItem="5pm-KE-Wue" secondAttribute="centerX" id="SE4-Bn-Ysf"/>
+                                    <constraint firstAttribute="trailing" secondItem="sap-ie-4uy" secondAttribute="trailing" constant="27" id="WkU-bt-ZK2"/>
+                                    <constraint firstItem="sap-ie-4uy" firstAttribute="top" secondItem="oxY-qQ-cdx" secondAttribute="bottom" constant="8" id="Ykj-qj-7lF"/>
+                                    <constraint firstItem="REb-7o-TyH" firstAttribute="top" secondItem="sap-ie-4uy" secondAttribute="bottom" constant="8" id="ZwZ-dd-xj8"/>
+                                    <constraint firstItem="0hs-00-lbZ" firstAttribute="centerX" secondItem="5pm-KE-Wue" secondAttribute="centerX" id="eO0-zj-kOy"/>
+                                    <constraint firstItem="oxY-qQ-cdx" firstAttribute="top" secondItem="HGo-dd-T1d" secondAttribute="bottom" constant="8" id="k83-cU-jgZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="0hs-00-lbZ" secondAttribute="trailing" constant="114" id="m1E-ls-Iv9"/>
+                                    <constraint firstAttribute="bottom" secondItem="REb-7o-TyH" secondAttribute="bottom" constant="20" id="mfh-Af-Pxi"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5pm-KE-Wue" firstAttribute="leading" secondItem="5Pz-WK-Q7y" secondAttribute="leading" id="JBD-wp-XOd"/>
+                            <constraint firstAttribute="trailing" secondItem="5pm-KE-Wue" secondAttribute="trailing" id="WjI-SW-cVr"/>
+                            <constraint firstItem="xhl-Hu-ZkH" firstAttribute="top" secondItem="5pm-KE-Wue" secondAttribute="bottom" id="c8P-eo-7Fl"/>
+                            <constraint firstItem="5pm-KE-Wue" firstAttribute="top" secondItem="5Pz-WK-Q7y" secondAttribute="top" id="wfz-iC-RVi"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="dayTypeLabel" destination="oxY-qQ-cdx" id="fle-Rc-pdV"/>
+                        <outlet property="descriptionLabel" destination="sap-ie-4uy" id="bi0-5b-H9c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zg1-le-iX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53.600000000000001" y="186.65667166416793"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Allow2 Logo" width="16" height="16"/>
+    </resources>
+</document>
