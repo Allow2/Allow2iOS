@@ -35,7 +35,7 @@ And don't worry about having to tell other parts of your app. It's done for you 
 ```swift
 func Allow2CheckResultNotification(notification:NSNotification) {
     guard let userInfo = notification.userInfo,
-    let result  = userInfo["result"] as? Allow2.Allow2CheckResult else {
+    let result  = userInfo["result"] as? Allow2CheckResult else {
         print("No Allow2CheckResult found in notification")
         return
     }

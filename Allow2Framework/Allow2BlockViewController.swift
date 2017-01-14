@@ -16,12 +16,13 @@ public class Allow2BlockViewController: UIViewController {
     
     var delegate : Allow2BlockViewControllerDelegate?
     
-    private var checkResult : Allow2.Allow2CheckResult?
+    private var checkResult : Allow2CheckResult?
     @IBOutlet var dayTypeLabel : UILabel!
     @IBOutlet var descriptionLabel : UILabel!
     
-    public func checkResult(checkResult: Allow2.Allow2CheckResult!) {
+    public func checkResult(checkResult: Allow2CheckResult!) {
         self.checkResult = checkResult
-        dayTypeLabel.text = checkResult._dayTypes["today"]["name"]
+        dayTypeLabel.text = checkResult.today.name
+        descriptionLabel.text = checkResult.explanation
     }
 }

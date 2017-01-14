@@ -36,7 +36,8 @@ public class Allow2 {
     // todo: should do this better
     public static var allow2BlockViewController : Allow2BlockViewController {
         get {
-            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: nil)
+            let allow2FrameworkBundle = NSBundle(identifier: "com.allow2.Allow2Framework")
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
             return storyboard.instantiateViewControllerWithIdentifier("Allow2BlockViewController") as! Allow2BlockViewController
         }
     }
@@ -125,33 +126,7 @@ public class Allow2 {
         var Children : [ String ]
     }
     
-    /**
-     * Result from a successful check call
-     */
-    public class Allow2CheckResult {
-        var _allowed : Bool
-        var _activities : JSON
-        var _dayTypes : JSON
-        public var allowed : Bool { get { return _allowed } }
-        public var activities : JSON { get { return _activities } }
-        public var dayTypes : JSON { get { return _dayTypes } }
-        
-        var expires: NSDate {
-            get {
-                return NSDate(timeIntervalSince1970: activities["0"]["expires"].double ?? 0.0)
-            }
-        }
-        
-        private init(allowed: Bool,
-             activities: JSON,
-             dayTypes: JSON) {
-            self._allowed = allowed
-            self._activities = activities
-            self._dayTypes = dayTypes
-        }
-    }
 
-    
     /**
      * pair(user, password, deviceName)
      *
@@ -272,7 +247,18 @@ public class Allow2 {
             request.HTTPBody = try body.rawData()
         
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {(data, response, error) in
+                guard error == nil else {
+                    completion?(Allow2Response.Error( error! ))
+                    return;
+                }
+                
+                guard data != nil else {
+                    completion?(Allow2Response.Error( Allow2Error.InvalidResponse ))
+                    return;
+                }
+                
                 print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                
                 // interpret the result
                 // todo: 403 is disconnected, clear everything out
                 
@@ -296,26 +282,20 @@ public class Allow2 {
 
                     break
                 default:
-                    if completion != nil {
-                        completion!(result)
-                    }
+                    completion?(result)
                     return
                 }
 
                 
                 
                 // now return the result
-                if completion != nil {
-                    completion!(result)
-                }
+                completion?(result)
             }
             task.resume()
             
         } catch (let err) {
             print(err)
-            if completion != nil {
-                completion!(Allow2Response.Error( err ))
-            }
+            completion?(Allow2Response.Error( err ))
         }
     }
     
