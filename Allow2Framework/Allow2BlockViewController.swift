@@ -25,4 +25,8 @@ public class Allow2BlockViewController: UIViewController {
         dayTypeLabel.text = checkResult.today.name
         descriptionLabel.text = checkResult.explanation
     }
+    
+    @IBAction func newRequest() {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://app.allow2.com:8443/home/tasks")!)
+    }
 }
