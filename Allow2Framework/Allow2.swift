@@ -8,26 +8,93 @@
 
 import UIKit
 
-public class Allow2 {
+/**
+ * Result from a successful check call
+ */
+public struct Allow2PairResult {
+    public var children : [ Allow2Child ]
+}
+
+public struct Allow2Child {
+    public var id : UInt64
+    public var name : String
+}
+
+/**
+ *  Error Types
+ */
+public enum Allow2Error: ErrorType {
+    case NotPaired
+    case AlreadyPaired
+    case MissingChildId
+    case NotAuthorised
+    case InvalidResponse
+    case Other(message : String)
+}
+
+
+/**
+ * Response from the various calls
+ */
+public enum Allow2Response {
+    case Error(ErrorType)
+    case PairResult(Allow2PairResult)
+    case CheckResult(Allow2CheckResult)
     
+    static func parseFromJSON(response : JSON) -> Allow2Response {
+        guard response["error"] != "invalid pairId" else {
+            // special case, no longer controlled
+            Allow2.shared.userId = nil
+            Allow2.shared.pairId = nil
+            Allow2.shared.childId = nil
+            Allow2.shared.children = []
+            return .CheckResult(Allow2CheckResult(
+                allowed: true,
+                activities: [],
+                dayTypes: []
+                ))
+        }
+        
+        guard let allowed = response["allowed"].bool else {
+            return .Error(Allow2Error.InvalidResponse)
+        }
+        let activities = response["activities"]
+        let dayTypes = response["dayTypes"]
+        
+        return .CheckResult(Allow2CheckResult(
+            allowed: allowed,
+            activities: activities,
+            dayTypes: dayTypes
+            ))
+    }
+}
+
+
+public class Allow2 {
+
+    public var deviceToken : String? = "Not Set";
+
     var userId : String? {
-        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2UserId") as? String) ?? "6" } // todo: return nil
+        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2UserId") as? String) } // ?? "6"
         set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2UserId") }
     }
     var pairId : String? {
-        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2PairId") as? String) ?? "18956" } // todo: return nil
+        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2PairId") as? String) } // ?? "18956"
         set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2PairId") }
-    }
-    // used only if the device is locked to a specific user.
-    var childId : String? {
-        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2ChildId") as? String) ?? "68" } // todo: return nil
-        set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2ChildId") }
     }
     
     public var isPaired : Bool {
         get {
             return (self.userId != nil) && (self.pairId != nil)
         }
+    }
+
+    public var children : [ Allow2Child ] = [] // todo: maintain this automatically
+    
+    // used only if the device is locked to a specific user.
+    public var childId : String? {
+        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2ChildId") as? String) } // ?? "68"
+        set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2ChildId") }
     }
     
     public static let PairingChangedNotification = "Allow2PairingChangedNotification"
@@ -41,6 +108,16 @@ public class Allow2 {
             return storyboard.instantiateViewControllerWithIdentifier("Allow2BlockViewController") as! Allow2BlockViewController
         }
     }
+
+    // todo: should do this better
+    public static var allow2PairingViewController : Allow2PairingViewController {
+        get {
+            let allow2FrameworkBundle = NSBundle(identifier: "com.allow2.Allow2Framework")
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+            return storyboard.instantiateViewControllerWithIdentifier("Allow2PairingViewController") as! Allow2PairingViewController
+        }
+    }
+
     
     public static var AllowLogo : UIImage {
         get {
@@ -50,9 +127,8 @@ public class Allow2 {
     
     let appUrl = "https://api.allow2.com:8443"
     let apiUrl = "https://api.allow2.com:9443"
-    let deviceToken = "fkptV9fm4OCbhGv6"
     
-    public static let sharedInstance = Allow2()
+    public static let shared = Allow2()
     
     private init (){
         //print("Allow2 has been initialised")
@@ -85,46 +161,6 @@ public class Allow2 {
         case Internet = 1
     }
 
-    /**
-     *  Error Types
-     */
-    public enum Allow2Error: ErrorType {
-        case NotPaired
-        case AlreadyPaired
-        case MissingChildId
-        case NotAuthorised
-        case InvalidResponse
-    }
-    
-    /**
-     * Response from the check call
-     */
-    public enum Allow2Response {
-        case Error(ErrorType)
-        case PairResult(Allow2PairResult)
-        case CheckResult(Allow2CheckResult)
-        
-        static func parseFromJSON(response : JSON) -> Allow2Response {
-            guard let allowed = response["allowed"].bool else {
-                return .Error(Allow2Error.InvalidResponse)
-            }
-            let activities = response["activities"]
-            let dayTypes = response["dayTypes"]
-            
-            return .CheckResult(Allow2CheckResult(
-                allowed: allowed,
-                activities: activities,
-                dayTypes: dayTypes
-            ))
-        }
-    }
-
-    /**
-     * Result from a successful check call
-     */
-    public struct Allow2PairResult {
-        var Children : [ String ]
-    }
     
 
     /**
@@ -150,7 +186,7 @@ public class Allow2 {
         let body : JSON = [
             "user": user,
             "pass": password,
-            "deviceToken": self.deviceToken,
+            "deviceToken": self.deviceToken ?? "MISSING",
             "name": deviceName
         ];
         
@@ -164,10 +200,33 @@ public class Allow2 {
             
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {(data, response, error) in
                 print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-                if (completion != nil) {
-                    completion!(Allow2Response.PairResult(Allow2PairResult(
-                        Children: []
-                        )))
+                
+                let json = JSON(data: data!)
+                
+                if let status = json["status"].string {
+                    
+                    guard status == "success" else {
+                        if (completion != nil) {
+                            completion!(Allow2Response.Error(Allow2Error.Other(message: json["message"].string ?? "Unknown Error" )))
+                        }
+                        return
+                    }
+                    
+                    self.pairId = json["pairId"].string
+                    self.userId = json["userId"].string
+                    let childrenJson = json["children"].array ?? []
+                    
+                    // todo: maintain the list of children internally
+                    
+                    if (completion != nil) {
+                        var newChildren : [Allow2Child] = []
+                        for child in childrenJson {
+                            newChildren.append(Allow2Child(id: child["id"].uInt64Value, name: child["name"].stringValue))
+                        }
+                        self.children = newChildren
+                        
+                        completion!(Allow2Response.PairResult(Allow2PairResult( children: self.children )))
+                    }
                 }
             }
             task.resume()
@@ -185,13 +244,13 @@ public class Allow2 {
      * @PARAM completion    : callback on completion, returns Allow2Response
      */
     public func check(activities: [Allow2Activity]!, log: Bool = true, completion: ((Allow2Response) -> Void)? = nil) {
-        guard self.childId != nil else {
+        /*guard self.childId != nil else {
             if completion != nil {
                 completion!(Allow2Response.Error( Allow2Error.MissingChildId ))
             }
             return
-        }
-        check(self.childId!, activities: activities, log: log, completion: completion)
+        }*/
+        check(self.childId ?? "68", activities: activities, log: log, completion: completion)
     }
     
     /**
@@ -214,7 +273,7 @@ public class Allow2 {
         let body : JSON = [
             "userId": self.userId!,
             "pairId": self.pairId!,
-            "deviceToken": self.deviceToken,
+            "deviceToken": self.deviceToken ?? "MISSING",
             "childId": childId,
             "tz": NSTimeZone.localTimeZone().name,
             "activities": activities.jsonArray,

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		49088AA31E21A89D00C9890D /* Allow2CheckResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49088AA21E21A89D00C9890D /* Allow2CheckResult.swift */; };
+		49140FD71E6BD219004CD147 /* Allow2+QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49140FD61E6BD219004CD147 /* Allow2+QR.swift */; };
+		49140FDB1E6C0904004CD147 /* Allow2PairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49140FDA1E6C0904004CD147 /* Allow2PairingViewController.swift */; };
 		495A90BF1E20F79500439C70 /* Allow2BlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A90BE1E20F79500439C70 /* Allow2BlockViewController.swift */; };
 		495A90C31E20F8B800439C70 /* Allow2Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */; };
 		497D6B6C1E1F962A0021EAB8 /* Allow2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497D6B621E1F962A0021EAB8 /* Allow2.framework */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		49088AA21E21A89D00C9890D /* Allow2CheckResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2CheckResult.swift; sourceTree = "<group>"; };
+		49140FD61E6BD219004CD147 /* Allow2+QR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Allow2+QR.swift"; sourceTree = "<group>"; };
+		49140FDA1E6C0904004CD147 /* Allow2PairingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2PairingViewController.swift; sourceTree = "<group>"; };
 		495A90BE1E20F79500439C70 /* Allow2BlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2BlockViewController.swift; sourceTree = "<group>"; };
 		495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Allow2Storyboard.storyboard; sourceTree = "<group>"; };
 		495A90C41E21083C00439C70 /* Allow2iOS.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Allow2iOS.podspec; sourceTree = SOURCE_ROOT; };
@@ -87,7 +91,9 @@
 			children = (
 				497D6B901E1F97390021EAB8 /* Allow2.swift */,
 				49088AA21E21A89D00C9890D /* Allow2CheckResult.swift */,
+				49140FD61E6BD219004CD147 /* Allow2+QR.swift */,
 				495A90BE1E20F79500439C70 /* Allow2BlockViewController.swift */,
+				49140FDA1E6C0904004CD147 /* Allow2PairingViewController.swift */,
 				495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */,
 				497D6B9A1E20750B0021EAB8 /* Assets.xcassets */,
 				497D6B651E1F962A0021EAB8 /* Allow2Framework.h */,
@@ -224,9 +230,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				49088AA31E21A89D00C9890D /* Allow2CheckResult.swift in Sources */,
+				49140FD71E6BD219004CD147 /* Allow2+QR.swift in Sources */,
 				497D6B911E1F97390021EAB8 /* Allow2.swift in Sources */,
 				495A90BF1E20F79500439C70 /* Allow2BlockViewController.swift in Sources */,
 				497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */,
+				49140FDB1E6C0904004CD147 /* Allow2PairingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

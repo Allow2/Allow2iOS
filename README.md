@@ -27,7 +27,7 @@ let allow2Activities = [
     Allow2.Allow2Activity(activity: Allow2.Activity.Internet, log: true), // this is an internet based app
     Allow2.Allow2Activity(activity: Allow2.Activity.Gaming, log: true),   // and it's gaming related
 ]
-Allow2.sharedInstance.check(allow2Activities)
+Allow2.shared.check(allow2Activities)
 ```
 
 And don't worry about having to tell other parts of your app. It's done for you automatically (just listen for the Allow2CheckResultNotification)!
