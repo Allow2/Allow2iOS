@@ -24,6 +24,7 @@ public class Allow2PairingViewController: UITableViewController {
     @IBOutlet var connectButton : UIButton?
     
     var pollingTimer: NSTimer!
+    var bluetooth = Allow2Bluetooth()
     
     let qrQueue = dispatch_queue_create("Allow2QRGenerationQueue", DISPATCH_QUEUE_SERIAL)
     
