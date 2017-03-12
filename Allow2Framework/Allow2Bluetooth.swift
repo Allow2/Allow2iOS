@@ -10,13 +10,16 @@ import Foundation
 import CoreLocation
 import CoreBluetooth
 
-class Allow2Bluetooth : NSObject, CBPeripheralManagerDelegate {
+class Allow2Bluetooth : NSObject {
 
-    let uuid = NSUUID(UUIDString: "e170385e-f3fd-4834-a5e4-766ef993e83e")!
+    let uuid = NSUUID(UUIDString: "E170385E-F3FD-4834-A5E4-766Ef993E83E")!
+    let major : CLBeaconMajorValue = UInt16(arc4random_uniform(65536))
+    let minor : CLBeaconMinorValue = UInt16(arc4random_uniform(65536))
     
     var beaconRegion : CLBeaconRegion?
     var peripheralManager: CBPeripheralManager!
     
+    var shouldAdvertise = false
     var isBroadcasting = false
     
     override init() {
@@ -25,32 +28,50 @@ class Allow2Bluetooth : NSObject, CBPeripheralManagerDelegate {
     }
     
     func startAdvertising() {
+        shouldAdvertise = true
         if !isBroadcasting {
             if self.peripheralManager.state == .PoweredOn {
-
-                self.beaconRegion = CLBeaconRegion(proximityUUID:uuid, major:1, minor:1, identifier:"com.allow2.device")
-                let dict = self.beaconRegion!.peripheralDataWithMeasuredPower(nil) as NSDictionary
-                self.peripheralManager.startAdvertising(dict as? [String : AnyObject])
+                self.beaconRegion = CLBeaconRegion(
+                    proximityUUID:  uuid,
+                    major:          major,
+                    minor:          minor,
+                    identifier:     "com.allow2.device")
+                let dict = NSDictionary(dictionary: self.beaconRegion!.peripheralDataWithMeasuredPower(nil)) as! [String: AnyObject]
+                print("Start Advertising")
+                self.peripheralManager.startAdvertising(dict)
                 isBroadcasting = true
             }
         }
     }
     
     func stopAdvertising() {
+        shouldAdvertise = false
+        pauseAdvertising()
+    }
+    
+    func pauseAdvertising() {
         if isBroadcasting {
+            print("Stop Advertising")
             self.peripheralManager.stopAdvertising()
             isBroadcasting = false
         }
     }
+}
+
+// MARK: - CBPeripheralManagerDelegate
+extension Allow2Bluetooth: CBPeripheralManagerDelegate {
     
     func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
         switch peripheral.state {
         case .PoweredOn:
             print("Bluetooth Status: Turned On")
+            if shouldAdvertise {
+                startAdvertising()
+            }
             
         case .PoweredOff:
-            stopAdvertising()
             print("Bluetooth Status: Turned Off")
+            pauseAdvertising()
             
         case .Resetting:
             print("Bluetooth Status: Resetting")
@@ -63,6 +84,14 @@ class Allow2Bluetooth : NSObject, CBPeripheralManagerDelegate {
             
         default:
             print("Bluetooth Status: Unknown")
+        }
+    }
+    
+    func peripheralManagerDidStartAdvertising(peripheral: CBPeripheralManager, error: NSError?) {
+        if let error = error {
+            print("Failed to start advertising with error:\(error)")
+        } else {
+            print("Start advertising")
         }
     }
 }

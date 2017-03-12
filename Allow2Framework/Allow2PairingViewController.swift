@@ -48,7 +48,7 @@ public class Allow2PairingViewController: UITableViewController {
         }
         let allow2FrameworkBundle = NSBundle(identifier: "com.allow2.Allow2Framework")
         let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
-        return storyboard.instantiateViewControllerWithIdentifier("Allow2PairingViewController") as! Allow2PairingViewController
+        return storyboard.instantiateViewControllerWithIdentifier("Allow2PairingViewController") as? Allow2PairingViewController
     }
     
     override public func viewWillAppear(animated: Bool) {
@@ -60,6 +60,8 @@ public class Allow2PairingViewController: UITableViewController {
 
         deviceNameField?.text = deviceName
         updateBarcode()
+        
+        bluetooth.startAdvertising()
 
         self.pollingTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(Allow2PairingViewController.pollPairing), userInfo: nil, repeats: true)
     }
@@ -68,6 +70,8 @@ public class Allow2PairingViewController: UITableViewController {
         super.viewDidDisappear(animated)
         self.pollingTimer.invalidate()
         self.pollingTimer = nil
+        bluetooth.stopAdvertising()
+
     }
     
     func updateBarcode() {
