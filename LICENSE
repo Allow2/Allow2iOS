@@ -1,0 +1,439 @@
+API and SDK Licence and Service Agreement
+
+Allow2 Pty Ltd (Australia) Version 1.0 13 April 2014
+
+Background
+
+ALLOW2 PTY LTD (ALLOW2) IS THE PROVIDER AND OWNER OF THE ALLOW2 SERVICE DESCRIBED IN THE SERVICE DESCRIPTION
+SET OUT AT HTTP://WWW.ALLOW2.COM. ACCESS TO THE ALLOW2 SERVICE IS AVAILABLE TO REGISTERED DEVELOPERS FOR INTEGRATION
+INTO THEIR SOFTWARE PRODUCTS VIA THE ALLOW2 APPLICATION PROGRAMMING INTERFACE (API) AND SOFTWARE DEVELOPMENT KIT (SDK)
+RELEASED BY ALLOW2 PTY LTD TO REGISTERED DEVELOPERS. THIS API AND SDK LICENCE AND SERVICE AGREEMENT SETS OUT THE TERMS
+AND CONDITIONS UPON WHICH ALLOW2 AGREES TO PROVIDE ACCESS TO THE ALLOW2 SERVICE, AND GRANTS A LICENCE TO USE THE ALLOW2
+API AND SDK IN REGISTERED DEVELOPERS’ PRODUCTS. YOU MAY ONLY USE THE ALLOW2 SERVICE AND/OR THE ALLOW2 API OR SDK IF YOU
+ARE A REGISTERED DEVELOPER AND ACCEPT THESE TERMS OF USE. BY DOWNLOADING AND/OR USING AND/OR MODIFYING AND/OR
+INTEGRATING THE ALLOW2 API INTO A SOFTWARE PRODUCT, YOU CONFIRM THAT YOU HAVE READ AND UNDERSTAND AND WHOLLY AND
+UNCONDITIONALLY AGREE TO BE LEGALLY BOUND BY AND ACCEPT THE TERMS AND CONDITIONS OF THIS API AND SDK LICENCE AND
+SERVICE AGREEMENT. WE MAY MODIFY AND/OR REPLACE THESE TERMS OF USE FROM TIME TO TIME WITHOUT NOTICE. WE WILL UPLOAD THE
+LATEST VERSION TO THIS WEBPAGE. IT IS YOUR RESPONSIBILITY TO ENSURE THAT YOU HAVE READ AND UNDERSTAND THE LATEST VERSION
+OF THIS API AND SDK LICENCE AND SERVICE AGREEMENT. IF YOU DO NOT ACCEPT THE TERMS AND CONDITIONS SET OUT IN THIS API AND
+SDK LICENCE AND SERVICE AGREEMENT (AS AMENDED FROM TIME TO TIME), YOU MUST NOT REGISTER AN ACCOUNT AND CANNOT DOWNLOAD
+AND/OR USE AND/OR MODIFY AND/OR INTEGRATE THE ALLOW2 API OR SDK INTO A SOFTWARE PRODUCT AND MUST IMMEDIATELY DISCONTINUE
+ANY USE OF THE ALLOW2 API, SDK AND ALLOW2 SERVICE IN ALL OF YOUR SOFTWARE PRODUCTS.
+
+TERMS AND CONDITIONS:
+1. Definitions and Interpretation
+  1.1. Definitions
+  
+    In these Terms of Use:
+    
+    Account - has the meaning given in clause 3.1.
+    Allow2 - means Allow2 Pty Ltd [ACN 159048094], a company registered in Queensland, Australia.
+    Allow2 API - means the source code and object code described in the Service Description as the Allow2 API, and any
+                  modification, translation or derivative of the Allow2 API including any Modified API Version. Note that
+                  this License is intended to cover any use of the API or the SDK equally and therefore “API” and “SDK”
+                  are used interchangeably and any reference to one also equally applies to the other.
+    Allow2 SDK - means the source code and object code described in the Service Description as the Allow2 SDK, and any
+                  modification, translation or derivative of the Allow2 SDK including any Modified SDK Version. Note that
+                  this License is intended to cover any use of the API or the SDK equally and therefore “API” and “SDK”
+                  are used interchangeably and any reference to one also equally applies to the other.
+    Allow2 Service - means as set out in the Service Description.
+    API (or SDK) Licence - means as set out in clause 4.1.
+    API (or SDK) Modification - means as set out in clause 9.1(b).
+    Australian Consumer Law - means schedule 2 to the Competition and Consumer Act 2010 (Cth).
+    Business Day - means Monday – Friday excluding public holidays in Queensland.
+    Business Hours - means 9:00am – 5:00pm on Business Days.
+    Intellectual Property Rights - means all copyright, trademark rights, patent rights, and design rights, whether
+                  registered or unregistered, and all other rights to intellectual property as defined under article 2
+                  of the convention establishing the World Intellectual Property Organization, and all rights to enforce
+                  any of the foregoing rights. Modified API (or SDK) Version means as set out in clause 9.1.
+    Moral Rights - has the meaning given in the Copyright Act 1968 (Cth).
+    Non-Excludable Guarantee - means a non-excludable guarantee implied by the Australian Consumer Law.
+    Personal Property Securities Register - means the Personal Property Securities Register established under the
+                  Personal Property Securities Act 2009 (Cth).
+    Premium Version - means as set out in clause 2.5.
+    Product - means any software that You own the Intellectual Property Rights in.
+    Product Data - means the data that You and/or Your Users transmit through or upload into the Allow2 Service via Your
+                  Products.
+    Registered Developer - means as set out in clause 2.2.
+    Service Description - means as set out at http://www.allow2.com and associated pages and sites.
+    Terms of Use - means the terms and conditions set out on this webpage as amended by Us from time to time. Trademark
+                  means any existing or future registered or unregistered trademarks of Allow2.
+    User - means a person who operates a Product.
+    “We”, “Our” and “Us” - means Allow2.
+    “Website” - means the allow2.com website and any content, images, text and other information appearing on any page of
+                  the Website and any source code and object code in the Website, plus any database which forms part of
+                  or which the Website interacts with.
+    “You” and “Your” - means you, the person who accesses this Website for any reason, whether or not You are a
+                  Registered Developer.
+
+  1.2. Interpretation
+  
+    In these Terms of Use:
+  
+    (a) Headings and underlinings are for convenience only and do not affect the construction of these Terms of Use.
+    (b) A provision of these Terms of Use will not be interpreted against a party because the party prepared or was
+        responsible for the preparation of the provision, or because the party’s legal representative prepared the
+        provision.
+    (c) A reference to a statute or regulation includes amendments thereto.
+    (d) A reference to a clause, subclause or paragraph is a reference to a clause, subclause or paragraph of these
+        Terms of Use.
+    (e) A reference to a subclause or paragraph is a reference to the subclause or paragraph in the clause in which
+        the reference is made.
+    (f) The section entitled “Background” at the top of these Terms of Use forms part of the binding terms and
+        conditions of these Terms of Use.
+    (g) A reference to time is to time in Queensland.
+    (h) A reference to a person includes a reference to an individual, a partnership, a company, a joint venture,
+        government body, government department, and any other legal entity.
+    (i) The words “includes”, “including” and similar expressions are not words of limitation.
+
+2. Allow2 Service
+  2.1. The Allow2 API, Allow2 SDK and the Allow2 Service are provided as a bundle and are not supplied or licensed
+        independently of one another.
+  2.2. You may only download the Allow2 API and/or an Allow2 SDK and/or use the Allow2 Service if You are a
+        registered Account holder (“Registered Developer”).
+  2.3. If you are a Registered Developer You may not use the Allow2 Service except:
+    (a) via the Allow2 API or an Allow2 SDK integrated into Your Products; and
+    (b) solely to provide information transmitted to Your Products via the Allow2 API in order to use that
+        information for the purposes expressly specified in the Service Description.
+  2.4. A description of the Allow2 Service is included in the Service Description. Registered Developers may only
+        access the Allow2 Service for the purpose(s) specified in, and subject to the provisions of, the Service
+        Description and these Terms of Use.
+  2.5. There are currently no fees payable by Developers to use the current version of the Allow2 Service in
+        accordance with these Terms of Use. We do not currently intend to introduce any fees for Developer use of the
+        Allow2 Service, unless we release:
+    (a) a version of the Allow2 Service which permits a greater number of calls to the Allow2 Service than specified in
+        clause 6.3; and/or
+    (b) a version that contains functionality or features over and above that which is provided by Our “standard”
+        version of the Allow2 Service, (each, a “Premium Version”) and We reserve the right to charge a fee for any
+        Premium Versions.
+  2.6. There is no fee payable by Developers for the use of the Allow2 API in accordance with these Terms of Use.
+  2.7. You and your Users must pay all costs and expenses associated with Your use of the Allow2 Service and the
+        Allow2 API, including internet access costs, web browser and computer and smartphone equipment costs,
+        telecommunications costs, data costs and roaming charges.
+
+3. Registration for the Allow2 Service
+  3.1. Prior to downloading, modifying, using and/or integrating the Allow2 API in Your Products, You must register
+        for an Allow2 Service account through this Website (an “Account”).
+  3.2. If You register on the Website, You:
+    (a) warrant that during the registration process You will provide truthful and accurate information only;
+    (b) warrant that You are registering an Account in Your own personal capacity and on behalf of and with the
+        authority and consent of the business entity, the name and details of which You enter during registration
+        as “the developer”;
+    (c) agree to be jointly and severally liable for any breach of these Terms of Use by You and/or that entity;
+    (d) agree and acknowledge that by registering on this Website that You are registering to use the Allow2
+        Service in Your Products via the Allow2 API and/or SDK.
+  3.3. You must ensure, without limiting clause 3.2, that You provide a valid email address at the time of registration
+        for an Account.
+  3.4. We reserve the right to send an email to You with a hyperlink which requires You to verify that You are the
+        owner or operator of the email address entered by You during registration and to cancel/not approve Your
+        registration if Your rights to the email address are not so verified.
+  3.5. If any of Your contact details or other information which You provide during the registration process change,
+        You must promptly update Your registration details for Your Account via the Website with Your up-to-date
+        details and information.
+  3.6. You must not disclose Your account name or password for Your Account to any person. You agree and
+        acknowledge that You shall be solely responsible for the confidentiality of Your username and password and
+        any use (including unauthorised use) of Your Account.
+  3.7. You must immediately notify Us if You become aware of any unauthorised use of Your Account.
+  4. Licence to use and modify the Allow2 API and SDK
+  4.1. Subject to Your compliance with these Terms of Use including clause 4.2, if You register for an Account We
+        hereby grant You a non-exclusive, non-transferable, royalty-free, worldwide licence to:
+    (a) use and modify the Allow2 API and/or SDK in object and source code form, and to translate the Allow2
+        API and/or SDK to other computer programming languages and make any derivatives thereof;
+    (b) the right to incorporate into copies of Your Products distributed to Users that portion of the source code
+        and object code of the Allow2 API and/or SDK necessary to enable Your Products to interface with,
+        and/or use functionality provided by, the Allow2 Service; and
+    (c) the right to sublicense to Users the right to use such portion of the Allow2 API and/or SDK solely in the
+        course of their operation of Your Products subject to the provisions of clauses 13.3 and 13.4,
+        (collectively, the “API and SDK Licence”).
+  4.2. You acknowledge and agree that You must not use the Allow2 API and/or SDK:
+    (a) in any Product that does not interface with and/or use functionality provided by the Allow2 Service;
+    (b) independently of the Allow2 Service;
+    (c) to build any service competitive with the Allow2 Service; and/or
+    (d) with any service competitive with the Allow2 Service or that provides the same or similar functionality as
+        the Allow2 Service.
+  4.3. You must not authorise, encourage or license any person (including any User) to use the Allow2 API and/or
+        SDK in breach of the provisions of clause 4.2.
+  4.4. The rights granted under paragraphs 4.1(a), 4.1(b), and 4.1(c) are the only rights granted under the API and
+        SDK Licence. No additional rights or licences are provided to You with respect to the Allow2 API and/or SDK
+        whether by implication or otherwise.
+
+5. Availability of Allow2 Service
+  5.1. You agree and acknowledge that the Allow2 Service will not be able to provide data to any Product while the
+        Allow2 Service and/or the Product is disconnected from the Internet.
+  5.2. While You are a Registered Developer of the Website, We agree to use Our best endeavours to procure
+        hosting of the Allow2 Service and the Product Data and to ensure that the Website and Allow2 Service are
+        available at least 90% of the time (calculated by Us monthly).
+  5.3. The availability of the Allow2 Service to You will be subject, in addition to any other provisions set out in
+        these Terms of Use, to any bandwidth limitations, database size limitations, throughput limitations and other
+        technical and non-technical limitations or restrictions set out in the Service Description.
+
+6. API and SDK Licence Restrictions
+  6.1. You may not make any use of the Allow2 API and/or SDK except as permitted by the API and SDK Licence
+        and may not do or authorise the commission of any act that would or might invalidate or be inconsistent with
+        Our Intellectual Property Rights. Without limiting the foregoing provisions of the API and SDK Licence, You
+        must not, under any circumstances, scrape, republish, mirror or otherwise rent, lend, lease, sell, redistribute,
+        sublicense, copy or duplicate the Allow2 API and/or SDK or any content You obtain from the Allow2 Service via
+        the Allow2 API and/or SDK, except as expressly permitted under the API and SDK Licence and the Service Description.
+        In addition, You must not, nor may You permit any person to:
+    (a) do any act that would or might invalidate or be inconsistent with Our Intellectual Property Rights or those of Our
+        licensors;
+    (b) use the Allow2 API, Allow2 SDK or the Allow2 Service in any way that infringes Our rights or the rights of any
+        third party; or
+    (c) take any steps to circumvent any technological protection measure or security measures that We implement with
+        respect to the Allow2 Service.
+  6.2. You must not use the Allow2 API, the Allow2 SDK, the Allow2 Service or any part of them in any way which is in
+        breach of any statute, regulation, law or legal right of any person.
+  6.3. The number of API and/or SDK calls that can be made through Your Account to the Allow2 Service is currently not
+        hard limited, however there is a nominal limit on calls to ensure service availability for all users. This is
+        currently defined as:
+    (a) to 50,000 calls/day/device/User for each of Your Products;
+    (b) to an aggregate maximum of 100,000,000 calls/day/Account (aggregated over all Products used under Your Account).
+    If usage extends beyond these limits, Allow2 Pty Ltd may contact you to negotiate an account specific license to
+    support your level of usage of the service.
+    
+7. Acceptable Use Policy
+  7.1. Youagreethat(andmustprocuretheagreementofYourUsersthat):
+    (a) using the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, to violate all or any legal rights
+        of any person or company or other entity in any jurisdiction is strictly prohibited;
+    (b) using the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, in relation to crimes such as theft
+        and fraud is strictly prohibited;
+    (c) using the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, in breach of laws relating to the
+        protection of copyright, trade secrets, patents or other intellectual property and laws relating to spam or
+        privacy and whether such violation is by way of the installation or distribution of "pirated” software or
+        otherwise, is strictly prohibited;
+    (d) introduction of malicious programs into Our network or servers (e.g., viruses, worms, Trojan horses, e- mail
+        bombs) is strictly prohibited;
+    (e) using the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, to make fraudulent offers of goods
+        or services is strictly prohibited;
+    (f) using the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, to carry out security breaches or
+        disruptions of network communication is strictly prohibited. Security breaches include, but are not limited to,
+        accessing data of which You are not an intended recipient or logging into a server or account that You are not
+        expressly authorized to access; corrupting any data; network sniffing; pinged floods; packet spoofing; denial
+        of service; and forged routing information for malicious purposes;
+    (g) using the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, to circumvent user authentication or
+        security of any of Our hosts, networks or accounts or those of Our customers or suppliers is strictly prohibited;
+    (h) using the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, to interfere with or deny service to
+        anyone is strictly prohibited;
+    (i) sending unsolicited email messages through or to Users of the Allow2 Service, the Allow2 API, any Allow2 SDK, or
+        the Products, in breach of the Spam Act 2003 is strictly prohibited; and
+    (j) use of the Allow2 Service, the Allow2 API, any Allow2 SDK, or the Products, in breach of any person’s privacy
+        (such as by way of identity theft or "phishing") is strictly prohibited.
+
+8. Intellectual Property Rights
+  8.1. You agree and acknowledge that these Terms of Use do not transfer or assign any Intellectual Property Rights to You.
+  8.2. You agree and acknowledge (and must procure Your Users’ agreement and acknowledgement) that We own all
+        Intellectual Property Rights in the Allow2 Service, the Allow2 API, any Allow2 SDK and the Website.
+  8.3. You agree and acknowledge (and must procure Your Users’ agreement and acknowledgement) that:
+    (a) We own all Intellectual Property Rights in all Product Data;
+    (b) any Intellectual Property Rights in any Product Data become Our sole and exclusive property
+        immediately upon it being created, and You (and Your Users) agree to assign all Intellectual Property Rights
+        in all and any Product Data to Us effective immediately upon creation, pursuant to section 197 of the Copyright
+        Act 1968 (Cth) and in equity without the need for any further documentation or the execution of any instrument;
+    (c) You and Your Users waive all Moral Rights that You or they may have to any Product Data and consent to Us and
+        any third party We authorise to infringe all and any such Moral Rights in Our absolute discretion.
+  8.4. You (and Your Users) must not take any step to invalidate or prejudice Our (or Our licensors’) Intellectual
+      Property Rights in the Allow2 Service, the Allow2 API, any Allow2 SDK, the Product Data, the Website or otherwise,
+      Without limiting the foregoing provisions, You (and Your Users) must not register any security interest or purchase
+      money security interest on the Personal Property Securities Register, or otherwise encumber or charge Your or their
+      rights under or in respect of the Allow2 Service, the Allow2 API, any Allow2 SDK, any Product Data or under the API
+      and SDK Licence.
+      
+9. Rights to modified and ported versions of Allow2 API and/or SDK
+  9.1. You agree that if You or any person on Your behalf modifies the Allow2 API and/or SDK in object and/or source code
+        form, and/or translates or “ports” the Allow2 API and/or SDK to other computer programming languages, and/or makes
+        any derivatives of the Allow2 API and/or SDK (“Modified API or SDK Version”):
+    (a) We will continue to own the Allow2 API and any Allow2 SDK;
+    (b) any Intellectual Property Rights in any modifications that are made to the Allow2 API and/or SDK in the course of
+        creating the Modified API or SDK Version (each an “API or SDK Modification”) becomes Our sole and exclusive
+        property immediately upon the API and/or SDK Modifications being created, and You hereby agree to assign all
+        Intellectual Property Rights in all and any such modifications to Us effective immediately upon creation,
+        pursuant to section 197 of the Copyright Act 1968 (Cth) and in equity without the need for any further
+        documentation or the execution of any instrument.
+  9.2. You are not required to provide Us with the API and/or SDK Modifications or the Modified API or SDK Version,
+        but We encourage You to do so in order to promote the sharing of modifications to the Allow2 API and/or SDK
+        throughout Our community of Registered Developers.
+  9.3. If You or any person on Your behalf creates any Modified API or SDK Version, You will be deemed to have irrevocably
+        and unequivocally:
+    (a) agreed and acknowledged that We own all Intellectual Property Rights in the Modified API or SDK Version;
+    (b) We may without limitation use, modify and/or otherwise exploit the Modified API or SDK Version, including to supply
+        the Modified API and/or SDK Version to any Registered Developers and any of their Users if You provide Us with a
+        copy of the Modified API or SDK Version;
+    (c) warranted and guaranteed to Us and any other person that obtains the Modified API and/or SDK Version from Us,
+        including any Registered Developers and any of their Users, that the use of the API or SDK Modifications by Us and
+        them will not result in the infringement of any Intellectual Property Rights or other rights of any person;
+    (d) consented to the infringement of any Moral Rights that You have in any Modified API or SDK Version by Us and any
+        other person that obtains the Modified API or SDK Version from Us, including any Registered Developers and any of
+        their Users;
+    (e) warranted and guaranteed that prior to Your provision of the copy of the Modified API and/or SDK Version to Us,
+        You procured an irrevocable assignment of all Intellectual Property Rights to Us and a waiver of Moral Rights, in
+        the Modified API and/or SDK Version from any person who created the Modified API and/or SDK Version on Your behalf,
+        and that the waiver contains a consent signed by the signatory consenting to the infringement of the signatory’s
+        Moral Rights by Us and any other person that obtains the Modified API and/or SDK Version from Us, including any
+        Registered Developers and any of their Users, with respect to the Modified API and/or SDK Version.
+
+10. Responsibility for Product Data
+  10.1. You agree and acknowledge (and must procure that Your Users agree and acknowledge) that:
+    (a) the Allow2 Service and/or Product Data may be hosted by Us or Our suppliers on hardware or infrastructure located
+        in or outside Australia; and
+    (b) We may not own or operate the infrastructure upon which the Allow2 Service and/or the Product Data is hosted.
+  10.2. You must ensure that You and Your Users do not input or transfer any Product Data via the Allow2 API, any Allow2
+        SDK or into the Allow2 Service unless You and Your Users are fully entitled and authorised to upload, input and
+        transfer that Product Data via the Allow2 API and/or Allow2 SDK and into the Allow2 Service and disclose that
+        Product Data to Us.
+  10.3. Each time You or any of Your Users use the Allow2 Service or any Product, You will be deemed to have warranted,
+        agreed and represented that:
+    (a) You and Your Users will only upload, input and transfer Product Data into and/or via the Allow2 Service or
+        disclose Product Data to Us, which You and Your Users are fully entitled and authorised to upload, input,
+        transfer and disclose; and
+    (b) the Product Data and Our collection, use, storage and/or disclosure thereof in the course of providing the
+        Allow2 Service, will not breach any applicable law or right of any person.
+  10.4. As between You and Us, You are solely responsible for the accuracy, legality and quality of all Product Data and
+        for obtaining any permissions, licences, rights and authorisations necessary for Us to use, host,
+        transmit, store and disclose the Product Data in connection with the provision of the Allow2 Service.
+  10.5. You indemnify Us in respect of any loss and damage We and/or any of Our suppliers incur in respect of any
+        claim that:
+    (a) any of the Product Data; and/or
+    (b) Our and/or Our suppliers’ and/or Your and/or Your Users’ use of Product Data, infringes the Intellectual
+        Property Rights or other rights of any person or breaches any law, regulation, code or standard.
+
+11. Allow2 Trademarks
+  11.1. Except as specified in clause 11.2, nothing in the API Licence or these Terms of Use provides You with any
+        right to use any Trademarks.
+  11.2. You may not use any Trademarks except as required to comply with the provisions of clause 13.3.
+
+12. Responsibility for Your Users
+  12.1. We do not accept responsibility for the conduct of Your Users.
+  12.2. As between You and Us, You are solely responsible for the conduct of Your Users and any act or omission of a
+        User in breach of these Terms of Use shall be deemed to be Your act or omission.
+
+13. Responsibility for Products etc.
+  13.1. You agree that You are solely responsible for Your Products and that We do not in any way endorse or approve
+        Your Products, nor are We affiliated with You or Your Products by reason of Your use of the Allow2 API, any
+        Allow2 SDK, the Allow2 Service or otherwise.
+  13.2. We reserve the right (but are not obligated) in Our sole discretion to suspend or terminate the operation of
+        the Allow2 Service in connection with any Products if We believe that any of the Allow2 Service is being used
+        by You and/or Your Users or others in breach of the provisions of these Terms of Use.
+  13.3. Before making any Product available to any User, You must:
+    (a) include terms in a written agreement entered into between You and the User (such as in an “End User Agreement”)
+        in which the User agrees that:
+      (i) We own and retain all Intellectual Property Rights in the Allow2 API, any Allow2 SDK and the Allow2 Service;
+      (ii) the User is granted a non-exclusive, non-transferable licence to use the Allow2 API, any Allow2 SDK and the
+            Allow2 Service solely in operating the Product and will not use the Allow2 API and/or any Allow2 SDK and/or
+            the Allow2 Service for any other purpose without Our prior written consent;
+      (iii) any technical support provided by You with respect to the Products is provided by You alone and not on Our
+            behalf;
+      (iv) the Allow2 Service will not be able to provide data to any Product while the Allow2 Service and/or the Product
+            is disconnected from the Internet;
+      (v) the Allow2 Service may not be accurate, correct, up-to-date, uninterrupted or error free;
+      (vi) We do not have any liability to the User to the full extent possible by law; and
+      (vii) the User’s rights to use the Allow2 API, any Allow2 SDK and the Allow2 Service shall immediately cease upon
+            termination of the API and SDK Licence or Your Account for any reason; and
+    (b) include in the source code of the Products any comments included in the source code of the Allow2 API or/and
+        Allow2 SDK by Allow2, including any copyright notices and any other comments noting Allow2 as the owner of the
+        Intellectual Property Rights in the Allow2 API and/or SDK.
+  13.4. You may only distribute Your Products under the terms of an agreement between You and Your Users which are not
+        incompatible or conflict with the provisions of clause 13.3.
+  13.5. You agree and acknowledge that You are solely responsible for and You indemnify Us in respect of any loss and
+        damage We may incur in connection with any claims and/or complaints made by any person where caused directly
+        or indirectly by:
+    (a) Your and/or Your Users’ use of the Allow2 Service, the Allow2 API or any Allow2 SDK;
+    (b) Your Products;
+    (c) Your Users;
+    (d) any Product Data; and/or
+    (e) Your goods and/or services and/or your advertising and/or sales and/or marketing practices.
+
+14. Liability
+  14.1. Except in respect of any Non-Excludable Guarantees, We do not represent that the information on this Website
+        or any information provided by the Allow2 Service or via the Allow2 API, or any Allow2 SDK, or that the Allow2
+        Service or Allow2 API or Allow2 SDK are or will be accurate, correct, up-to-date, uninterrupted or error free.
+  14.2. Except in respect of any Non-Excludable Guarantees, neither party is liable to the other party for any indirect,
+        special or consequential loss or damage incurred by the other party, including liability for loss of profits,
+        loss of business opportunity, loss of savings, or loss of data.
+  14.3. Except in respect of any Non-Excludable Guarantees, to the maximum extent permitted by law (and if permitted by
+        law), We will not have any liability to You (or Your Users) for any loss or damage howsoever incurred in relation
+        to Your or their use of or inability to use the Allow2 Service, the Allow2 API, any Allow2 SDK, the Website, or
+        any Product.
+  14.4. If Our supply of the Allow2 Service or the Allow2 API or Allow2 SDK comes with implied non-excludable guarantees
+        which are regulated by the Australian Consumer Law, the extent of the implied guarantees depends on whether You
+        are a ‘consumer’ of goods or services within the meaning of that term pursuant to the Australian Consumer Law as
+        amended. Where You are a ‘consumer’ for the purposes of the Australian Consumer Law, We are required to provide
+        and shall be deemed to have hereby provided the following mandatory statement to You: “Our goods come with
+        guarantees that cannot be excluded under the Australian Consumer Law. You are entitled to a replacement or refund
+        for a major failure and for compensation for any other reasonably foreseeable loss or damage. You are also
+        entitled to have the goods repaired or replaced if the goods fail to be of acceptable quality and the failure
+        does not amount to a major failure.”
+  14.5. If the Allow2 Service or the Allow2 API or any Allow2 SDK are supplied by Us to You in Your capacity as a
+        'consumer' of goods or services within the meaning of that term in the Australian Consumer Law as amended You
+        will have the benefit of certain non-excludable guarantees in respect of the goods or services and nothing in
+        these Terms of Use excludes or restricts or modifies any guarantee which pursuant to the Competition and Consumer
+        Act 2010 (Cth) is so conferred. However, if the goods or services are subject to a non-excludable guarantee,
+        implied by the Australian Consumer Law and the goods or services are not ordinarily acquired for personal,
+        domestic or household use or consumption, then pursuant to s 64A of the Australian Consumer Law, We limit Our
+        liability for breach of any such non-excludable guarantee implied by the Australian Consumer Law (other than a
+        guarantee implied by sections 51, 52 or 53 of the Australian Consumer Law) or expressly given by Us to You, in
+        respect of each of the goods and services, where it is fair and reasonable to do so, at Our option, to one or
+        more of the following:
+    (a) if the breach relates to goods:
+      (i) the replacement of the goods or the supply of equivalent goods;
+      (ii) the repair of such goods;
+      (iii) the payment of the cost of replacing the goods or of acquiring equivalent goods; or (iv) the payment of the
+            cost of having the goods repaired; and
+    (b) if the breach relates to services:
+      (i) the supplying of the services again; or
+      (ii) the payment of the cost of having the services supplied again.
+  14.6. In order for You to claim against Us under a non-excludable guarantee implied by the Australian Consumer Law, or
+        under an express warranty given in respect of the goods or services provided by Us, You must provide written
+        notice to Us with documentary evidence substantiating the claim, for Our review, and, in respect of the Allow2
+        API, the Allow2 SDK, the Allow2 Service and the Website, must continue to use them only in accordance with the
+        provisions of these Terms of Use.
+  14.7. Upon receipt of a valid claim from You under any non-excludable guarantee implied by the Australian Consumer Law,
+        We will contact You to arrange a suitable remedy. Where We elect to repair goods the subject of a valid claim,
+        You agree that the goods may be replaced by refurbished goods of the same type rather than being repaired and
+        refurbished parts may be used to repair goods. You acknowledge that where the goods are repaired and are capable
+        of retaining user-generated data, it is possible that the repair of the goods may result in loss of data.
+  14.8. Any warranty against defects provided by Us to You in Your capacity as a ‘consumer’ under the Australian Consumer
+        Law is in addition to Your other rights and remedies under a law in relation to the goods or services to which the
+        warranty relates.
+  14.9. Except in respect of any Non-Excludable Guarantees, all conditions, warranties and guarantees implied in these
+        Terms of Use are excluded, to the extent possible by law.
+
+15. Termination
+  15.1. If You are a Registered Developer, the API and SDK Licence and Your Account will terminate automatically if:
+    (a) You breach any material term of these Terms of Use;
+    (b) You breach the API and SDK Licence; or
+    (c) You and/or any person on Your behalf commences any proceedings against any person alleging that the Allow2 API
+        and/or any Allow2 SDK and/or Allow2 Service directly or indirectly infringes any patent.
+  15.2. We may also terminate these Terms of Use, Your Account, the API and SDK Licence and/or Your use of the Allow2
+        Service by notice to the email address associated with Your Account, if We deem solely in our opinion that You
+        are in breach of these Terms of Use.
+  15.3. If you cease to be a Registered Developer, or if Your Account is terminated for any reason, the API and SDK
+        Licence will immediately terminate.
+  15.4. If the API and SDK Licence and/or Your Account is terminated for any reason You must immediately remove the
+        Allow2 API and any Allow2 SDK from Your Products and cease using the Allow2 Service and We may cease providing
+        the Allow2 Service to You.
+  15.5. We may take down the Allow2 Service or this Website or take any part of them down or offline at any time without
+        notice where reasonably necessary to protect Our legitimate interests or to carry out maintenance.
+  15.6. Termination of these Terms of Use, Your Account and/or access to the Allow2 Service and/or the Website does not
+        affect any accrued rights of either party.
+
+16. General
+  16.1. Amendment: These Terms of Use may be amended by Us at any time, provided that You shall have a right to cancel
+        Your Account if You do not approve the amendments.
+  16.2. Assignment: You may not assign, transfer, licence or novate Your rights or obligations under these Terms of Use
+        without Our prior written consent. We may assign, transfer, license or novate Our rights or obligations under
+        these Terms of Use at any time.
+  16.3. Severability: If any part of these Terms of Use is deemed invalid by a court of competent jurisdiction, the
+        remainder of these Terms of Use shall remain enforceable.
+  16.4. Relationship: You and Us are independent contractors and these Terms of Use do not create any relationship of
+        partnership, joint venture, or employer and employee or otherwise.
+  16.5. Australian Consumer Law: The exclusions and limitations of liability set out in these Terms of Use shall apply
+        to the fullest extent permissible at law, but We do not exclude or limit liability which may not be excluded or
+        limited by law. Without limiting the foregoing provisions, We do not exclude liability under the Australian
+        Consumer Law which is prohibited from being excluded.
+  16.6. Entire Agreement: These Terms of Use constitute the entire agreement between You and Us and to the
+        extent possible by law, supersede all prior understandings, representations, arrangements and agreements
+        between You and Us regarding its subject matter.
+  16.7. Jurisdiction: These Terms of Use will be interpreted in accordance with the laws in force in Queensland. You
+        and Us irrevocably submit to the exclusive jurisdiction of the courts situated in Queensland.
+ 
+Allow2 Pty Ltd (Australia) Version 1.0 13 April 2014
