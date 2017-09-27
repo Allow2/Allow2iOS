@@ -24,6 +24,7 @@ public class Allow2PairingViewController: UITableViewController {
     @IBOutlet var connectButton : UIButton?
     
     var pollingTimer: Timer!
+    var bluetooth = Allow2Bluetooth()
     
     let qrQueue = DispatchQueue(label: "Allow2QRGenerationQueue")
     
@@ -59,6 +60,8 @@ public class Allow2PairingViewController: UITableViewController {
 
         deviceNameField?.text = deviceName
         updateBarcode()
+        
+        bluetooth.startAdvertising()
 
         self.pollingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(Allow2PairingViewController.pollPairing), userInfo: nil, repeats: true)
     }
@@ -67,6 +70,8 @@ public class Allow2PairingViewController: UITableViewController {
         super.viewDidDisappear(animated)
         self.pollingTimer.invalidate()
         self.pollingTimer = nil
+        bluetooth.stopAdvertising()
+
     }
     
     func updateBarcode() {

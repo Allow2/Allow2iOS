@@ -390,3 +390,4 @@ extension Array where Element:Allow2.Allow2Activity {
         }
     }
 }
+
