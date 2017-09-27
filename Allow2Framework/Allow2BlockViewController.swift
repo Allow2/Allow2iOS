@@ -27,6 +27,6 @@ public class Allow2BlockViewController: UIViewController {
     }
     
     @IBAction func newRequest() {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://app.allow2.com:8443/home/tasks")!)
+        UIApplication.shared.openURL(URL(string: "https://app.allow2.com:8443/home/tasks")!)
     }
 }

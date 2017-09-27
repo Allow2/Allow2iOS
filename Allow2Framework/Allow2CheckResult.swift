@@ -50,15 +50,15 @@ extension Allow2CheckResult {
                 // todo: reasons.append() ?
             }
             activities.forEach { (s, activity) in
-                if activity["banned"] {
+                if activity.dictionary?["banned"]?.boolValue ?? false {
                     reasons.append("You are currently banned from \(activity["name"]).")
-                } else if !activity["timeblock"]["allowed"] {
+                } else if !(activity.dictionary?["timeblock"]?.dictionary?["allowed"]?.boolValue ?? true) {
                     reasons.append("You cannot use \(activity["name"]) at this time.")
                 } else {
                     // todo: reasons.append("You have \(activity["remaining"]) to use \(activity["name"]).")
                 }
             }
-            return reasons.joinWithSeparator("/n");
+            return reasons.joined(separator: "/n");
         }
     }
 }

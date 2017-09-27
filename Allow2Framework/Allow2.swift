@@ -23,7 +23,7 @@ public struct Allow2Child {
 /**
  *  Error Types
  */
-public enum Allow2Error: ErrorType {
+public enum Allow2Error: Error {
     case NotPaired
     case AlreadyPaired
     case MissingChildId
@@ -37,7 +37,7 @@ public enum Allow2Error: ErrorType {
  * Response from the various calls
  */
 public enum Allow2Response {
-    case Error(ErrorType)
+    case Error(Error)
     case PairResult(Allow2PairResult)
     case CheckResult(Allow2CheckResult)
     
@@ -70,17 +70,23 @@ public enum Allow2Response {
 }
 
 
+extension Notification.Name {
+    static let allow2PairingChangedNotification = Notification.Name("Allow2PairingChangedNotification")
+    static let allow2CheckResultNotification = Notification.Name("Allow2CheckResultNotification")
+    
+}
+
 public class Allow2 {
 
     public var deviceToken : String? = "Not Set";
 
     var userId : String? {
-        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2UserId") as? String) } // ?? "6"
-        set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2UserId") }
+        get { return (UserDefaults.standard.object(forKey: "Allow2UserId") as? String) } // ?? "6"
+        set { UserDefaults.standard.set(newValue, forKey: "Allow2UserId") }
     }
     var pairId : String? {
-        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2PairId") as? String) } // ?? "18956"
-        set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2PairId") }
+        get { return (UserDefaults.standard.object(forKey: "Allow2PairId") as? String) } // ?? "18956"
+        set { UserDefaults.standard.set(newValue, forKey: "Allow2PairId") }
     }
     
     public var isPaired : Bool {
@@ -93,35 +99,32 @@ public class Allow2 {
     
     // used only if the device is locked to a specific user.
     public var childId : String? {
-        get { return (NSUserDefaults.standardUserDefaults().objectForKey("Allow2ChildId") as? String) } // ?? "68"
-        set { NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "Allow2ChildId") }
+        get { return (UserDefaults.standard.object(forKey: "Allow2ChildId") as? String) } // ?? "68"
+        set { UserDefaults.standard.set(newValue, forKey: "Allow2ChildId") }
     }
-    
-    public static let PairingChangedNotification = "Allow2PairingChangedNotification"
-    public static let CheckResultNotification = "Allow2CheckResultNotification"
     
     // todo: should do this better
     public static var allow2BlockViewController : Allow2BlockViewController {
         get {
-            let allow2FrameworkBundle = NSBundle(identifier: "com.allow2.Allow2Framework")
+            let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
             let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
-            return storyboard.instantiateViewControllerWithIdentifier("Allow2BlockViewController") as! Allow2BlockViewController
+            return storyboard.instantiateViewController(withIdentifier: "Allow2BlockViewController") as! Allow2BlockViewController
         }
     }
 
     // todo: should do this better
     public static var allow2PairingViewController : Allow2PairingViewController {
         get {
-            let allow2FrameworkBundle = NSBundle(identifier: "com.allow2.Allow2Framework")
+            let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
             let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
-            return storyboard.instantiateViewControllerWithIdentifier("Allow2PairingViewController") as! Allow2PairingViewController
+            return storyboard.instantiateViewController(withIdentifier: "Allow2PairingViewController") as! Allow2PairingViewController
         }
     }
 
     
     public static var AllowLogo : UIImage {
         get {
-            return UIImage(named: "Allow2 Logo", inBundle: NSBundle(forClass: Allow2.self), compatibleWithTraitCollection: nil)!
+            return UIImage(named: "Allow2 Logo", in: Bundle(for: Allow2.self), compatibleWith: nil)!
         }
     }
     
@@ -139,7 +142,7 @@ public class Allow2 {
      * 
      * Simplistic initial implementation uses the full hashed request as the key, probably should cache more intelligently in future
      */
-    var resultCache : [ String : Allow2CheckResult! ] = [ : ]
+    var resultCache : [ String : Allow2CheckResult ] = [ : ]
     
 
     /**
@@ -147,7 +150,7 @@ public class Allow2 {
      */
     public class Allow2Activity {
         
-        var jsonObject : [ String : AnyObject! ]
+        var jsonObject : [ String : Any ]
         
         public init(activity: Allow2.Activity, log: Bool = true) {
             jsonObject = [
@@ -181,7 +184,7 @@ public class Allow2 {
             return
         }
         
-        let url = NSURL(string: "\(appUrl)/api/pairDevice")
+        let url = URL(string: "\(appUrl)/api/pairDevice")
         
         let body : JSON = [
             "user": user,
@@ -190,18 +193,19 @@ public class Allow2 {
             "name": deviceName
         ];
         
-        let request = NSMutableURLRequest(URL: url!)
-        request.HTTPMethod = "POST";
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST";
         request.addValue("application/json", forHTTPHeaderField:"Content-Type")
         //json: true,
         
         do {
-            request.HTTPBody = try body.rawData()
+            request.httpBody = try body.rawData()
             
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {(data, response, error) in
-                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+            let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+                print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
                 
-                let json = JSON(data: data!)
+                // todo: better error handling on data -> JSON
+                let json = try! JSON(data: data!)
                 
                 if let status = json["status"].string {
                     
@@ -250,7 +254,7 @@ public class Allow2 {
             }
             return
         }*/
-        check(self.childId ?? "68", activities: activities, log: log, completion: completion)
+        check(childId: self.childId ?? "68", activities: activities, log: log, completion: completion)
     }
     
     /**
@@ -275,7 +279,7 @@ public class Allow2 {
             "pairId": self.pairId!,
             "deviceToken": self.deviceToken ?? "MISSING",
             "childId": childId,
-            "tz": NSTimeZone.localTimeZone().name,
+            "tz": NSTimeZone.local.identifier,
             "activities": activities.jsonArray,
             "log": log
         ];
@@ -284,7 +288,7 @@ public class Allow2 {
         // check the cache first
         if let checkResult = self.resultCache[key] {
             
-            if !checkResult.expires.timeIntervalSinceNow.isSignMinus {
+            if checkResult.expires.timeIntervalSinceNow.sign != .minus {
                 // not expired yet, use cached value
                 if completion != nil {
                     completion!( Allow2Response.CheckResult(checkResult) )
@@ -293,19 +297,19 @@ public class Allow2 {
             }
             
             // clear cached value and ask the server again
-            self.resultCache.removeValueForKey(key)
+            self.resultCache.removeValue(forKey: key)
         }
         
-        let url = NSURL(string: "\(apiUrl)/serviceapi/check")
-        let request = NSMutableURLRequest(URL: url!)
-        request.HTTPMethod = "POST";
+        let url = URL(string: "\(apiUrl)/serviceapi/check")
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST";
         request.addValue("application/json", forHTTPHeaderField:"Content-Type")
         //json: true,
         
         do {
-            request.HTTPBody = try body.rawData()
+            request.httpBody = try body.rawData()
         
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {(data, response, error) in
+            let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
                 guard error == nil else {
                     completion?(Allow2Response.Error( error! ))
                     return;
@@ -316,7 +320,7 @@ public class Allow2 {
                     return;
                 }
                 
-                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
                 
                 // interpret the result
                 // todo: 403 is disconnected, clear everything out
@@ -324,7 +328,8 @@ public class Allow2 {
                 // handle other errors
                 
                 // attempt to handle valid response
-                let result = Allow2Response.parseFromJSON(JSON(data: data!))
+                // todo: better error handling on data -> JSON
+                let result = Allow2Response.parseFromJSON(response: try! JSON(data: data!))
                 
                 switch result {
                 case let .CheckResult(checkResult):
@@ -333,8 +338,8 @@ public class Allow2 {
                     self.resultCache[key] = checkResult
 
                     // notify everyone
-                    NSNotificationCenter.defaultCenter().postNotificationName(
-                        Allow2.CheckResultNotification,
+                    NotificationCenter.default.post(
+                        name: .allow2CheckResultNotification,
                         object: nil,
                         userInfo: [ "result" : checkResult ]
                     )
@@ -377,7 +382,7 @@ public class Allow2 {
 }
 
 extension Array where Element:Allow2.Allow2Activity {
-    var jsonArray : [[String : AnyObject!]] {
+    var jsonArray : [[String : Any]] {
         get {
             return self.map() {
                 return $0.jsonObject

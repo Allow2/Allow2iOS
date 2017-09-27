@@ -23,11 +23,11 @@ public class Allow2PairingViewController: UITableViewController {
     @IBOutlet var passwordField : UITextField?
     @IBOutlet var connectButton : UIButton?
     
-    var pollingTimer: NSTimer!
+    var pollingTimer: Timer!
     
-    let qrQueue = dispatch_queue_create("Allow2QRGenerationQueue", DISPATCH_QUEUE_SERIAL)
+    let qrQueue = DispatchQueue(label: "Allow2QRGenerationQueue")
     
-    var _deviceName : String! = UIDevice.currentDevice().name
+    var _deviceName : String! = UIDevice.current.name
     var deviceName : String! {
         get {
             return _deviceName
@@ -45,25 +45,25 @@ public class Allow2PairingViewController: UITableViewController {
             // don't allow re-pairing if we are already paired!
             return nil
         }
-        let allow2FrameworkBundle = NSBundle(identifier: "com.allow2.Allow2Framework")
+        let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
         let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
-        return storyboard.instantiateViewControllerWithIdentifier("Allow2PairingViewController") as! Allow2PairingViewController
+        return storyboard.instantiateViewController(withIdentifier: "Allow2PairingViewController") as? Allow2PairingViewController
     }
     
-    override public func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard !Allow2.shared.isPaired else {
-            self.delegate?.Allow2PairingCompleted(Allow2Response.Error( Allow2Error.AlreadyPaired ))
+            self.delegate?.Allow2PairingCompleted(result: Allow2Response.Error( Allow2Error.AlreadyPaired ))
             return
         }
 
         deviceNameField?.text = deviceName
         updateBarcode()
 
-        self.pollingTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(Allow2PairingViewController.pollPairing), userInfo: nil, repeats: true)
+        self.pollingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(Allow2PairingViewController.pollPairing), userInfo: nil, repeats: true)
     }
     
-    override public func viewDidDisappear(animated: Bool) {
+    override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.pollingTimer.invalidate()
         self.pollingTimer = nil
@@ -73,25 +73,25 @@ public class Allow2PairingViewController: UITableViewController {
         //if let name = deviceNameField?.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let hasName = (deviceName.characters.count > 0)
         if hasName {
-            barcodeImageView?.hidden = false
-            dispatch_async(qrQueue) {
-                let newQR = Allow2.shared.generateQRImage(self.deviceName, withSize: CGSize(width: 120, height: 120))
-                dispatch_async(dispatch_get_main_queue()) {
+            barcodeImageView?.isHidden = false
+            qrQueue.async() {
+                let newQR = Allow2.shared.generateQRImage(name: self.deviceName, withSize: CGSize(width: 120, height: 120))
+                DispatchQueue.main.async() {
                     self.barcodeImageView?.image = newQR
                 }
             }
         } else {
-            barcodeImageView?.hidden = true
+            barcodeImageView?.isHidden = true
             barcodeImageView?.image = nil
         }
-        let username = usernameField?.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) ?? ""
+        let username = usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let password = passwordField?.text ?? ""
         // todo: better sanity checks
-        connectButton?.enabled = hasName && (username.characters.count > 4) && (password.characters.count > 4)
+        connectButton?.isEnabled = hasName && (username.characters.count > 4) && (password.characters.count > 4)
     }
     
     @IBAction func connect() {
-        let user = usernameField?.text?.stringByTrimmingCharactersInSet(.whitespaceAndNewlineCharacterSet()) ?? ""
+        let user = usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let password = passwordField?.text ?? ""
 
         guard (user.characters.count > 0) && (password.characters.count > 0) && (deviceName.characters.count > 0) else {
@@ -99,19 +99,19 @@ public class Allow2PairingViewController: UITableViewController {
             return
         }
         
-        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        Allow2.shared.pair(user, password: password, deviceName: deviceName) { (result) in
-            UIApplication.sharedApplication().endIgnoringInteractionEvents()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        Allow2.shared.pair(user: user, password: password, deviceName: deviceName) { (result) in
+            UIApplication.shared.endIgnoringInteractionEvents()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             switch result {
             case .PairResult(let pairResult):
                 print("paired")
                 //self.selectChild(result.children)
-                self.delegate?.Allow2PairingCompleted(result)
+                self.delegate?.Allow2PairingCompleted(result: result)
                 break
             case .Error(let error):
-                self.delegate?.Allow2PairingCompleted(result)
+                self.delegate?.Allow2PairingCompleted(result: result)
                 return
             default:
                 break // cannot happen
@@ -123,13 +123,13 @@ public class Allow2PairingViewController: UITableViewController {
 extension Allow2PairingViewController : UITextFieldDelegate {
     
     @IBAction func textFieldEdited(sender: UITextField) {
-        let newDeviceName = sender.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let newDeviceName = sender.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         if newDeviceName != self.deviceName {
             self.deviceName = newDeviceName
         }
     }
 
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (textField == self.deviceNameField) {
             textField.resignFirstResponder()
             return true
@@ -149,40 +149,41 @@ extension Allow2PairingViewController : UITextFieldDelegate {
 
 extension Allow2PairingViewController {
     @objc func pollPairing() {
-        let url = NSURL(string: "\(Allow2.shared.appUrl)/api/checkPairing")
+        let url = URL(string: "\(Allow2.shared.appUrl)/api/checkPairing")
         
         let body : JSON = [
-            "uuid": UIDevice.currentDevice().identifierForVendor!.UUIDString,
+            "uuid": UIDevice.current.identifierForVendor!.uuidString,
             "deviceToken": Allow2.shared.deviceToken ?? "MISSING"
         ];
         
-        let request = NSMutableURLRequest(URL: url!)
-        request.HTTPMethod = "POST";
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST";
         request.addValue("application/json", forHTTPHeaderField:"Content-Type")
         
         do {
-            request.HTTPBody = try body.rawData()
+            request.httpBody = try body.rawData()
             
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {(data, response, error) in
+            let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
                 
                 guard error == nil else {
                     return
                 }
                 
                 // anything other than a 200 response is a "try again" as far as we are concerned
-                let status = (response as! NSHTTPURLResponse).statusCode
+                let status = (response as! HTTPURLResponse).statusCode
                 if status != 200 {
                     return
                 }
                 
-                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
                 
-                let json = JSON(data: data!)
+                // todo: better error handling on data -> JSON
+                let json = try! JSON(data: data!)
                 
                 if let status = json["status"].string {
                     
                     guard status == "success" else {
-                        self.delegate?.Allow2PairingCompleted(Allow2Response.Error(Allow2Error.Other(message: json["message"].string ?? "Unknown Error" )))
+                        self.delegate?.Allow2PairingCompleted(result: Allow2Response.Error(Allow2Error.Other(message: json["message"].string ?? "Unknown Error" )))
                         return
                     }
                     
@@ -191,7 +192,7 @@ extension Allow2PairingViewController {
                     if let childId = json["childId"].uInt64 {
                         Allow2.shared.childId = "\(childId)"
                         Allow2.shared.children = []
-                        self.delegate?.Allow2PairingCompleted(Allow2Response.PairResult(Allow2PairResult( children: [] )))
+                        self.delegate?.Allow2PairingCompleted(result: Allow2Response.PairResult(Allow2PairResult( children: [] )))
                         return
                     }
                     
@@ -203,7 +204,7 @@ extension Allow2PairingViewController {
                         newChildren.append(Allow2Child(id: child["id"].uInt64Value, name: child["name"].stringValue))
                     }
                     Allow2.shared.children = newChildren
-                    self.delegate?.Allow2PairingCompleted(Allow2Response.PairResult(Allow2PairResult( children: Allow2.shared.children )))
+                    self.delegate?.Allow2PairingCompleted(result: Allow2Response.PairResult(Allow2PairResult( children: Allow2.shared.children )))
                 }
             }
             task.resume()

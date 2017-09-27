@@ -11,9 +11,9 @@ import UIKit
 extension Allow2 {
     public func generateQRImage(name: String, withSize size: CGSize) -> UIImage {
         
-        let json = "{\"uuid\":\"\(UIDevice.currentDevice().identifierForVendor!.UUIDString)\", \"name\":\"\(name.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) ?? "")\", \"deviceToken\": \"\(deviceToken ?? "MISSING")\"}"
+        let json = "{\"uuid\":\"\(UIDevice.current.identifierForVendor!.uuidString)\", \"name\":\"\(name.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) ?? "")\", \"deviceToken\": \"\(deviceToken ?? "MISSING")\"}"
 
-        let data = json.dataUsingEncoding(NSISOLatin1StringEncoding, allowLossyConversion: false)
+        let data = json.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
         
         let filter = CIFilter(name: "CIQRCodeGenerator")!
         
@@ -22,15 +22,15 @@ extension Allow2 {
         
         let qrcodeCIImage = filter.outputImage!
         
-        let cgImage = CIContext(options:nil).createCGImage(qrcodeCIImage, fromRect: qrcodeCIImage.extent)!
-        UIGraphicsBeginImageContext(CGSizeMake(size.width * UIScreen.mainScreen().scale, size.height * UIScreen.mainScreen().scale))
+        let cgImage = CIContext(options:nil).createCGImage(qrcodeCIImage, from: qrcodeCIImage.extent)!
+        UIGraphicsBeginImageContext(CGSize(width: size.width * UIScreen.main.scale, height: size.height * UIScreen.main.scale))
         let context = UIGraphicsGetCurrentContext()!
-        CGContextSetInterpolationQuality(context, .None)
-        CGContextDrawImage(context, CGContextGetClipBoundingBox(context), cgImage)
+        context.interpolationQuality = .none
+        context.draw(cgImage, in:context.boundingBoxOfClipPath)
         let preImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        let qrCodeImage = UIImage(CGImage: preImage.CGImage!, scale: 1.0/UIScreen.mainScreen().scale, orientation: .DownMirrored)
+        let qrCodeImage : UIImage = UIImage(cgImage: preImage.cgImage!, scale: 1.0/UIScreen.main.scale, orientation: .downMirrored)
         return qrCodeImage
     }
 }
