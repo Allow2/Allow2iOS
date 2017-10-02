@@ -12,7 +12,7 @@ import CoreBluetooth
 
 class Allow2Bluetooth : NSObject {
 
-    let uuid = NSUUID(UUIDString: "E170385E-F3FD-4834-A5E4-766Ef993E83E")!
+    let uuid = UUID(uuidString: "E170385E-F3FD-4834-A5E4-766Ef993E83E")!
     let major : CLBeaconMajorValue = UInt16(arc4random_uniform(65536))
     let minor : CLBeaconMinorValue = UInt16(arc4random_uniform(65536))
     
@@ -30,13 +30,13 @@ class Allow2Bluetooth : NSObject {
     func startAdvertising() {
         shouldAdvertise = true
         if !isBroadcasting {
-            if self.peripheralManager.state == .PoweredOn {
+            if self.peripheralManager.state == .poweredOn {
                 self.beaconRegion = CLBeaconRegion(
                     proximityUUID:  uuid,
                     major:          major,
                     minor:          minor,
                     identifier:     "com.allow2.device")
-                let dict = NSDictionary(dictionary: self.beaconRegion!.peripheralDataWithMeasuredPower(nil)) as! [String: AnyObject]
+                let dict = NSDictionary(dictionary: self.beaconRegion!.peripheralData(withMeasuredPower: nil)) as! [String: AnyObject]
                 print("Start Advertising")
                 self.peripheralManager.startAdvertising(dict)
                 isBroadcasting = true
@@ -61,25 +61,25 @@ class Allow2Bluetooth : NSObject {
 // MARK: - CBPeripheralManagerDelegate
 extension Allow2Bluetooth: CBPeripheralManagerDelegate {
     
-    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
+    func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
         switch peripheral.state {
-        case .PoweredOn:
+        case .poweredOn:
             print("Bluetooth Status: Turned On")
             if shouldAdvertise {
                 startAdvertising()
             }
             
-        case .PoweredOff:
+        case .poweredOff:
             print("Bluetooth Status: Turned Off")
             pauseAdvertising()
             
-        case .Resetting:
+        case .resetting:
             print("Bluetooth Status: Resetting")
             
-        case .Unauthorized:
+        case .unauthorized:
             print("Bluetooth Status: Not Authorized")
             
-        case .Unsupported:
+        case .unsupported:
             print("Bluetooth Status: Not Supported")
             
         default:
@@ -87,7 +87,7 @@ extension Allow2Bluetooth: CBPeripheralManagerDelegate {
         }
     }
     
-    func peripheralManagerDidStartAdvertising(peripheral: CBPeripheralManager, error: NSError?) {
+    func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
         if let error = error {
             print("Failed to start advertising with error:\(error)")
         } else {
