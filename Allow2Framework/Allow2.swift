@@ -71,9 +71,8 @@ public enum Allow2Response {
 
 
 extension Notification.Name {
-    static let allow2PairingChangedNotification = Notification.Name("Allow2PairingChangedNotification")
-    static let allow2CheckResultNotification = Notification.Name("Allow2CheckResultNotification")
-    
+    public static let allow2PairingChangedNotification = Notification.Name("Allow2PairingChangedNotification")
+    public static let allow2CheckResultNotification = Notification.Name("Allow2CheckResultNotification")
 }
 
 public class Allow2 {
