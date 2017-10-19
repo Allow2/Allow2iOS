@@ -79,11 +79,10 @@ public class Allow2PairingViewController: UITableViewController {
         let hasName = (deviceName.characters.count > 0)
         if hasName {
             barcodeImageView?.isHidden = false
-            qrQueue.async() {
-                let newQR = Allow2.shared.generateQRImage(name: self.deviceName, withSize: CGSize(width: 120, height: 120))
-                DispatchQueue.main.async() {
-                    self.barcodeImageView?.image = newQR
-                }
+            DispatchQueue.main.async() {
+                let size = CGSize(width: self.barcodeImageView!.frame.width, height: self.barcodeImageView!.frame.height)
+                let newQR = Allow2.shared.generateQRImage(name: self.deviceName, withSize: size)
+                self.barcodeImageView?.image = newQR
             }
         } else {
             barcodeImageView?.isHidden = true
