@@ -27,6 +27,15 @@ public class Allow2BlockViewController: UIViewController {
     }
     
     @IBAction func newRequest() {
-        UIApplication.shared.openURL(URL(string: "https://app.allow2.com:8443/home/tasks")!)
+        //UIApplication.shared.openURL(URL(string: "https://app.allow2.com:8443/home/tasks")!)
+    }
+    
+    override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let navController = segue.destination as? UINavigationController {
+            if let requestController = navController.viewControllers[0] as? Allow2RequestViewController {
+                requestController.checkResult = self.checkResult
+            }
+        }
+        super.prepare(for: segue, sender: sender)
     }
 }

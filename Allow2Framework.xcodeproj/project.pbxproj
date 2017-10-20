@@ -19,6 +19,8 @@
 		497D6B911E1F97390021EAB8 /* Allow2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D6B901E1F97390021EAB8 /* Allow2.swift */; };
 		497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */; };
 		497D6B9B1E20750B0021EAB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497D6B9A1E20750B0021EAB8 /* Assets.xcassets */; };
+		49992B681F99C53F00A9294F /* Allow2RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */; };
+		49992B6B1F99DAAF00A9294F /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49992B6A1F99DAAF00A9294F /* MessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		497D6B901E1F97390021EAB8 /* Allow2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2.swift; sourceTree = "<group>"; };
 		497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		497D6B9A1E20750B0021EAB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2RequestViewController.swift; sourceTree = "<group>"; };
+		49992B6A1F99DAAF00A9294F /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,7 @@
 				495A90BE1E20F79500439C70 /* Allow2BlockViewController.swift */,
 				49140FDA1E6C0904004CD147 /* Allow2PairingViewController.swift */,
 				493F56691E73E56A0043B190 /* Allow2Bluetooth.swift */,
+				49992B691F99DA9000A9294F /* RequestView */,
 				495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */,
 				497D6B9A1E20750B0021EAB8 /* Assets.xcassets */,
 				497D6B651E1F962A0021EAB8 /* Allow2Framework.h */,
@@ -115,6 +120,15 @@
 				497D6B721E1F962A0021EAB8 /* Info.plist */,
 			);
 			path = Allow2FrameworkTests;
+			sourceTree = "<group>";
+		};
+		49992B691F99DA9000A9294F /* RequestView */ = {
+			isa = PBXGroup;
+			children = (
+				49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */,
+				49992B6A1F99DAAF00A9294F /* MessageCell.swift */,
+			);
+			path = RequestView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +253,8 @@
 				495A90BF1E20F79500439C70 /* Allow2BlockViewController.swift in Sources */,
 				497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */,
 				49140FDB1E6C0904004CD147 /* Allow2PairingViewController.swift in Sources */,
+				49992B681F99C53F00A9294F /* Allow2RequestViewController.swift in Sources */,
+				49992B6B1F99DAAF00A9294F /* MessageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
