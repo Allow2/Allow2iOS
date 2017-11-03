@@ -49,7 +49,10 @@ extension Allow2RequestViewController {
     }
     
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section != 1 {
+        if section == 0 {
+            return 1
+        }
+        if section >= self.numberOfSections(in: tableView) - 1 {
             return 1
         }
         return currentBans.count

@@ -23,7 +23,7 @@ public class Allow2CheckResult {
         }
     }
     
-    init(allowed: Bool,
+    public init(allowed: Bool,
                  activities: JSON,
                  dayTypes: JSON) {
         self._allowed = allowed

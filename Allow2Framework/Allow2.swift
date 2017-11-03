@@ -120,6 +120,16 @@ public class Allow2 {
         }
     }
 
+    // todo: should do this better
+    public static var allow2RequestViewController : UINavigationController {
+        get {
+            let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+            return storyboard.instantiateViewController(withIdentifier: "Allow2RequestViewController") as! UINavigationController
+        }
+    }
+    
+
     
     public static var AllowLogo : UIImage {
         get {
@@ -204,7 +214,12 @@ public class Allow2 {
                 print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
                 
                 // todo: better error handling on data -> JSON
-                let json = try! JSON(data: data!)
+                guard let json = try? JSON(data: data!) else {
+                    if (completion != nil) {
+                        completion!(Allow2Response.Error(Allow2Error.Other(message: "Invalid Response" )))
+                    }
+                    return
+                }
                 
                 if let status = json["status"].string {
                     
