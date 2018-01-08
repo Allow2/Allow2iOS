@@ -25,7 +25,7 @@ With Allow2 all you have to do to check if something can be used and record it's
 ```swift
 let allow2Activities = [
     Allow2.Allow2Activity(activity: Allow2.Activity.Internet, log: true), // this is an internet based app
-    Allow2.Allow2Activity(activity: Allow2.Activity.Gaming, log: true),   // and it's gaming related
+    Allow2.Allow2Activity(activity: Allow2.Activity.Gaming, log: true),   // and it's gaming related, can also use "Messaging", "Social", "Electricity" and more...
 ]
 Allow2.shared.check(allow2Activities)
 ```

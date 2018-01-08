@@ -23,6 +23,7 @@ public class Allow2RequestViewController: UITableViewController {
             //self.checkResult
             //activities.dictionary?["1"]?.dictionary?["bans"]?.dictionary?["bans"]
             newDayType = nil
+            currentBans = checkResult
             currentBans.append(["id" : 1, "Title": "Internet Ban", "selected": false])
             currentBans.append(["id" : 2, "Title": "Gaming Ban", "selected": false])
         }
@@ -76,7 +77,7 @@ extension Allow2RequestViewController {
     
     func formatBanCell(_ cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let ban = self.currentBans[indexPath.row]
-        cell.textLabel?.text = ban["title"] as? String
+        cell.textLabel?.text = ban["Title"] as? String
         cell.accessoryType = ban["selected"] as? Bool ?? false ? .checkmark : .none
     }
     

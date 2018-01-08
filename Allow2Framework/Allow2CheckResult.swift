@@ -61,6 +61,25 @@ extension Allow2CheckResult {
             return reasons.joined(separator: "/n");
         }
     }
+    
+    public var currentBans : [[String : Any]] {
+        get {
+            var bans : [[ String : Any ]] = [];
+            activities.forEach { (s, activity) in
+                if activity.dictionary?["banned"]?.boolValue ?? false,
+                    let name = {
+                    bans.append([
+                        "id" : 1,
+                        "Title": "Internet Ban",
+                        "selected": false
+                        ])
+                } else {
+                    // todo: reasons.append("You have \(activity["remaining"]) to use \(activity["name"]).")
+                }
+            }
+            return bans;
+        }
+    }
 }
 
 /**
