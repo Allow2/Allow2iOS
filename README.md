@@ -4,9 +4,11 @@
 
 Allow2 makes it easy to add parental controls to your apps.
 
-1. [Why should you use Allow2?](#why-should-you-use-Allow2)
+1. [Why should you use Allow2?](#why-should-you-use-allow2)
 2. [Requirements](#requirements)
 3. [Integration](#integration)
+
+refer to https://github.com/Allow2/Allow2.github.io/wiki for more details.
 
 ## Why should you use Allow2?
 
