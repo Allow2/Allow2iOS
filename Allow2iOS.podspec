@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-    s.name        = "Allow2FrameworkiOS"
-    s.version     = "0.1.0"
-    s.summary     = "Allow2 makes it easy to add parental controls to your apps"
+    s.name        = "Allow2iOS"
+    s.version     = "0.8.0"
+    s.summary     = "Allow2 Parental Freedom Platform makes it easy to add parental controls to your apps"
     s.homepage    = "https://github.com/Allow2/allow2iOS"
     s.license     = { :type => 'Custom', :file => 'LICENSE' }
     s.authors     = { "CEO" => "ceo@allow2.com" }

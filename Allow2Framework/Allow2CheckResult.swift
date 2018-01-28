@@ -66,8 +66,7 @@ extension Allow2CheckResult {
         get {
             var bans : [[ String : Any ]] = [];
             activities.forEach { (s, activity) in
-                if activity.dictionary?["banned"]?.boolValue ?? false,
-                    let name = {
+                if activity.dictionary?["banned"]?.boolValue ?? false {
                     bans.append([
                         "id" : 1,
                         "Title": "Internet Ban",

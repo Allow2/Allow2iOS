@@ -23,7 +23,7 @@ public class Allow2RequestViewController: UITableViewController {
             //self.checkResult
             //activities.dictionary?["1"]?.dictionary?["bans"]?.dictionary?["bans"]
             newDayType = nil
-            currentBans = checkResult
+            //currentBans = checkResult
             currentBans.append(["id" : 1, "Title": "Internet Ban", "selected": false])
             currentBans.append(["id" : 2, "Title": "Gaming Ban", "selected": false])
         }
