@@ -21,8 +21,9 @@ public class Allow2RequestViewController: UITableViewController {
     var checkResult : Allow2CheckResult? {
         didSet {
             newDayType = nil
-            currentBans = checkResult?.currentBans ?? [[String: Any]]()
-            dayType = checkResult?._today
+            //currentBans = checkResult
+            currentBans.append(["id" : 1, "Title": "Internet Ban", "selected": false])
+            currentBans.append(["id" : 2, "Title": "Gaming Ban", "selected": false])
         }
     }
     var message : String? = nil
