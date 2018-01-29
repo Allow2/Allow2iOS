@@ -137,8 +137,16 @@ public class Allow2 {
         }
     }
     
-    let appUrl = "https://api.allow2.com:8443"
-    let apiUrl = "https://api.allow2.com:9443"
+    var apiUrl : String {
+        get {
+            return "https://app.allow2.com:8443" //"https://staging-api.allow2.com:8443"
+        }
+    }
+    var serviceUrl : String {
+        get {
+            return "https://api.allow2.com:9443" //"https://staging-service.allow2.com"
+        }
+    }
     
     public static let shared = Allow2()
     
@@ -193,7 +201,7 @@ public class Allow2 {
             return
         }
         
-        let url = URL(string: "\(appUrl)/api/pairDevice")
+        let url = URL(string: "\(apiUrl)/api/pairDevice")
         
         let body : JSON = [
             "user": user,
@@ -314,7 +322,7 @@ public class Allow2 {
             self.resultCache.removeValue(forKey: key)
         }
         
-        let url = URL(string: "\(apiUrl)/serviceapi/check")
+        let url = URL(string: "\(serviceUrl)/serviceapi/check")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST";
         request.addValue("application/json", forHTTPHeaderField:"Content-Type")

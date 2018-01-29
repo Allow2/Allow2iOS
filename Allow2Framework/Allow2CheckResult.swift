@@ -33,6 +33,15 @@ public class Allow2CheckResult {
     }
 }
 
+func dateFromISOString(string: String) -> Date? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    
+    return dateFormatter.date(from: string)
+}
+
 /**
  * Getters
  */
@@ -62,17 +71,25 @@ extension Allow2CheckResult {
         }
     }
     
-    public var currentBans : [[String : Any]] {
+    
+    
+    public var currentBans : [[String : Any]]! {
         get {
             var bans : [[ String : Any ]] = [];
             activities.forEach { (s, activity) in
                 if activity.dictionary?["banned"]?.boolValue ?? false,
-                    let name = {
-                    bans.append([
-                        "id" : 1,
-                        "Title": "Internet Ban",
-                        "selected": false
-                        ])
+                    let id = activity.dictionary?["id"]?.uInt64Value,
+                    let name = activity.dictionary?["name"]?.stringValue,
+                let items = activity.dictionary?["bans"]?.array {
+                    items.forEach { (item) in
+                        bans.append([
+                            "id" : id,
+                            "Title": name,
+                            "appliedAt" : dateFromISOString(string: item["appliedAt"].stringValue) as Any,
+                            "duration" : item["durationMinutes"].intValue,
+                            "selected": false
+                            ])
+                    }
                 } else {
                     // todo: reasons.append("You have \(activity["remaining"]) to use \(activity["name"]).")
                 }

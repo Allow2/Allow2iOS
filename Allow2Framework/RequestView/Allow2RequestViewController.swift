@@ -17,15 +17,12 @@ public class Allow2RequestViewController: UITableViewController {
     var delegate : Allow2RequestViewControllerDelegate?
     var newDayType : Int64? = nil;
     private var currentBans = [[String: Any]]()
+    private var dayType : Allow2Day?
     var checkResult : Allow2CheckResult? {
         didSet {
-            //checkResult.bans.bans.each
-            //self.checkResult
-            //activities.dictionary?["1"]?.dictionary?["bans"]?.dictionary?["bans"]
             newDayType = nil
-            currentBans = checkResult
-            currentBans.append(["id" : 1, "Title": "Internet Ban", "selected": false])
-            currentBans.append(["id" : 2, "Title": "Gaming Ban", "selected": false])
+            currentBans = checkResult?.currentBans ?? [[String: Any]]()
+            dayType = checkResult?._today
         }
     }
     var message : String? = nil
@@ -35,6 +32,7 @@ public class Allow2RequestViewController: UITableViewController {
     }
     
     @IBAction func Send() {
+        self.resignFirstResponder()
         self.presentingViewController?.dismiss(animated: true)
     }
     
@@ -78,18 +76,20 @@ extension Allow2RequestViewController {
     func formatBanCell(_ cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let ban = self.currentBans[indexPath.row]
         cell.textLabel?.text = ban["Title"] as? String
+        cell.detailTextLabel?.text = "\(Double(ban["duration"] as! Int) / 60.0)"
         cell.accessoryType = ban["selected"] as? Bool ?? false ? .checkmark : .none
     }
     
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
-            cell.textLabel?.text = "School Day"
+            cell.textLabel?.text = self.dayType?.name
             return cell
         }
         if indexPath.section >= self.numberOfSections(in: tableView) - 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell") as! MessageCell
             cell.messageField?.text = self.message
+            cell.messageField?.delegate = self
             return cell
         }
         
@@ -111,14 +111,24 @@ extension Allow2RequestViewController {
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
-        if indexPath.section >= self.numberOfSections(in: tableView) - 1 {
+        if indexPath.section < self.numberOfSections(in: tableView) - 1 {
             tableView.deselectRow(at: indexPath, animated: false)
             self.currentBans[indexPath.row]["selected"] = !(self.currentBans[indexPath.row]["selected"] as? Bool ?? false)
             formatBanCell(self.tableView(tableView, cellForRowAt: indexPath), forRowAt: indexPath)
             return
         }
         
+        let cell = self.tableView(tableView, cellForRowAt: indexPath) as! MessageCell
+        cell.messageField?.becomeFirstResponder()
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+}
+
+extension Allow2RequestViewController : UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.Send()
+        return true
+    }
 }

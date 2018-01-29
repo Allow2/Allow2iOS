@@ -76,7 +76,7 @@ public class Allow2PairingViewController: UITableViewController {
     
     func updateBarcode() {
         //if let name = deviceNameField?.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        let hasName = (deviceName.characters.count > 0)
+        let hasName = (deviceName.count > 0)
         if hasName {
             barcodeImageView?.isHidden = false
             DispatchQueue.main.async() {
@@ -91,14 +91,14 @@ public class Allow2PairingViewController: UITableViewController {
         let username = usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let password = passwordField?.text ?? ""
         // todo: better sanity checks
-        connectButton?.isEnabled = hasName && (username.characters.count > 4) && (password.characters.count > 4)
+        connectButton?.isEnabled = hasName && (username.count > 4) && (password.count > 4)
     }
     
     @IBAction func connect() {
         let user = usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let password = passwordField?.text ?? ""
 
-        guard (user.characters.count > 0) && (password.characters.count > 0) && (deviceName.characters.count > 0) else {
+        guard (user.count > 0) && (password.count > 0) && (deviceName.count > 0) else {
             print("Cancelled")
             return
         }
@@ -153,7 +153,7 @@ extension Allow2PairingViewController : UITextFieldDelegate {
 
 extension Allow2PairingViewController {
     @objc func pollPairing() {
-        let url = URL(string: "\(Allow2.shared.appUrl)/api/checkPairing")
+        let url = URL(string: "\(Allow2.shared.apiUrl)/api/checkPairing")
         
         let body : JSON = [
             "uuid": UIDevice.current.identifierForVendor!.uuidString,
