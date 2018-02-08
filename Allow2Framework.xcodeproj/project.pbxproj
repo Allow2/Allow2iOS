@@ -21,6 +21,8 @@
 		497D6B9B1E20750B0021EAB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497D6B9A1E20750B0021EAB8 /* Assets.xcassets */; };
 		49992B681F99C53F00A9294F /* Allow2RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */; };
 		49992B6B1F99DAAF00A9294F /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49992B6A1F99DAAF00A9294F /* MessageCell.swift */; };
+		49BAC25D202C84D1008F6B50 /* PinVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BAC25C202C84D1008F6B50 /* PinVC.swift */; };
+		49BAC25F202C886F008F6B50 /* NPPinCodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BAC25E202C886F008F6B50 /* NPPinCodeField.swift */; };
 		49C8269F202B18AA000AAD0F /* Allow2LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8269E202B18A9000AAD0F /* Allow2LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +56,8 @@
 		497D6B9A1E20750B0021EAB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2RequestViewController.swift; sourceTree = "<group>"; };
 		49992B6A1F99DAAF00A9294F /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		49BAC25C202C84D1008F6B50 /* PinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinVC.swift; sourceTree = "<group>"; };
+		49BAC25E202C886F008F6B50 /* NPPinCodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPPinCodeField.swift; sourceTree = "<group>"; };
 		49C8269E202B18A9000AAD0F /* Allow2LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Allow2LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +108,8 @@
 				49140FDA1E6C0904004CD147 /* Allow2PairingViewController.swift */,
 				49C8269E202B18A9000AAD0F /* Allow2LoginViewController.swift */,
 				493F56691E73E56A0043B190 /* Allow2Bluetooth.swift */,
+				49BAC25C202C84D1008F6B50 /* PinVC.swift */,
+				49BAC25E202C886F008F6B50 /* NPPinCodeField.swift */,
 				49992B691F99DA9000A9294F /* RequestView */,
 				495A90C21E20F8B800439C70 /* Allow2Storyboard.storyboard */,
 				497D6B9A1E20750B0021EAB8 /* Assets.xcassets */,
@@ -251,10 +257,12 @@
 			files = (
 				493F566A1E73E56A0043B190 /* Allow2Bluetooth.swift in Sources */,
 				49088AA31E21A89D00C9890D /* Allow2CheckResult.swift in Sources */,
+				49BAC25D202C84D1008F6B50 /* PinVC.swift in Sources */,
 				49140FD71E6BD219004CD147 /* Allow2+QR.swift in Sources */,
 				497D6B911E1F97390021EAB8 /* Allow2.swift in Sources */,
 				495A90BF1E20F79500439C70 /* Allow2BlockViewController.swift in Sources */,
 				497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */,
+				49BAC25F202C886F008F6B50 /* NPPinCodeField.swift in Sources */,
 				49140FDB1E6C0904004CD147 /* Allow2PairingViewController.swift in Sources */,
 				49992B681F99C53F00A9294F /* Allow2RequestViewController.swift in Sources */,
 				49C8269F202B18AA000AAD0F /* Allow2LoginViewController.swift in Sources */,

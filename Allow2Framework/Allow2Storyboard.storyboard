@@ -9,6 +9,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Allow2 Block View Controller-->
         <scene sceneID="oux-Fw-ZDP">
@@ -185,6 +190,7 @@
                     </view>
                     <connections>
                         <outlet property="noChildrenView" destination="Ehh-Fo-xN1" id="Ede-tJ-epu"/>
+                        <outlet property="tableView" destination="c8e-Q0-cMd" id="8z7-ay-RT3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WR8-pV-f5U" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -512,6 +518,88 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIA-3x-T9c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1964.8" y="192.50374812593705"/>
+        </scene>
+        <!--Set PIN-->
+        <scene sceneID="Utf-8c-nFT">
+            <objects>
+                <viewController storyboardIdentifier="PinVC" id="3rK-1E-C70" customClass="PinVC" customModule="Allow2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Tn-Al-Hif"/>
+                        <viewControllerLayoutGuide type="bottom" id="QjC-KS-RQL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AWl-7H-XZz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fer-Yq-Od0">
+                                <rect key="frame" x="108" y="161" width="159" height="80"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uHi-AG-sJQ" customClass="NPPinCodeField" customModule="Allow2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="48" width="159" height="32"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="length">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="diameter">
+                                                <real key="value" value="30"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="thickness">
+                                                <real key="value" value="2.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                                                <real key="value" value="12"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="pinCodeChangedWithSender:" destination="3rK-1E-C70" eventType="editingChanged" id="dwx-x3-JNr"/>
+                                        </connections>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your PIN:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcT-uw-IY0">
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="24"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="mcT-uw-IY0" secondAttribute="trailing" id="2ol-Br-D5G"/>
+                                    <constraint firstAttribute="height" constant="80" id="Bsa-cj-wK2"/>
+                                    <constraint firstItem="mcT-uw-IY0" firstAttribute="leading" secondItem="fer-Yq-Od0" secondAttribute="leading" id="CTm-3F-NOx"/>
+                                    <constraint firstItem="uHi-AG-sJQ" firstAttribute="top" secondItem="mcT-uw-IY0" secondAttribute="bottom" constant="24" id="IPm-uT-kst"/>
+                                    <constraint firstAttribute="trailing" secondItem="uHi-AG-sJQ" secondAttribute="trailing" id="O1f-5w-Mz1"/>
+                                    <constraint firstItem="uHi-AG-sJQ" firstAttribute="leading" secondItem="fer-Yq-Od0" secondAttribute="leading" id="YTb-KF-ufi"/>
+                                    <constraint firstItem="mcT-uw-IY0" firstAttribute="top" secondItem="fer-Yq-Od0" secondAttribute="top" id="grN-3g-aMB"/>
+                                    <constraint firstAttribute="width" constant="158.5" id="gtu-LL-ges"/>
+                                    <constraint firstAttribute="bottom" secondItem="uHi-AG-sJQ" secondAttribute="bottom" id="uKu-JX-P0Y"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fer-Yq-Od0" firstAttribute="top" secondItem="2Tn-Al-Hif" secondAttribute="bottom" constant="141" id="XE9-ch-nSw"/>
+                            <constraint firstItem="fer-Yq-Od0" firstAttribute="centerX" secondItem="AWl-7H-XZz" secondAttribute="centerX" id="XkP-0h-lFW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Set PIN" id="BcL-4F-oJJ">
+                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="vvi-v5-SSs">
+                            <connections>
+                                <action selector="cancelWithSender:" destination="3rK-1E-C70" id="iz1-gW-Z6R"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="label" destination="mcT-uw-IY0" id="qKS-sf-scg"/>
+                        <outlet property="pinCode" destination="uHi-AG-sJQ" id="WDv-eK-IVN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ngL-ml-QfG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1964" y="937"/>
         </scene>
     </scenes>
     <resources>
