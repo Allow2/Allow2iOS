@@ -14,6 +14,7 @@ import Foundation
 public class Allow2CheckResult {
     var _allowed : Bool
     var _activities : JSON
+    var _children : JSON
     var _today : Allow2Day
     var _tomorrow : Allow2Day
     
@@ -25,9 +26,11 @@ public class Allow2CheckResult {
     
     public init(allowed: Bool,
                  activities: JSON,
-                 dayTypes: JSON) {
+                 dayTypes: JSON,
+                 children: JSON) {
         self._allowed = allowed
         self._activities = activities
+        self._children = children
         self._today = Allow2Day(json: dayTypes["today"])
         self._tomorrow = Allow2Day(json: dayTypes["tomorrow"])
     }

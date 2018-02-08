@@ -18,6 +18,7 @@ public struct Allow2PairResult {
 public struct Allow2Child {
     public var id : UInt64
     public var name : String
+    public var pin : String
 }
 
 /**
@@ -47,11 +48,12 @@ public enum Allow2Response {
             Allow2.shared.userId = nil
             Allow2.shared.pairId = nil
             Allow2.shared.childId = nil
-            Allow2.shared.children = []
+            Allow2.shared._children = []
             return .CheckResult(Allow2CheckResult(
                 allowed: true,
                 activities: [],
-                dayTypes: []
+                dayTypes: [],
+                children: []
                 ))
         }
         
@@ -60,11 +62,18 @@ public enum Allow2Response {
         }
         let activities = response["activities"]
         let dayTypes = response["dayTypes"]
+        let children = response["children"]
+        Allow2.shared._children = children.arrayValue.map { (child) -> Allow2Child in
+            return Allow2Child(id: child["id"].uInt64Value,
+                               name: child["name"].stringValue,
+                               pin: child["pin"].stringValue)
+        }
         
         return .CheckResult(Allow2CheckResult(
             allowed: allowed,
             activities: activities,
-            dayTypes: dayTypes
+            dayTypes: dayTypes,
+            children: children
             ))
     }
 }
@@ -77,7 +86,8 @@ extension Notification.Name {
 
 public class Allow2 {
 
-    public var deviceToken : String? = "Not Set";
+    public var deviceToken : String? = "Not Set"
+    public var env : EnvType = .staging
 
     var userId : String? {
         get { return (UserDefaults.standard.object(forKey: "Allow2UserId") as? String) } // ?? "6"
@@ -94,11 +104,23 @@ public class Allow2 {
         }
     }
 
-    public var children : [ Allow2Child ] = [] // todo: maintain this automatically
+    public enum EnvType {
+        case production
+        case sandbox
+        case staging
+    }
+
+    var _children : [ Allow2Child ] = [] // todo: maintain this automatically
+
+    public var children : [ Allow2Child ] {
+        get {
+            return _children
+        }
+    }
     
     // used only if the device is locked to a specific user.
     public var childId : String? {
-        get { return (UserDefaults.standard.object(forKey: "Allow2ChildId") as? String) } // ?? "68"
+        get { return (UserDefaults.standard.object(forKey: "Allow2ChildId") as? String) }
         set { UserDefaults.standard.set(newValue, forKey: "Allow2ChildId") }
     }
     
@@ -110,7 +132,16 @@ public class Allow2 {
             return storyboard.instantiateViewController(withIdentifier: "Allow2BlockViewController") as! Allow2BlockViewController
         }
     }
-
+    
+    // todo: should do this better
+    public static var allow2LoginViewController : Allow2LoginViewController {
+        get {
+            let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+            return storyboard.instantiateViewController(withIdentifier: "Allow2LoginViewController") as! Allow2LoginViewController
+        }
+    }
+    
     // todo: should do this better
     public static var allow2PairingViewController : Allow2PairingViewController {
         get {
@@ -139,12 +170,27 @@ public class Allow2 {
     
     var apiUrl : String {
         get {
-            return "https://app.allow2.com:8443" //"https://staging-api.allow2.com:8443"
+            switch env {
+            case .sandbox:
+                return "https://sandbox-api.allow2.com"
+            case .staging:
+                return "https://api.allow2.com:8443" //"https://staging-api.allow2.com"
+            default:
+                return "https://api.allow2.com"
+            }
         }
     }
+    
     var serviceUrl : String {
         get {
-            return "https://api.allow2.com:9443" //"https://staging-service.allow2.com"
+            switch env {
+            case .sandbox:
+                return "https://service.allow2.com:9443"
+            case .staging:
+                return "https://api.allow2.com:9443" //"https://staging-service.allow2.com"
+            default:
+                return "https://staging-service.allow2.com:9443"
+            }
         }
     }
     
@@ -247,9 +293,11 @@ public class Allow2 {
                     if (completion != nil) {
                         var newChildren : [Allow2Child] = []
                         for child in childrenJson {
-                            newChildren.append(Allow2Child(id: child["id"].uInt64Value, name: child["name"].stringValue))
+                            newChildren.append(Allow2Child(id: child["id"].uInt64Value,
+                                                           name: child["name"].stringValue,
+                                                           pin: child["pin"].stringValue))
                         }
-                        self.children = newChildren
+                        self._children = newChildren
                         
                         completion!(Allow2Response.PairResult(Allow2PairResult( children: self.children )))
                     }
@@ -276,7 +324,7 @@ public class Allow2 {
             }
             return
         }*/
-        check(childId: self.childId ?? "68", activities: activities, log: log, completion: completion)
+        check(childId: self.childId, activities: activities, log: log, completion: completion)
     }
     
     /**
@@ -296,15 +344,17 @@ public class Allow2 {
             return
         }
         
-        let body : JSON = [
+        var body : JSON = [
             "userId": self.userId!,
             "pairId": self.pairId!,
             "deviceToken": self.deviceToken ?? "MISSING",
-            "childId": childId,
             "tz": NSTimeZone.local.identifier,
             "activities": activities.jsonArray,
             "log": log
         ];
+        if (childId != nil) {
+            body["childId"] = JSON(childId!)
+        }
         let key = body.rawString()!
         
         // check the cache first
@@ -351,31 +401,31 @@ public class Allow2 {
                 
                 // attempt to handle valid response
                 // todo: better error handling on data -> JSON
-                let result = Allow2Response.parseFromJSON(response: try! JSON(data: data!))
+                do {
+                    let result = Allow2Response.parseFromJSON(response: try! JSON(data: data!))
                 
-                switch result {
-                case let .CheckResult(checkResult):
-                    
-                    // good response, cache the result first
-                    self.resultCache[key] = checkResult
+                    switch result {
+                    case let .CheckResult(checkResult):
+                        
+                        // good response, cache the result first
+                        self.resultCache[key] = checkResult
 
-                    // notify everyone
-                    NotificationCenter.default.post(
-                        name: .allow2CheckResultNotification,
-                        object: nil,
-                        userInfo: [ "result" : checkResult ]
-                    )
+                        // notify everyone
+                        NotificationCenter.default.post(
+                            name: .allow2CheckResultNotification,
+                            object: nil,
+                            userInfo: [ "result" : checkResult ]
+                        )
 
-                    break
-                default:
+                        break
+                    default:
+                        completion?(result)
+                        return
+                    }
+
+                    // now return the result
                     completion?(result)
-                    return
                 }
-
-                
-                
-                // now return the result
-                completion?(result)
             }
             task.resume()
             

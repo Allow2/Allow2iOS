@@ -195,7 +195,7 @@ extension Allow2PairingViewController {
                     Allow2.shared.userId = "\(json["userId"].uInt64Value)"
                     if let childId = json["childId"].uInt64 {
                         Allow2.shared.childId = "\(childId)"
-                        Allow2.shared.children = []
+                        Allow2.shared._children = []
                         self.delegate?.Allow2PairingCompleted(result: Allow2Response.PairResult(Allow2PairResult( children: [] )))
                         return
                     }
@@ -205,9 +205,9 @@ extension Allow2PairingViewController {
                     let childrenJson = json["children"].array ?? []
                     var newChildren : [Allow2Child] = []
                     for child in childrenJson {
-                        newChildren.append(Allow2Child(id: child["id"].uInt64Value, name: child["name"].stringValue))
+                        newChildren.append(Allow2Child(id: child["id"].uInt64Value, name: child["name"].stringValue, pin: child["pin"].stringValue))
                     }
-                    Allow2.shared.children = newChildren
+                    Allow2.shared._children = newChildren
                     self.delegate?.Allow2PairingCompleted(result: Allow2Response.PairResult(Allow2PairResult( children: Allow2.shared.children )))
                 }
             }
