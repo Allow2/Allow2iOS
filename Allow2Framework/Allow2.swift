@@ -401,31 +401,34 @@ public class Allow2 {
                 
                 // attempt to handle valid response
                 // todo: better error handling on data -> JSON
-                do {
-                    let result = Allow2Response.parseFromJSON(response: try! JSON(data: data!))
-                
-                    switch result {
-                    case let .CheckResult(checkResult):
-                        
-                        // good response, cache the result first
-                        self.resultCache[key] = checkResult
-
-                        // notify everyone
-                        NotificationCenter.default.post(
-                            name: .allow2CheckResultNotification,
-                            object: nil,
-                            userInfo: [ "result" : checkResult ]
-                        )
-
-                        break
-                    default:
-                        completion?(result)
-                        return
-                    }
-
-                    // now return the result
-                    completion?(result)
+                guard let json = try? JSON(data: data!) else {
+                    completion?(Allow2Response.Error( Allow2Error.InvalidResponse ))
+                    return;
                 }
+                
+                let result = Allow2Response.parseFromJSON(response: json)
+            
+                switch result {
+                case let .CheckResult(checkResult):
+                    
+                    // good response, cache the result first
+                    self.resultCache[key] = checkResult
+
+                    // notify everyone
+                    NotificationCenter.default.post(
+                        name: .allow2CheckResultNotification,
+                        object: nil,
+                        userInfo: [ "result" : checkResult ]
+                    )
+
+                    break
+                default:
+                    completion?(result)
+                    return
+                }
+
+                // now return the result
+                completion?(result)
             }
             task.resume()
             

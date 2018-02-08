@@ -99,7 +99,8 @@ extension Allow2LoginViewController : PinVCDelegate {
         pinVC.delegate = self
         pinVC.pin = child!.pin
         pinVC.modalPresentationStyle = .formSheet
-        self.present(pinVC, animated: true, completion: nil)
+        let navVC = UINavigationController(rootViewController: pinVC)
+        self.present(navVC, animated: true, completion: nil)
     }
     
     func pinVCDidEnterPin(_ pinVC: PinVC, success: Bool) {
