@@ -90,14 +90,14 @@ public class Allow2 {
     public var env : EnvType = .staging
 
     var userId : String? {
-        get { return (UserDefaults.standard.object(forKey: "Allow2UserId") as? String) } // ?? "6"
+        get { return (UserDefaults.standard.object(forKey: "Allow2UserId") as? String) }
         set { UserDefaults.standard.set(newValue, forKey: "Allow2UserId") }
     }
     var pairId : String? {
-        get { return (UserDefaults.standard.object(forKey: "Allow2PairId") as? String) } // ?? "18956"
+        get { return (UserDefaults.standard.object(forKey: "Allow2PairId") as? String) }
         set { UserDefaults.standard.set(newValue, forKey: "Allow2PairId") }
     }
-    
+
     public var isPaired : Bool {
         get {
             return (self.userId != nil) && (self.pairId != nil)

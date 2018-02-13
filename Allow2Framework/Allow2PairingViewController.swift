@@ -193,6 +193,7 @@ extension Allow2PairingViewController {
                     
                     Allow2.shared.pairId = "\(json["pairId"].uInt64Value)"
                     Allow2.shared.userId = "\(json["userId"].uInt64Value)"
+                    // this only comes back if the server is forcing the device to be locked to a specific child
                     if let childId = json["childId"].uInt64 {
                         Allow2.shared.childId = "\(childId)"
                         Allow2.shared._children = []

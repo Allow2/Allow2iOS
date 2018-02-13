@@ -83,11 +83,11 @@ extension Allow2CheckResult {
                 if activity.dictionary?["banned"]?.boolValue ?? false,
                     let id = activity.dictionary?["id"]?.uInt64Value,
                     let name = activity.dictionary?["name"]?.stringValue,
-                let items = activity.dictionary?["bans"]?.array {
+                    let items = activity.dictionary?["bans"]?.dictionary?["bans"]?.array {
                     items.forEach { (item) in
                         bans.append([
                             "id" : id,
-                            "Title": name,
+                            "title": name,
                             "appliedAt" : dateFromISOString(string: item["appliedAt"].stringValue) as Any,
                             "duration" : item["durationMinutes"].intValue,
                             "selected": false
@@ -97,7 +97,7 @@ extension Allow2CheckResult {
                     // todo: reasons.append("You have \(activity["remaining"]) to use \(activity["name"]).")
                 }
             }
-            return bans;
+            return bans
         }
     }
 }
