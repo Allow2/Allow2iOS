@@ -33,8 +33,24 @@ public class Allow2RequestViewController: UITableViewController {
     }
     
     @IBAction func Send() {
+        // warning: remember what had focus and restore it to that element on failure
         self.resignFirstResponder()
-        self.presentingViewController?.dismiss(animated: true)
+        Allow2.shared.request(dayTypeId: 3, lift: [2], message: "Testing!") { response in
+            print("\(response)")
+            switch (response) {
+            case let .Request(requestSent):
+                if !requestSent {
+                    return
+                }
+                self.presentingViewController?.dismiss(animated: true)
+            case let .Error(err):
+                // warning: show a suitable error somehow
+                print("\(err)")
+                return
+            default:
+                return
+            }
+        }
     }
     
 }
@@ -76,7 +92,7 @@ extension Allow2RequestViewController {
     
     func formatBanCell(_ cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let ban = self.currentBans[indexPath.row]
-        cell.textLabel?.text = ban["Title"] as? String
+        cell.textLabel?.text = ban["title"] as? String
         cell.detailTextLabel?.text = "\(Double(ban["duration"] as! Int) / 60.0)"
         cell.accessoryType = ban["selected"] as? Bool ?? false ? .checkmark : .none
     }

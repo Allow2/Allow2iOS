@@ -41,6 +41,7 @@ public enum Allow2Response {
     case Error(Error)
     case PairResult(Allow2PairResult)
     case CheckResult(Allow2CheckResult)
+    case Request(Bool)
     
     static func parseFromJSON(response : JSON) -> Allow2Response {
         guard response["error"] != "invalid pairId" else {
@@ -55,6 +56,10 @@ public enum Allow2Response {
                 dayTypes: [],
                 children: []
                 ))
+        }
+        
+        if let requestSent = response["requestSent"].bool {
+            return .Request(requestSent)
         }
         
         guard let allowed = response["allowed"].bool else {
@@ -466,3 +471,93 @@ extension Array where Element:Allow2.Allow2Activity {
     }
 }
 
+extension Allow2 {
+    public func request(dayTypeId: UInt64?, lift: [UInt64]?, message: String?, completion: ((Allow2Response) -> Void)? = nil) {
+        
+        guard self.isPaired else {
+            if completion != nil {
+                completion!(Allow2Response.Error( Allow2Error.NotPaired ))
+            }
+            return
+        }
+        
+        var body : JSON = [
+            "userId": self.userId!,
+            "pairId": self.pairId!,
+            "deviceToken": self.deviceToken ?? "MISSING",
+            "childId" : JSON(Allow2.shared.childId!),
+            "lift": JSON( lift ?? [])
+        ];
+        if (dayTypeId != nil) {
+            body["dayType"] = JSON(dayTypeId!)
+            body["changeDayType"] = true
+        }
+        
+        let key = body.rawString()!
+        
+        let url = URL(string: "\(apiUrl)/request/createRequest")
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST";
+        request.addValue("application/json", forHTTPHeaderField:"Content-Type")
+        //json: true,
+        
+        do {
+            request.httpBody = try body.rawData()
+            
+            let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+                guard error == nil else {
+                    completion?(Allow2Response.Error( error! ))
+                    return;
+                }
+                
+                guard data != nil else {
+                    completion?(Allow2Response.Error( Allow2Error.InvalidResponse ))
+                    return;
+                }
+                
+                print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+                
+                // interpret the result
+                // todo: 403 is disconnected, clear everything out
+                
+                // handle other errors
+                
+                // attempt to handle valid response
+                // todo: better error handling on data -> JSON
+                guard let json = try? JSON(data: data!) else {
+                    completion?(Allow2Response.Error( Allow2Error.InvalidResponse ))
+                    return;
+                }
+                
+                let result = Allow2Response.parseFromJSON(response: json)
+                
+                switch result {
+                case let .CheckResult(checkResult):
+                    
+                    // good response, cache the result first
+                    self.resultCache[key] = checkResult
+                    
+                    // notify everyone
+                    NotificationCenter.default.post(
+                        name: .allow2CheckResultNotification,
+                        object: nil,
+                        userInfo: [ "result" : checkResult ]
+                    )
+                    
+                    break
+                default:
+                    completion?(result)
+                    return
+                }
+                
+                // now return the result
+                completion?(result)
+            }
+            task.resume()
+            
+        } catch (let err) {
+            print(err)
+            completion?(Allow2Response.Error( err ))
+        }
+    }
+}
