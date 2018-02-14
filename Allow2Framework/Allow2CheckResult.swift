@@ -15,6 +15,7 @@ public class Allow2CheckResult {
     var _allowed : Bool
     var _activities : JSON
     var _children : JSON
+    var _allDayTypes : JSON
     var _today : Allow2Day
     var _tomorrow : Allow2Day
     
@@ -27,10 +28,12 @@ public class Allow2CheckResult {
     public init(allowed: Bool,
                  activities: JSON,
                  dayTypes: JSON,
+                 allDayTypes: JSON,
                  children: JSON) {
         self._allowed = allowed
         self._activities = activities
         self._children = children
+        self._allDayTypes = allDayTypes
         self._today = Allow2Day(json: dayTypes["today"])
         self._tomorrow = Allow2Day(json: dayTypes["tomorrow"])
     }
@@ -52,6 +55,7 @@ extension Allow2CheckResult {
 
     public var allowed : Bool { get { return _allowed } }
     public var activities : JSON { get { return _activities } }
+    public var allDayTypes : JSON { get { return _allDayTypes } }
     public var today : Allow2Day { get { return _today } }
     public var tomorrow : Allow2Day { get { return _tomorrow } }
 
@@ -106,12 +110,17 @@ extension Allow2CheckResult {
  * Utility Class
  */
 public class Allow2Day {
-    var _id : Int64
+    var _id : UInt64
     var _name : String
     public var name : String { get { return _name } }
     
     init(json: JSON) {
-        _id = json["id"].int64 ?? 0
+        _id = json["id"].uInt64 ?? 0
         _name = json["name"].string ?? ""
+    }
+    
+    init(id: UInt64, name: String) {
+        _id = id
+        _name = name
     }
 }

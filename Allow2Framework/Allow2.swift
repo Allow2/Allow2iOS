@@ -50,10 +50,12 @@ public enum Allow2Response {
             Allow2.shared.pairId = nil
             Allow2.shared.childId = nil
             Allow2.shared._children = []
+            Allow2.shared._dayTypes = []
             return .CheckResult(Allow2CheckResult(
                 allowed: true,
                 activities: [],
                 dayTypes: [],
+                allDayTypes: [],
                 children: []
                 ))
         }
@@ -68,6 +70,7 @@ public enum Allow2Response {
         let activities = response["activities"]
         let dayTypes = response["dayTypes"]
         let children = response["children"]
+        let allDayTypes = response["allDayTypes"]
         Allow2.shared._children = children.arrayValue.map { (child) -> Allow2Child in
             return Allow2Child(id: child["id"].uInt64Value,
                                name: child["name"].stringValue,
@@ -78,6 +81,7 @@ public enum Allow2Response {
             allowed: allowed,
             activities: activities,
             dayTypes: dayTypes,
+            allDayTypes: allDayTypes,
             children: children
             ))
     }
@@ -115,11 +119,18 @@ public class Allow2 {
         case staging
     }
 
-    var _children : [ Allow2Child ] = [] // todo: maintain this automatically
+    var _children : [ Allow2Child ] = []
+    var _dayTypes : [ Allow2Day ] = []
 
     public var children : [ Allow2Child ] {
         get {
             return _children
+        }
+    }
+    
+    public var dayTypes : [ Allow2Day ] {
+        get {
+            return _dayTypes
         }
     }
     

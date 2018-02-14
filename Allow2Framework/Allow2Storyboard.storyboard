@@ -487,6 +487,9 @@
                                     <subviews>
                                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="22L-sE-gxz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="168"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="168" id="KSw-Cs-lEG"/>
+                                            </constraints>
                                             <connections>
                                                 <outlet property="dataSource" destination="Mge-fj-zmh" id="EIj-Zs-kHM"/>
                                                 <outlet property="delegate" destination="Mge-fj-zmh" id="Dbc-Uj-HU8"/>
@@ -495,7 +498,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="22L-sE-gxz" firstAttribute="leading" secondItem="ujc-N1-elT" secondAttribute="leading" id="Aii-Ok-G6w"/>
-                                        <constraint firstItem="22L-sE-gxz" firstAttribute="top" secondItem="ujc-N1-elT" secondAttribute="top" id="JV8-dW-St9"/>
+                                        <constraint firstItem="22L-sE-gxz" firstAttribute="top" secondItem="ujc-N1-elT" secondAttribute="top" priority="800" id="JV8-dW-St9"/>
                                         <constraint firstAttribute="trailing" secondItem="22L-sE-gxz" secondAttribute="trailing" id="iPJ-Wz-fGS"/>
                                         <constraint firstAttribute="bottom" secondItem="22L-sE-gxz" secondAttribute="bottom" id="n2a-gF-oKQ"/>
                                     </constraints>

@@ -15,13 +15,17 @@ public protocol Allow2RequestViewControllerDelegate {
 public class Allow2RequestViewController: UITableViewController {
     
     var delegate : Allow2RequestViewControllerDelegate?
-    var newDayType : Int64? = nil;
+    var newDayType : Allow2Day = Allow2Day(id: 0, name: "Do Not Change");
     private var currentBans = [[String: Any]]()
     private var dayType : Allow2Day?
+    private var dayTypes : [ Allow2Day ]?
     var checkResult : Allow2CheckResult? {
         didSet {
-            newDayType = nil
+            newDayType = Allow2Day(id: 0, name: "Do Not Change");
             currentBans = checkResult?.currentBans ?? [[String: Any]]()
+            dayTypes = checkResult?.allDayTypes.array?.map({ (json) -> Allow2Day in
+                return Allow2Day(json: json)
+            }) ?? []
         }
     }
     var message : String? = nil
@@ -34,7 +38,15 @@ public class Allow2RequestViewController: UITableViewController {
     @IBAction func Send() {
         // warning: remember what had focus and restore it to that element on failure
         self.resignFirstResponder()
-        Allow2.shared.request(dayTypeId: nil, lift: [2], message: "Testing!") { response in
+        let dayTypeId = self.newDayType._id > 0 ? self.newDayType._id : nil
+        let lift : [ UInt64 ] = self.currentBans.filter({ (ban) -> Bool in
+            return ban["selected"] as? Bool ?? false
+        }).map { (ban) -> UInt64 in
+            return ban["id"] as! UInt64
+        }
+        print("newDayType: \(String(describing: dayTypeId)), lift: \(lift), message: \(String(describing: self.message))")
+        return
+            Allow2.shared.request(dayTypeId: dayTypeId, lift: lift.count > 0 ? lift : nil, message: self.message) { response in
             print("\(response)")
             switch (response) {
             case let .Request(requestSent):
@@ -75,13 +87,13 @@ extension Allow2RequestViewController {
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Change Day Type:"
+            return "Change Day Type"
         }
         if section >= self.numberOfSections(in: tableView) - 1 {
-            return "Message:"
+            return "Message"
         }
         
-        return "Lift Ban:"
+        return "Lift Ban"
     }
     
     override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -106,10 +118,12 @@ extension Allow2RequestViewController {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
-                cell.textLabel?.text = self.dayType?.name
+                cell.textLabel?.text = self.newDayType.name
                 return cell
             }
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypePickerCell")!
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypePickerCell") as! DayTypePickerCell
+            cell.delegate = self
+            cell.dayTypes = self.dayTypes
             return cell
         }
         if indexPath.section >= self.numberOfSections(in: tableView) - 1 {
@@ -161,4 +175,18 @@ extension Allow2RequestViewController : UITextFieldDelegate {
         self.Send()
         return true
     }
+}
+
+extension Allow2RequestViewController : DayTypePickerCellDelegate {
+    func dayTypePickerCellCell(_ cell: DayTypePickerCell, didChooseDayType dayType: Allow2Day) {
+        self.newDayType = dayType
+        DispatchQueue.main.async {
+            self.pickerShown = !self.pickerShown
+            self.tableView.beginUpdates()
+            self.tableView.reloadRows(at: [IndexPath(row:0, section:0)], with: .fade)
+            self.tableView.endUpdates()
+        }
+    }
+    
+    
 }
