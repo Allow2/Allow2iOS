@@ -23,6 +23,7 @@
 		49992B6B1F99DAAF00A9294F /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49992B6A1F99DAAF00A9294F /* MessageCell.swift */; };
 		49BAC25D202C84D1008F6B50 /* PinVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BAC25C202C84D1008F6B50 /* PinVC.swift */; };
 		49BAC25F202C886F008F6B50 /* NPPinCodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BAC25E202C886F008F6B50 /* NPPinCodeField.swift */; };
+		49BAC26B20344CFB008F6B50 /* DayTypePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BAC26A20344CFB008F6B50 /* DayTypePickerCell.swift */; };
 		49C8269F202B18AA000AAD0F /* Allow2LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8269E202B18A9000AAD0F /* Allow2LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		49992B6A1F99DAAF00A9294F /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		49BAC25C202C84D1008F6B50 /* PinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinVC.swift; sourceTree = "<group>"; };
 		49BAC25E202C886F008F6B50 /* NPPinCodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPPinCodeField.swift; sourceTree = "<group>"; };
+		49BAC26A20344CFB008F6B50 /* DayTypePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTypePickerCell.swift; sourceTree = "<group>"; };
 		49C8269E202B18A9000AAD0F /* Allow2LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Allow2LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +138,7 @@
 			children = (
 				49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */,
 				49992B6A1F99DAAF00A9294F /* MessageCell.swift */,
+				49BAC26A20344CFB008F6B50 /* DayTypePickerCell.swift */,
 			);
 			path = RequestView;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				49BAC25D202C84D1008F6B50 /* PinVC.swift in Sources */,
 				49140FD71E6BD219004CD147 /* Allow2+QR.swift in Sources */,
 				497D6B911E1F97390021EAB8 /* Allow2.swift in Sources */,
+				49BAC26B20344CFB008F6B50 /* DayTypePickerCell.swift in Sources */,
 				495A90BF1E20F79500439C70 /* Allow2BlockViewController.swift in Sources */,
 				497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */,
 				49BAC25F202C886F008F6B50 /* NPPinCodeField.swift in Sources */,

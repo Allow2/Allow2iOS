@@ -22,12 +22,11 @@ public class Allow2RequestViewController: UITableViewController {
         didSet {
             newDayType = nil
             currentBans = checkResult?.currentBans ?? [[String: Any]]()
-//            currentBans.append(["id" : 1, "title": "Internet Ban", "selected": false])
-//            currentBans.append(["id" : 2, "title": "Gaming Ban", "selected": false])
         }
     }
     var message : String? = nil
-
+    var pickerShown = false
+    
     @IBAction func Cancel() {
         self.presentingViewController?.dismiss(animated: true)
     }
@@ -35,7 +34,7 @@ public class Allow2RequestViewController: UITableViewController {
     @IBAction func Send() {
         // warning: remember what had focus and restore it to that element on failure
         self.resignFirstResponder()
-        Allow2.shared.request(dayTypeId: 3, lift: [2], message: "Testing!") { response in
+        Allow2.shared.request(dayTypeId: nil, lift: [2], message: "Testing!") { response in
             print("\(response)")
             switch (response) {
             case let .Request(requestSent):
@@ -66,7 +65,7 @@ extension Allow2RequestViewController {
     
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 1
+            return 2
         }
         if section >= self.numberOfSections(in: tableView) - 1 {
             return 1
@@ -85,6 +84,12 @@ extension Allow2RequestViewController {
         return "Lift Ban:"
     }
     
+    override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 0) && (indexPath.row == 1) && !pickerShown {
+            return 0
+        }
+        return super.tableView(tableView, heightForRowAt: indexPath)
+    }
     
     override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return indexPath.section < self.numberOfSections(in: tableView) - 1
@@ -99,8 +104,12 @@ extension Allow2RequestViewController {
     
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
-            cell.textLabel?.text = self.dayType?.name
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
+                cell.textLabel?.text = self.dayType?.name
+                return cell
+            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypePickerCell")!
             return cell
         }
         if indexPath.section >= self.numberOfSections(in: tableView) - 1 {
@@ -125,6 +134,11 @@ extension Allow2RequestViewController {
         print(indexPath)
         if indexPath.section == 0 {
             tableView.deselectRow(at: indexPath, animated: true)
+            if indexPath.row == 0 {
+                pickerShown = !pickerShown
+                tableView.beginUpdates()
+                tableView.endUpdates()
+            }
             return
         }
         if indexPath.section < self.numberOfSections(in: tableView) - 1 {

@@ -69,7 +69,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are currently banned from internet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sap-ie-4uy">
-                                        <rect key="frame" x="27" y="295" width="295.5" height="110"/>
+                                        <rect key="frame" x="27" y="295" width="321" height="110"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="v3p-Y2-eQ9"/>
                                         </constraints>
@@ -88,6 +88,7 @@
                                     <constraint firstAttribute="trailing" secondItem="sap-ie-4uy" secondAttribute="trailing" constant="27" id="WkU-bt-ZK2"/>
                                     <constraint firstItem="sap-ie-4uy" firstAttribute="top" secondItem="oxY-qQ-cdx" secondAttribute="bottom" constant="8" id="Ykj-qj-7lF"/>
                                     <constraint firstItem="REb-7o-TyH" firstAttribute="top" secondItem="sap-ie-4uy" secondAttribute="bottom" constant="8" id="ZwZ-dd-xj8"/>
+                                    <constraint firstItem="sap-ie-4uy" firstAttribute="centerX" secondItem="5pm-KE-Wue" secondAttribute="centerX" id="dxz-8I-E3l"/>
                                     <constraint firstItem="0hs-00-lbZ" firstAttribute="centerX" secondItem="5pm-KE-Wue" secondAttribute="centerX" id="eO0-zj-kOy"/>
                                     <constraint firstItem="oxY-qQ-cdx" firstAttribute="top" secondItem="HGo-dd-T1d" secondAttribute="bottom" constant="8" id="k83-cU-jgZ"/>
                                     <constraint firstAttribute="bottom" secondItem="REb-7o-TyH" secondAttribute="bottom" constant="20" id="mfh-Af-Pxi"/>
@@ -475,6 +476,32 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="messageField" destination="g5m-lV-UGq" id="8r3-wE-YXQ"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DayTypePickerCell" rowHeight="168" id="Mge-fj-zmh" customClass="DayTypePickerCell" customModule="Allow2" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="187.5" width="375" height="168"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mge-fj-zmh" id="ujc-N1-elT">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="167.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="22L-sE-gxz">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="168"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="Mge-fj-zmh" id="EIj-Zs-kHM"/>
+                                                <outlet property="delegate" destination="Mge-fj-zmh" id="Dbc-Uj-HU8"/>
+                                            </connections>
+                                        </pickerView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="22L-sE-gxz" firstAttribute="leading" secondItem="ujc-N1-elT" secondAttribute="leading" id="Aii-Ok-G6w"/>
+                                        <constraint firstItem="22L-sE-gxz" firstAttribute="top" secondItem="ujc-N1-elT" secondAttribute="top" id="JV8-dW-St9"/>
+                                        <constraint firstAttribute="trailing" secondItem="22L-sE-gxz" secondAttribute="trailing" id="iPJ-Wz-fGS"/>
+                                        <constraint firstAttribute="bottom" secondItem="22L-sE-gxz" secondAttribute="bottom" id="n2a-gF-oKQ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="picker" destination="22L-sE-gxz" id="9wk-wp-xSB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
