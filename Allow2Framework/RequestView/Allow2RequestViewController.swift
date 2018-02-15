@@ -31,12 +31,16 @@ public class Allow2RequestViewController: UITableViewController {
     var message : String? = nil
     var pickerShown = false
     
+    @IBOutlet var sendButton : UIBarButtonItem?
     @IBAction func Cancel() {
         self.presentingViewController?.dismiss(animated: true)
     }
     
     @IBAction func Send() {
         // warning: remember what had focus and restore it to that element on failure
+        if (!shouldEnableSend()) {
+            return
+        }
         self.resignFirstResponder()
         let dayTypeId = self.newDayType._id > 0 ? self.newDayType._id : nil
         let lift : [ UInt64 ] = self.currentBans.filter({ (ban) -> Bool in
@@ -45,8 +49,7 @@ public class Allow2RequestViewController: UITableViewController {
             return ban["id"] as! UInt64
         }
         print("newDayType: \(String(describing: dayTypeId)), lift: \(lift), message: \(String(describing: self.message))")
-        return
-            Allow2.shared.request(dayTypeId: dayTypeId, lift: lift.count > 0 ? lift : nil, message: self.message) { response in
+        Allow2.shared.request(dayTypeId: dayTypeId, lift: lift.count > 0 ? lift : nil, message: self.message) { response in
             print("\(response)")
             switch (response) {
             case let .Request(requestSent):
@@ -64,6 +67,18 @@ public class Allow2RequestViewController: UITableViewController {
         }
     }
     
+    func shouldEnableSend() -> Bool {
+        let atLeastOneBan = currentBans.reduce(false) { (result, ban) -> Bool in
+            return result || ban["selected"] as? Bool ?? false
+        }
+        return atLeastOneBan || (newDayType._id != 0)
+    }
+    
+    func enableSendButton() {
+        DispatchQueue.main.async {
+            self.sendButton?.isEnabled = self.shouldEnableSend()
+        }
+    }
 }
 
 
@@ -158,7 +173,11 @@ extension Allow2RequestViewController {
         if indexPath.section < self.numberOfSections(in: tableView) - 1 {
             tableView.deselectRow(at: indexPath, animated: false)
             self.currentBans[indexPath.row]["selected"] = !(self.currentBans[indexPath.row]["selected"] as? Bool ?? false)
-            formatBanCell(self.tableView(tableView, cellForRowAt: indexPath), forRowAt: indexPath)
+            //formatBanCell(self.tableView(tableView, cellForRowAt: indexPath), forRowAt: indexPath)
+            tableView.beginUpdates()
+            tableView.reloadRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+            self.enableSendButton()
             return
         }
         
@@ -172,7 +191,18 @@ extension Allow2RequestViewController {
 
 extension Allow2RequestViewController : UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if !shouldEnableSend() {
+            return false
+        }
         self.Send()
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let oldText = textField.text!
+        let newText = oldText.replacingCharacters(in: Range(range, in: oldText)!, with: string)
+        let message = newText.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.message = message.lengthOfBytes(using: .utf8) > 0 ? message : nil
         return true
     }
 }
@@ -185,8 +215,7 @@ extension Allow2RequestViewController : DayTypePickerCellDelegate {
             self.tableView.beginUpdates()
             self.tableView.reloadRows(at: [IndexPath(row:0, section:0)], with: .fade)
             self.tableView.endUpdates()
+            self.enableSendButton()
         }
     }
-    
-    
 }

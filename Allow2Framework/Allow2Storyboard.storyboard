@@ -465,6 +465,9 @@
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="send"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="slW-O8-jh5" id="dUe-d4-QGY"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                     <constraints>
@@ -519,12 +522,15 @@
                                 <action selector="Cancel" destination="mwv-0q-zYr" id="Ycr-CV-NhO"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Send" style="plain" id="1aj-4B-vTo">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Send" style="plain" id="1aj-4B-vTo">
                             <connections>
                                 <action selector="Send" destination="mwv-0q-zYr" id="dDP-cJ-9o6"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="sendButton" destination="1aj-4B-vTo" id="VrK-Be-ZVU"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nXA-f4-WTh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

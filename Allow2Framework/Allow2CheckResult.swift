@@ -85,12 +85,12 @@ extension Allow2CheckResult {
             var bans : [[ String : Any ]] = [];
             activities.forEach { (s, activity) in
                 if activity.dictionary?["banned"]?.boolValue ?? false,
-                    let id = activity.dictionary?["id"]?.uInt64Value,
+                    //let id = activity.dictionary?["id"]?.uInt64Value,
                     let name = activity.dictionary?["name"]?.stringValue,
                     let items = activity.dictionary?["bans"]?.dictionary?["bans"]?.array {
                     items.forEach { (item) in
                         bans.append([
-                            "id" : id,
+                            "id" : item["id"].uInt64Value,
                             "title": name,
                             "appliedAt" : dateFromISOString(string: item["appliedAt"].stringValue) as Any,
                             "duration" : item["durationMinutes"].intValue,

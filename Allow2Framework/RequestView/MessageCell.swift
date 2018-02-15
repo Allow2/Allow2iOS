@@ -8,14 +8,8 @@
 
 import UIKit
 
-protocol MessageCellDelegate {
-    func messageCell(_ cell: MessageCell, didChangeContent text: String)
-}
-
-class MessageCell: UITableViewCell {
+class MessageCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet var messageField: UITextField?
-    var delegate: MessageCellDelegate?
-    
-   // @IBAction func textFieldDidChane
+
 }
