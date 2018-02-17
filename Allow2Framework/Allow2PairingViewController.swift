@@ -110,11 +110,12 @@ public class Allow2PairingViewController: UITableViewController {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             switch result {
             case .PairResult(let pairResult):
-                print("paired")
+                print("paired \(pairResult)")
                 //self.selectChild(result.children)
                 self.delegate?.Allow2PairingCompleted(result: result)
                 break
             case .Error(let error):
+                print("pair error \(error)")
                 self.delegate?.Allow2PairingCompleted(result: result)
                 return
             default:

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Allow2Framework
+@testable import Allow2
 
 class Allow2FrameworkTests: XCTestCase {
     
