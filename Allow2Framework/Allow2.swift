@@ -9,12 +9,21 @@
 import UIKit
 
 /**
- * Result from a successful check call
+ Result from a successful check call.
+ 
+ - children: List of all known children for this parent that can use the device/app.
  */
 public struct Allow2PairResult {
     public var children : [ Allow2Child ]
 }
 
+/**
+ A single Allow2 child.
+ 
+ - id: unique child id.
+ - name: name of the child for display.
+ - pin: child account pin for local validation.
+ */
 public struct Allow2Child {
     public var id : UInt64
     public var name : String
@@ -22,7 +31,14 @@ public struct Allow2Child {
 }
 
 /**
- *  Error Types
+ Error response codes from the Allow2 platform.
+ 
+ - NotPaired: This device needs to still be paired to allow usage with Allow2.
+ - AlreadyPaired: You cannot try and pair the device again, it's already paired.
+ - MissingChildId: Need to specify a child Id for this operation.
+ - NotAuthorised: Operation was not allowed.
+ - InvalidResponse: I'm a teapot.
+ - Other(message : String): Something was reported outside of the known error types.
  */
 public enum Allow2Error: Error {
     case NotPaired
@@ -140,11 +156,15 @@ public class Allow2 {
         set { UserDefaults.standard.set(newValue, forKey: "Allow2ChildId") }
     }
     
+    public static var bundle : Bundle = {
+        let allow2FrameworkBundleURL = Bundle(for: Allow2BlockViewController.self).resourceURL!.appendingPathComponent("Allow2.bundle")
+        return Bundle(url: allow2FrameworkBundleURL)!
+    }()
+    
     // todo: should do this better
     public static var allow2BlockViewController : Allow2BlockViewController {
         get {
-            let allow2FrameworkBundle = Bundle(for: Allow2BlockViewController.self)
-            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: Allow2.bundle)
             return storyboard.instantiateViewController(withIdentifier: "Allow2BlockViewController") as! Allow2BlockViewController
         }
     }
@@ -152,8 +172,7 @@ public class Allow2 {
     // todo: should do this better
     public static var allow2LoginViewController : Allow2LoginViewController {
         get {
-            let allow2FrameworkBundle = Bundle(for: Allow2LoginViewController.self)
-            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: Allow2.bundle)
             return storyboard.instantiateViewController(withIdentifier: "Allow2LoginViewController") as! Allow2LoginViewController
         }
     }
@@ -161,8 +180,7 @@ public class Allow2 {
     // todo: should do this better
     public static var allow2PairingViewController : Allow2PairingViewController {
         get {
-            let allow2FrameworkBundle = Bundle(for: Allow2PairingViewController.self)
-            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: Allow2.bundle)
             return storyboard.instantiateViewController(withIdentifier: "Allow2PairingViewController") as! Allow2PairingViewController
         }
     }
@@ -170,8 +188,7 @@ public class Allow2 {
     // todo: should do this better
     public static var allow2RequestViewController : UINavigationController {
         get {
-            let allow2FrameworkBundle = Bundle(for: Allow2RequestViewController.self)
-            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+            let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: Allow2.bundle)
             return storyboard.instantiateViewController(withIdentifier: "Allow2RequestViewController") as! UINavigationController
         }
     }
@@ -180,7 +197,7 @@ public class Allow2 {
     
     public static var AllowLogo : UIImage {
         get {
-            return UIImage(named: "Allow2 Logo", in: Bundle(for: Allow2.self), compatibleWith: nil)!
+            return UIImage(named: "Allow2 Logo", in: Allow2.bundle, compatibleWith: nil)!
         }
     }
     
@@ -188,7 +205,7 @@ public class Allow2 {
         get {
             switch env {
             case .sandbox:
-                return "https://sandbox-api.allow2.com"
+                return "https://api.allow2.com" //"https://sandbox-api.allow2.com"
             case .staging:
                 return "https://api.allow2.com:8443" //"https://staging-api.allow2.com"
             default:
@@ -201,11 +218,11 @@ public class Allow2 {
         get {
             switch env {
             case .sandbox:
-                return "https://service.allow2.com:9443"
+                return "https://service.allow2.com" // "https://sandbox-service.allow2.com"
             case .staging:
-                return "https://api.allow2.com:9443" //"https://staging-service.allow2.com"
+                return "https://staging-service.com:9443" //"https://staging-service.allow2.com"
             default:
-                return "https://staging-service.allow2.com:9443"
+                return "https://service.allow2.com"
             }
         }
     }
