@@ -258,6 +258,15 @@ public class Allow2 {
     
     public enum Activity : Int {
         case Internet = 1
+        case Computer = 2
+        case Gaming = 3
+        case Message = 4
+        case JunkFood = 5
+        case Lollies = 6
+        case Electricity = 7
+        case ScreenTime = 8
+        case Social = 9
+        case PhoneTime = 10
     }
 
     
