@@ -46,7 +46,7 @@ public class Allow2PairingViewController: UITableViewController {
             // don't allow re-pairing if we are already paired!
             return nil
         }
-        let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
+        let allow2FrameworkBundle = Bundle(for: Allow2PairingViewController.self)
         let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
         return storyboard.instantiateViewController(withIdentifier: "Allow2PairingViewController") as? Allow2PairingViewController
     }
