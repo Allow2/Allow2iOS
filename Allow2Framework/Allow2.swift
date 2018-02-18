@@ -170,7 +170,7 @@ public class Allow2 {
     // todo: should do this better
     public static var allow2RequestViewController : UINavigationController {
         get {
-            let allow2FrameworkBundle = Bundle(identifier: allow2RequestViewController.self)
+            let allow2FrameworkBundle = Bundle(for: Allow2RequestViewController.self)
             let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
             return storyboard.instantiateViewController(withIdentifier: "Allow2RequestViewController") as! UINavigationController
         }
