@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
     }
     s.source_files = 'Allow2Framework/**/*.swift'
     s.resource_bundles = {
-        'Allow2' => ['Allow2Framework/**/*.{storyboard,xib}', 'Allow2Framework/**/*.xcassets']
+        'Allow2' => ['Allow2Framework/**/*.{lproj,storyboard,xib}', 'Allow2Framework/**/*.xcassets']
     }	
 end
