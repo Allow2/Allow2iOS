@@ -205,11 +205,11 @@ public class Allow2 {
         get {
             switch env {
             case .sandbox:
-                return "https://api.allow2.com" //"https://sandbox-api.allow2.com"
+                return "https://sandbox-api.allow2.com:8443" // warning: Remove Port
             case .staging:
-                return "https://api.allow2.com:8443" //"https://staging-api.allow2.com"
+                return "https://staging-api.allow2.com:8443" // warning: Remove Port
             default:
-                return "https://api.allow2.com"
+                return "https://sandbox-api.allow2.com:8443"
             }
         }
     }
@@ -218,15 +218,15 @@ public class Allow2 {
         get {
             switch env {
             case .sandbox:
-                return "https://service.allow2.com" // "https://sandbox-service.allow2.com"
+                return "https://sandbox-service.allow2.com:9443" // warning: Remove Port
             case .staging:
-                return "https://staging-service.com:9443" //"https://staging-service.allow2.com"
+                return "https://staging-service.allow2.com:9443" // warning: Remove Port
             default:
-                return "https://service.allow2.com"
+                return "https://sandbox-service.allow2.com:9443"
             }
         }
     }
-    
+
     public static let shared = Allow2()
     
     private init (){
