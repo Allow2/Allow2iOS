@@ -1,6 +1,6 @@
 # Allow2iOS
 
-[![Travis CI](https://travis-ci.org/Allow2/allow2iOS.svg?branch=master)](https://travis-ci.org/Allow2/allow2iOS) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![CocoaPods](https://img.shields.io/cocoapods/v/Allow2iOS.svg) ![Platform](https://img.shields.io/badge/platforms-iOS%210.0+-333333.svg)
+[![Travis CI](https://travis-ci.org/Allow2/allow2iOS.svg?branch=master)](https://travis-ci.org/Allow2/allow2iOS) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![CocoaPods](https://img.shields.io/cocoapods/v/Allow2iOS.svg) ![Platform](https://img.shields.io/badge/platforms-iOS10.0+-333333.svg)
 
 Allow2 makes it easy to add parental controls to your apps.
 
