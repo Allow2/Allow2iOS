@@ -46,8 +46,7 @@ public class Allow2PairingViewController: UITableViewController {
             // don't allow re-pairing if we are already paired!
             return nil
         }
-        let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
-        let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+        let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: Allow2.bundle)
         return storyboard.instantiateViewController(withIdentifier: "Allow2PairingViewController") as? Allow2PairingViewController
     }
     
@@ -110,11 +109,12 @@ public class Allow2PairingViewController: UITableViewController {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             switch result {
             case .PairResult(let pairResult):
-                print("paired")
+                print("paired \(pairResult)")
                 //self.selectChild(result.children)
                 self.delegate?.Allow2PairingCompleted(result: result)
                 break
             case .Error(let error):
+                print("pair error \(error)")
                 self.delegate?.Allow2PairingCompleted(result: result)
                 return
             default:

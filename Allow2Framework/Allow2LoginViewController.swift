@@ -93,8 +93,7 @@ extension Allow2LoginViewController : PinVCDelegate {
         self.tableView?.deselectRow(at: indexPath, animated: true)
         child = children[indexPath.row]
         
-        let allow2FrameworkBundle = Bundle(identifier: "com.allow2.Allow2Framework")
-        let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: allow2FrameworkBundle)
+        let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: Allow2.bundle)
         let pinVC = storyboard.instantiateViewController(withIdentifier: "PinVC") as! PinVC
         pinVC.delegate = self
         pinVC.pin = child!.pin

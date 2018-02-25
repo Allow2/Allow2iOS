@@ -1,6 +1,6 @@
 # Allow2iOS
 
-[![Travis CI](https://travis-ci.org/Allow2/allow2iOS.svg?branch=master)](https://travis-ci.org/Allow2/allow2iOS) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![CocoaPods](https://img.shields.io/cocoapods/v/Allow2iOS.svg) ![Platform](https://img.shields.io/badge/platforms-iOS%210.0+-333333.svg)
+[![Travis CI](https://travis-ci.org/Allow2/allow2iOS.svg?branch=master)](https://travis-ci.org/Allow2/allow2iOS) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![CocoaPods](https://img.shields.io/cocoapods/v/Allow2.svg) ![Platform](https://img.shields.io/badge/platforms-iOS10.0+-333333.svg)
 
 Allow2 makes it easy to add parental controls to your apps.
 
@@ -63,14 +63,14 @@ func Allow2CheckResultNotification(notification:NSNotification) {
 
 #### CocoaPods (iOS 9+)
 
-You can use [CocoaPods](http://cocoapods.org/) to install `Allow2iOS` by adding it to your `Podfile`:
+You can use [CocoaPods](http://cocoapods.org/) to install `Allow2` by adding it to your `Podfile`:
 
 ```ruby
 platform :ios, '9.0'
 use_frameworks!
 
 target 'MyApp' do
-pod 'Allow2iOS'
+pod 'Allow2'
 end
 ```
 
@@ -79,15 +79,15 @@ Note that this requires CocoaPods version 36, and your iOS deployment target to 
 
 #### Carthage (iOS 9+)
 
-You can use [Carthage](https://github.com/Carthage/Carthage) to install `Allow2iOS` by adding it to your `Cartfile`:
+You can use [Carthage](https://github.com/Carthage/Carthage) to install `Allow2` by adding it to your `Cartfile`:
 
 ```
-github "Allow2iOS/Allow2Framework"
+github "Allow2/Allow2Framework"
 ```
 
 #### Swift Package Manager
 
-You can use [The Swift Package Manager](https://swift.org/package-manager) to install `Allow2iOS` by adding the proper description to your `Package.swift` file:
+You can use [The Swift Package Manager](https://swift.org/package-manager) to install `Allow2` by adding the proper description to your `Package.swift` file:
 
 ```swift
 import PackageDescription
