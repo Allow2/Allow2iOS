@@ -96,7 +96,7 @@ extension Notification.Name {
 public class Allow2 {
 
     public var deviceToken : String? = "Not Set"
-    public var env : EnvType = .staging
+    public var env : EnvType = .production
 
     var userId : String? {
         get { return (UserDefaults.standard.object(forKey: "Allow2UserId") as? String) }
@@ -113,10 +113,20 @@ public class Allow2 {
         }
     }
 
-    public enum EnvType {
-        case production
-        case sandbox
-        case staging
+    public enum EnvType : String {
+        case production = "production"  // ALWAYS use this one (unless you really want to try new features in Dev mode).
+        
+        // _DO NOT_ release your products using either of these settings
+        case sandbox = "sandbox"        // currently pointing to staging, so use with care.
+        case staging = "staging"        // access to bleeding edge functionality - CAUTION!
+    
+        public init(rawValue: String) {
+            switch rawValue {
+            case "sandbox": self = .sandbox
+            case "staging": self = .staging
+            default: self = .production
+            }
+        }
     }
 
     var _children : [ Allow2Child ] = []
@@ -190,7 +200,7 @@ public class Allow2 {
             case .sandbox:
                 return "https://sandbox-api.allow2.com"
             case .staging:
-                return "https://api.allow2.com:8443" //"https://staging-api.allow2.com"
+                return "https://staging-api.allow2.com"
             default:
                 return "https://api.allow2.com"
             }
@@ -244,7 +254,30 @@ public class Allow2 {
     }
 
     
-
+    /**
+     * setPropsFromBundle(Any?)
+     *
+     * @PARAM possibleBundle    : a dictionary [ String : Any ]
+     *
+     * Sets parmeters using the supplied dictionary:
+     * {
+     *    DeviceToken: "YGHGHGHG...",
+     *    Environment: "production"         : OPTIONAL, defaults to "production"
+     * }
+     *
+     * Returns Void
+     */
+    public func setPropsFromBundle(_ possibleBundle: Any?) {
+        if let Allow2Props = possibleBundle as? [ String : Any ] {
+            if let deviceToken = Allow2Props["DeviceToken"] as? String {
+                self.deviceToken = deviceToken
+            }
+            if let environmentString = Allow2Props["Environment"] as? String {
+                self.env = EnvType(rawValue: environmentString)
+            }
+        }
+    }
+    
     /**
      * pair(user, password, deviceName)
      *

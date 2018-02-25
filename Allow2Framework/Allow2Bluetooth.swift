@@ -29,19 +29,19 @@ class Allow2Bluetooth : NSObject {
     
     func startAdvertising() {
         shouldAdvertise = true
-        if !isBroadcasting {
-            if self.peripheralManager.state == .poweredOn {
+        //if !isBroadcasting {
+            //if self.peripheralManager.state == .poweredOn {
                 self.beaconRegion = CLBeaconRegion(
                     proximityUUID:  uuid,
                     major:          major,
                     minor:          minor,
                     identifier:     "com.allow2.device")
                 let dict = NSDictionary(dictionary: self.beaconRegion!.peripheralData(withMeasuredPower: nil)) as! [String: AnyObject]
-                print("Start Advertising")
+                print("Bluetooth: Start Advertising")
                 self.peripheralManager.startAdvertising(dict)
                 isBroadcasting = true
-            }
-        }
+            //}
+        //}
     }
     
     func stopAdvertising() {
@@ -51,7 +51,7 @@ class Allow2Bluetooth : NSObject {
     
     func pauseAdvertising() {
         if isBroadcasting {
-            print("Stop Advertising")
+            print("Bluetooth: Stop Advertising")
             self.peripheralManager.stopAdvertising()
             isBroadcasting = false
         }
@@ -89,9 +89,9 @@ extension Allow2Bluetooth: CBPeripheralManagerDelegate {
     
     func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
         if let error = error {
-            print("Failed to start advertising with error:\(error)")
+            print("Bluetooth: Failed to start advertising with error:\(error)")
         } else {
-            print("Start advertising")
+            print("Bluetooth: Started advertising")
         }
     }
 }
