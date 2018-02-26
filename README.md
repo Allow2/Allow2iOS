@@ -117,3 +117,67 @@ To use this library in your project manually you may:
 import Allow2
 ```
 
+There are some basic options required to get started and some optional ones.
+
+#### Create the app or device and get a token - REQUIRED
+
+First of all, you need to set up the device in the developer portal, so head over there, signup (all free), and create your app/device:
+
+(https://developer.allow2.com/)[https://developer.allow2.com/]
+
+then you need to set the token in the library before you can use any functions:
+
+```swift
+func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    ...
+    
+    Allow2.shared.deviceToken = "<DEVICE TOKEN GOES HERE>"
+    
+    ...
+}
+```
+
+#### Set the environment - OPTIONAL
+
+By default, the system will ALWAYS connect to the production environment. You can safely set up new apps in the developer portal and design and use them in the production system without any issues and this will be the most anyone will want to do.
+
+However, the Allow2 platfom is also updated on a regular basis and as changes are bought to realisation, they flow through a standard release process that we allow developers to paticipate in. At this time, we allow developers to test in the "sandbox" environment (essentially "beta") and in the "staging" environment (essentially "alpha"). So you CAN set the system to use one of these environments, BUT use them at your own peril!
+
+```swift
+func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    ...
+
+    Allow2.shared.env = .sandbox
+
+    ...
+}
+```
+
+#### Convenience setup - OPTIONAL
+
+Allow2 for iOS provides a convenience setup in case you are building into multiple environments yourself, you can pass a plist (directly out of your bundle if you wish!) into the convience property setter to handle one line config and easily manage multiple build targets:
+
+```xml
+<key>Allow2</key>
+<dict>
+    <key>DeviceToken</key>
+    <string>DEVICETOKEN</string>
+    <key>Environment</key>
+    <string>staging</string>
+</dict>
+```
+
+Then you can pass this straight in from your Bundle:
+
+```swift
+func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    ...
+
+    Allow2.shared.setPropsFromBundle(Bundle.main.infoDictionary?["Allow2"])
+
+    ...
+}
+```
+
+Any parameter that is not recognised will be ignored, so Environment: Invalid will essentially leave it as the default or whatever it was set to earlier.
+
