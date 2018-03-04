@@ -36,9 +36,11 @@ public class Allow2PairingViewController: UITableViewController {
         set {
             _deviceName = newValue
             deviceNameField?.text = _deviceName
-            updateBarcode()
         }
     }
+    
+    var barcodeUpdateDebouncer = Debouncer(delay: 0.4) {
+    };
     
     // todo: is a factory method better?
     public static func instantiate() -> Allow2PairingViewController? {
@@ -60,6 +62,12 @@ public class Allow2PairingViewController: UITableViewController {
         deviceNameField?.text = deviceName
         updateBarcode()
         
+        barcodeUpdateDebouncer = Debouncer(delay: 0.4) {
+            DispatchQueue.main.async {
+                self.updateBarcode();
+            }
+        };
+        
         bluetooth.startAdvertising()
 
         self.pollingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(Allow2PairingViewController.pollPairing), userInfo: nil, repeats: true)
@@ -69,8 +77,18 @@ public class Allow2PairingViewController: UITableViewController {
         super.viewDidDisappear(animated)
         self.pollingTimer.invalidate()
         self.pollingTimer = nil
+        barcodeUpdateDebouncer.timer?.invalidate()
         bluetooth.stopAdvertising()
-
+    }
+    
+    func enableLogin() {
+        let hasName = (deviceName.count > 0)
+        let username = usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let password = passwordField?.text ?? ""
+        // todo: better sanity checks
+        DispatchQueue.main.async() {
+            self.connectButton?.isEnabled = hasName && (username.count > 4) && (password.count > 4)
+        }
     }
     
     func updateBarcode() {
@@ -78,19 +96,18 @@ public class Allow2PairingViewController: UITableViewController {
         let hasName = (deviceName.count > 0)
         if hasName {
             barcodeImageView?.isHidden = false
-            DispatchQueue.main.async() {
-                let size = CGSize(width: self.barcodeImageView!.frame.width, height: self.barcodeImageView!.frame.height)
+            let size = CGSize(width: self.barcodeImageView!.frame.width, height: self.barcodeImageView!.frame.height)
+            DispatchQueue.global(qos: .background).async() {
                 let newQR = Allow2.shared.generateQRImage(name: self.deviceName, withSize: size)
-                self.barcodeImageView?.image = newQR
+                DispatchQueue.main.async() {
+                    self.barcodeImageView?.image = newQR
+                }
             }
         } else {
             barcodeImageView?.isHidden = true
             barcodeImageView?.image = nil
         }
-        let username = usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let password = passwordField?.text ?? ""
-        // todo: better sanity checks
-        connectButton?.isEnabled = hasName && (username.count > 4) && (password.count > 4)
+        enableLogin()
     }
     
     @IBAction func connect() {
@@ -126,11 +143,16 @@ public class Allow2PairingViewController: UITableViewController {
 
 extension Allow2PairingViewController : UITextFieldDelegate {
     
-    @IBAction func textFieldEdited(sender: UITextField) {
-        let newDeviceName = sender.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        if newDeviceName != self.deviceName {
-            self.deviceName = newDeviceName
+    @IBAction func textFieldEdited(textField: UITextField) {
+        if textField == self.deviceNameField {
+            let newDeviceName = textField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            if newDeviceName != self.deviceName {
+                self.deviceName = newDeviceName
+            }
+            barcodeUpdateDebouncer.call()
+            return
         }
+        enableLogin()
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -144,7 +166,9 @@ extension Allow2PairingViewController : UITextFieldDelegate {
         }
         if (textField == self.passwordField) {
             textField.resignFirstResponder()
-            connect()
+            if connectButton?.isEnabled ?? false {
+                connect()
+            }
             return true
         }
         return true
@@ -217,5 +241,27 @@ extension Allow2PairingViewController {
         } catch (let err) {
             print(err)
         }
+    }
+}
+
+
+class Debouncer: NSObject {
+    var callback: (() -> ())
+    var delay: Double
+    weak var timer: Timer?
+    
+    init(delay: Double, callback: @escaping (() -> ())) {
+        self.delay = delay
+        self.callback = callback
+    }
+    
+    func call() {
+        timer?.invalidate()
+        let nextTimer = Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(Debouncer.fireNow), userInfo: nil, repeats: false)
+        timer = nextTimer
+    }
+    
+    @objc func fireNow() {
+        self.callback()
     }
 }

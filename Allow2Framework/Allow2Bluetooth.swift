@@ -12,7 +12,8 @@ import CoreBluetooth
 
 class Allow2Bluetooth : NSObject {
 
-    let uuid = UUID(uuidString: "E170385E-F3FD-4834-A5E4-766Ef993E83E")!
+    let uuid_production = UUID(uuidString: "E170385E-F3FD-4834-A5E4-766Ef993E83E")!
+    let uuid_staging = UUID(uuidString: "E170385E-F3FD-4834-A5E4-766Ef993E83F")!
     let major : CLBeaconMajorValue = UInt16(arc4random_uniform(65536))
     let minor : CLBeaconMinorValue = UInt16(arc4random_uniform(65536))
     
@@ -32,7 +33,7 @@ class Allow2Bluetooth : NSObject {
         //if !isBroadcasting {
             //if self.peripheralManager.state == .poweredOn {
                 self.beaconRegion = CLBeaconRegion(
-                    proximityUUID:  uuid,
+                    proximityUUID:  Allow2.shared.env == .production ? uuid_production : uuid_staging,
                     major:          major,
                     minor:          minor,
                     identifier:     "com.allow2.device")
