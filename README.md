@@ -5,8 +5,9 @@
 Allow2 makes it easy to add parental controls to your apps.
 
 1. [Why should you use Allow2?](#why-should-you-use-allow2)
-2. [Requirements](#requirements)
-3. [Integration](#integration)
+2. [What's it look like?](#whats-it-look-like)
+3. [Requirements](#requirements)
+4. [Integration](#integration)
 
 refer to https://github.com/Allow2/Allow2.github.io/wiki for more details.
 
@@ -53,6 +54,16 @@ func Allow2CheckResultNotification(notification:NSNotification) {
 }
 
 ```
+
+## What's it look like?
+
+| Screenshot | Description |
+| --- | --- |
+| <img src="Screenshots/pairing.jpg" alt="Pairing" width="150"/> | Pairing <br> Initial Setup |
+| <img src="Screenshots/select.jpg" alt="Choose Child" width="150"/> | When there is more than one child, and the app can be used by any child |
+| <img src="Screenshots/pin.jpg" alt="Enter Pin" width="150"/> | Before a child can use the app, they need to enter their pin <br> (if more than one child) |
+| <img src="Screenshots/banned.jpg" alt="Banned" width="150"/> | If usage is not allowed at that time, or they ran out of quota, or have been banned. |
+| <img src="Screenshots/request.jpg" alt="Request" width="150"/> | Children can request changes directly from within your game or app |
 
 ## Requirements
 
