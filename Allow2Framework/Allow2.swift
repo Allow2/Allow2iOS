@@ -363,8 +363,8 @@ public class Allow2 {
                         return
                     }
                     
-                    self.pairId = json["pairId"].string
-                    self.userId = json["userId"].string
+                    self.pairId = "\(json["pairId"].uInt64Value)"
+                    self.userId = "\(json["userId"].uInt64Value)"
                     let childrenJson = json["children"].array ?? []
                     
                     // todo: maintain the list of children internally
