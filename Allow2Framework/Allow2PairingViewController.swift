@@ -122,8 +122,10 @@ public class Allow2PairingViewController: UITableViewController {
         UIApplication.shared.beginIgnoringInteractionEvents()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         Allow2.shared.pair(user: user, password: password, deviceName: deviceName) { (result) in
-            UIApplication.shared.endIgnoringInteractionEvents()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            DispatchQueue.main.async {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
             switch result {
             case .PairResult(let pairResult):
                 print("paired \(pairResult)")
