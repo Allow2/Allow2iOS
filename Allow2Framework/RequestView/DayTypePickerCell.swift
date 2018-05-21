@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DayTypePickerCellDelegate {
-    func dayTypePickerCellCell(_ cell: DayTypePickerCell, didChooseDayType dayType: Allow2Day)
+    func dayTypePickerCell(_ cell: DayTypePickerCell, didChooseDayType dayType: Allow2Day)
 }
 
 class DayTypePickerCell: UITableViewCell {
@@ -54,14 +54,14 @@ extension DayTypePickerCell: UIPickerViewDataSource {
 extension DayTypePickerCell: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if (row == 0) {
-            delegate?.dayTypePickerCellCell(self, didChooseDayType: Allow2Day(id:0, name:"Do Not Change"))
+            delegate?.dayTypePickerCell(self, didChooseDayType: Allow2Day(id:0, name:"Do Not Change"))
             return
         }
         //        if (row == 1) {
         //            return "Set Back to Default"
         //        }
         let dayType = _dayTypes![row - 1]
-        delegate?.dayTypePickerCellCell(self, didChooseDayType: dayType)
+        delegate?.dayTypePickerCell(self, didChooseDayType: dayType)
     }
 }
 

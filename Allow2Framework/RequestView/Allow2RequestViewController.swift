@@ -15,7 +15,7 @@ public protocol Allow2RequestViewControllerDelegate {
 public class Allow2RequestViewController: UITableViewController {
     
     var delegate : Allow2RequestViewControllerDelegate?
-    var newDayType : Allow2Day = Allow2Day(id: 0, name: "Do Not Change");
+    var newDayType : Allow2Day = Allow2Day(id: 0, name: "Do Not Change")
     private var currentBans = [[String: Any]]()
     private var dayType : Allow2Day?
     private var dayTypes : [ Allow2Day ]?
@@ -208,13 +208,9 @@ extension Allow2RequestViewController : UITextFieldDelegate {
 }
 
 extension Allow2RequestViewController : DayTypePickerCellDelegate {
-    func dayTypePickerCellCell(_ cell: DayTypePickerCell, didChooseDayType dayType: Allow2Day) {
+    func dayTypePickerCell(_ cell: DayTypePickerCell, didChooseDayType dayType: Allow2Day) {
         self.newDayType = dayType
         DispatchQueue.main.async {
-            self.pickerShown = !self.pickerShown
-            self.tableView.beginUpdates()
-            self.tableView.reloadRows(at: [IndexPath(row:0, section:0)], with: .fade)
-            self.tableView.endUpdates()
             self.enableSendButton()
         }
     }
