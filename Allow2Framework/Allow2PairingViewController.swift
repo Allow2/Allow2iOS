@@ -22,6 +22,7 @@ public class Allow2PairingViewController: UITableViewController {
     @IBOutlet var usernameField : UITextField?
     @IBOutlet var passwordField : UITextField?
     @IBOutlet var connectButton : UIButton?
+    @IBOutlet var activityIndicator : UIActivityIndicatorView?
     
     var pollingTimer: Timer!
     var bluetooth = Allow2Bluetooth()
@@ -93,6 +94,7 @@ public class Allow2PairingViewController: UITableViewController {
     
     func updateBarcode() {
         //if let name = deviceNameField?.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        activityIndicator?.startAnimating()
         let hasName = (deviceName.count > 0)
         if hasName {
             barcodeImageView?.isHidden = false
@@ -101,6 +103,7 @@ public class Allow2PairingViewController: UITableViewController {
                 let newQR = Allow2.shared.generateQRImage(name: self.deviceName, withSize: size)
                 DispatchQueue.main.async() {
                     self.barcodeImageView?.image = newQR
+                    self.activityIndicator?.stopAnimating()
                 }
             }
         } else {

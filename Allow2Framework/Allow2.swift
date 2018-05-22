@@ -59,8 +59,10 @@ public enum Allow2Response {
     case CheckResult(Allow2CheckResult)
     case Request(Bool)
     
-    static func parseFromJSON(response : JSON) -> Allow2Response {
-        guard response["error"] != "invalid pairId" else {
+    static func parseFromJSON(_ json : JSON, response: HTTPURLResponse? = nil) -> Allow2Response {
+        guard json["error"] != "invalid pairId",
+            json["error"] != "invalid pairToken",
+            response?.statusCode ?? 200 != 401 else {
             // special case, no longer controlled
             Allow2.shared.userId = nil
             Allow2.shared.pairId = nil
@@ -76,17 +78,17 @@ public enum Allow2Response {
                 ))
         }
         
-        if let requestSent = response["requestSent"].bool {
+        if let requestSent = json["requestSent"].bool {
             return .Request(requestSent)
         }
         
-        guard let allowed = response["allowed"].bool else {
+        guard let allowed = json["allowed"].bool else {
             return .Error(Allow2Error.InvalidResponse)
         }
-        let activities = response["activities"]
-        let dayTypes = response["dayTypes"]
-        let children = response["children"]
-        let allDayTypes = response["allDayTypes"]
+        let activities = json["activities"]
+        let dayTypes = json["dayTypes"]
+        let children = json["children"]
+        let allDayTypes = json["allDayTypes"]
         Allow2.shared._children = children.arrayValue.map { (child) -> Allow2Child in
             return Allow2Child(id: child["id"].uInt64Value,
                                name: child["name"].stringValue,
@@ -417,9 +419,7 @@ public class Allow2 {
     public func check(childId: String!, activities: [Allow2Activity]!, log: Bool = true, completion: ((Allow2Response) -> Void)? = nil) {
         
         guard self.isPaired else {
-            if completion != nil {
-                completion!(Allow2Response.Error( Allow2Error.NotPaired ))
-            }
+            completion?(Allow2Response.Error( Allow2Error.NotPaired ))
             return
         }
         
@@ -441,9 +441,7 @@ public class Allow2 {
             
             if checkResult.expires.timeIntervalSinceNow.sign != .minus {
                 // not expired yet, use cached value
-                if completion != nil {
-                    completion!( Allow2Response.CheckResult(checkResult) )
-                }
+                completion?( Allow2Response.CheckResult(checkResult) )
                 return
             }
             
@@ -475,6 +473,31 @@ public class Allow2 {
                 
                 // interpret the result
                 // todo: 403 is disconnected, clear everything out
+                // this doesn't work here, it's handled by parseFromJSON below
+//                if let httpResponse = response as? HTTPURLResponse,
+//                    httpResponse.statusCode == 401 {
+//                    // device released
+//                    self.userId = nil
+//                    self.pairId = nil
+//                    self.childId = nil
+//                    self._children = []
+//                    self._dayTypes = []
+//
+//                    // notify everyone
+//                    NotificationCenter.default.post(
+//                        name: .allow2CheckResultNotification,
+//                        object: nil,
+//                        userInfo: [ "result" : [
+//                            "allowed": true,
+//                            "activities": [],
+//                            "dayTypes": [],
+//                            "allDayTypes": [],
+//                            "children": []
+//                        ]]
+//                    )
+//                    completion?(Allow2Response.Error( Allow2Error.NotPaired ))
+//                    return
+//                }
                 
                 // handle other errors
                 
@@ -485,7 +508,7 @@ public class Allow2 {
                     return;
                 }
                 
-                let result = Allow2Response.parseFromJSON(response: json)
+                let result = Allow2Response.parseFromJSON(json, response: response as? HTTPURLResponse)
             
                 switch result {
                 case let .CheckResult(checkResult):
@@ -549,9 +572,7 @@ extension Allow2 {
     public func request(dayTypeId: UInt64?, lift: [UInt64]?, message: String?, completion: ((Allow2Response) -> Void)? = nil) {
         
         guard self.isPaired else {
-            if completion != nil {
-                completion!(Allow2Response.Error( Allow2Error.NotPaired ))
-            }
+            completion?(Allow2Response.Error( Allow2Error.NotPaired ))
             return
         }
         
@@ -598,34 +619,20 @@ extension Allow2 {
                 
                 // attempt to handle valid response
                 // todo: better error handling on data -> JSON
-                guard let json = try? JSON(data: data!) else {
-                    completion?(Allow2Response.Error( Allow2Error.InvalidResponse ))
+//                guard let json = try? JSON(data: data!) else {
+//                    completion?(Allow2Response.Error( Allow2Error.InvalidResponse ))
+//                    return;
+//                }
+                
+                guard (response as? HTTPURLResponse)?.statusCode ?? 500 == 200 else {
+                    completion?(Allow2Response.Error( Allow2Error.Other(message: "Something went wrong") ))
                     return;
                 }
                 
-                let result = Allow2Response.parseFromJSON(response: json)
+                //let result = Allow2Response.parseFromJSON(json)
                 
-                switch result {
-                case let .CheckResult(checkResult):
-                    
-                    // good response, cache the result first
-                    self.resultCache[key] = checkResult
-                    
-                    // notify everyone
-                    NotificationCenter.default.post(
-                        name: .allow2CheckResultNotification,
-                        object: nil,
-                        userInfo: [ "result" : checkResult ]
-                    )
-                    
-                    break
-                default:
-                    completion?(result)
-                    return
-                }
-                
-                // now return the result
-                completion?(result)
+                completion?(Allow2Response.Request(true))
+
             }
             task.resume()
             

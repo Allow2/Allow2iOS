@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-	<plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -269,6 +269,13 @@
                                                         <constraint firstAttribute="height" constant="249" id="vkg-oZ-3ar"/>
                                                     </constraints>
                                                 </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8DL-3A-6Ap">
+                                                    <rect key="frame" x="23" y="133" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="lRy-X6-n0k"/>
+                                                        <constraint firstAttribute="width" constant="20" id="rQQ-sc-DJ5"/>
+                                                    </constraints>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="dCY-ED-SdA" firstAttribute="top" secondItem="NXO-Rm-H92" secondAttribute="topMargin" id="19b-uB-R4e"/>
@@ -277,6 +284,8 @@
                                                 <constraint firstItem="dCY-ED-SdA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NXO-Rm-H92" secondAttribute="leadingMargin" constant="8" id="SgJ-Jm-8m5"/>
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="dCY-ED-SdA" secondAttribute="trailing" constant="8" id="iVy-nV-cMY"/>
                                                 <constraint firstItem="dCY-ED-SdA" firstAttribute="centerX" secondItem="NXO-Rm-H92" secondAttribute="centerX" id="pBy-Wr-RE3"/>
+                                                <constraint firstItem="8DL-3A-6Ap" firstAttribute="centerY" secondItem="dCY-ED-SdA" secondAttribute="centerY" id="s8v-pJ-vEF"/>
+                                                <constraint firstItem="8DL-3A-6Ap" firstAttribute="leading" secondItem="dCY-ED-SdA" secondAttribute="leading" constant="-40" id="yMi-gS-r6u"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -396,6 +405,7 @@
                     <navigationItem key="navigationItem" title="Allow2" id="zPi-zQ-Rgh"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="8DL-3A-6Ap" id="SZn-74-mXG"/>
                         <outlet property="barcodeImageView" destination="dCY-ED-SdA" id="RmR-ez-EMN"/>
                         <outlet property="connectButton" destination="P3q-Uq-bSo" id="XTa-MQ-KwS"/>
                         <outlet property="deviceNameField" destination="mDb-uR-oYc" id="bTL-8i-4ap"/>
