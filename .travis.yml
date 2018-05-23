@@ -1,0 +1,5 @@
+language: objective-c
+osx_image: xcode9.3
+xcode_project: Allow2Framework.xcodeproj
+xcode_scheme: Allow2
+xcode_sdk: iphonesimulator11.3

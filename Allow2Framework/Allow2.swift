@@ -118,11 +118,23 @@ public class Allow2 {
 
     var userId : String? {
         get { return (UserDefaults.standard.object(forKey: "Allow2UserId") as? String) }
-        set { UserDefaults.standard.set(newValue, forKey: "Allow2UserId") }
+        set {
+            guard newValue != nil else {
+                UserDefaults.standard.removeObject(forKey: "Allow2UserId")
+                return
+            }
+            UserDefaults.standard.set(newValue, forKey: "Allow2UserId")
+        }
     }
     var pairId : String? {
         get { return (UserDefaults.standard.object(forKey: "Allow2PairId") as? String) }
-        set { UserDefaults.standard.set(newValue, forKey: "Allow2PairId") }
+        set {
+            guard newValue != nil else {
+                UserDefaults.standard.removeObject(forKey: "Allow2PairId")
+                return
+            }
+            UserDefaults.standard.set(newValue, forKey: "Allow2PairId")
+        }
     }
 
     public var isPaired : Bool {
@@ -322,9 +334,7 @@ public class Allow2 {
     public func pair(user : String!, password: String!, deviceName : String!, completion: ((Allow2Response) -> Void)? = nil) {
         
         guard !self.isPaired else {
-            if completion != nil {
-                completion!(Allow2Response.Error( Allow2Error.AlreadyPaired ))
-            }
+            completion?(Allow2Response.Error( Allow2Error.AlreadyPaired ))
             return
         }
         
