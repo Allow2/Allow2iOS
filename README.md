@@ -81,7 +81,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'MyApp' do
-pod 'Allow2'
+    pod 'Allow2'
 end
 ```
 
@@ -134,7 +134,7 @@ There are some basic options required to get started and some optional ones.
 
 First of all, you need to set up the device in the developer portal, so head over there, signup (all free), and create your app/device:
 
-(https://developer.allow2.com/)[https://developer.allow2.com/]
+[https://developer.allow2.com/](https://developer.allow2.com/)
 
 then you need to set the token in the library before you can use any functions:
 
