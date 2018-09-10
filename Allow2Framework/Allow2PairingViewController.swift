@@ -59,7 +59,7 @@ public class Allow2PairingViewController: UITableViewController {
             self.delegate?.Allow2PairingCompleted(result: Allow2Response.Error( Allow2Error.AlreadyPaired ))
             return
         }
-
+        
         deviceNameField?.text = deviceName
         updateBarcode()
         

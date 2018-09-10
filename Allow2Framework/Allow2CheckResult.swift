@@ -12,6 +12,7 @@ import Foundation
  * Result from a successful check call
  */
 public class Allow2CheckResult {
+    var _subscription : JSON
     var _allowed : Bool
     var _activities : JSON
     var _children : JSON
@@ -25,11 +26,13 @@ public class Allow2CheckResult {
         }
     }
     
-    public init(allowed: Bool,
-                 activities: JSON,
-                 dayTypes: JSON,
-                 allDayTypes: JSON,
-                 children: JSON) {
+    public init(subscription: JSON,
+                allowed: Bool,
+                activities: JSON,
+                dayTypes: JSON,
+                allDayTypes: JSON,
+                children: JSON) {
+        self._subscription = subscription
         self._allowed = allowed
         self._activities = activities
         self._children = children
@@ -58,12 +61,32 @@ extension Allow2CheckResult {
     public var allDayTypes : JSON { get { return _allDayTypes } }
     public var today : Allow2Day { get { return _today } }
     public var tomorrow : Allow2Day { get { return _tomorrow } }
+    public var subscription : JSON { get { return _subscription } }
 
+    public var needSubscription : String? {
+        get {
+            if !(subscription.dictionary?["financial"]?.boolValue ?? false) {
+                if let childCount = subscription.dictionary?["childCount"]?.intValue,
+                    let maxChildren = subscription.dictionary?["maxChildren"]?.intValue,
+                    //let serviceCount = subscription.dictionary?["serviceCount"]?.intValue,
+                    //let deviceCount = subscription.dictionary?["deviceCount"]?.intValue,
+                    let type = subscription.dictionary?["type"]?.intValue {
+                    
+                    if (childCount > maxChildren) && (type == 1) {
+                        return "Subscription Upgrade Required."
+                    }
+                }
+                return "Subscription Required."
+            }
+            return nil
+        }
+    }
+    
     public var explanation : String {
         get {
             var reasons : [String] = [];
-            if (!allowed) {
-                // todo: reasons.append() ?
+            if let subscriptionString = needSubscription {
+                reasons.append(subscriptionString)
             }
             activities.forEach { (s, activity) in
                 if activity.dictionary?["banned"]?.boolValue ?? false {

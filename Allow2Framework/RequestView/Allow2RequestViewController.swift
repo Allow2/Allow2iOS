@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 public protocol Allow2RequestViewControllerDelegate {
     
@@ -19,10 +20,15 @@ public class Allow2RequestViewController: UITableViewController {
     private var currentBans = [[String: Any]]()
     private var dayType : Allow2Day?
     private var dayTypes : [ Allow2Day ]?
+    private var needSubscription : Bool = false
     var checkResult : Allow2CheckResult? {
         didSet {
+            needSubscription = checkResult?.needSubscription != nil
+            subscriptionSection = needSubscription ? 0 : nil
+            dayTypeSection = subscriptionSection != nil ? 1 : 0
             newDayType = Allow2Day(id: 0, name: "Do Not Change");
             currentBans = checkResult?.currentBans ?? [[String: Any]]()
+            banSection = currentBans.count > 0 ? dayTypeSection + 1 : nil
             dayTypes = checkResult?.allDayTypes.array?.map({ (json) -> Allow2Day in
                 return Allow2Day(json: json)
             }) ?? []
@@ -30,6 +36,10 @@ public class Allow2RequestViewController: UITableViewController {
     }
     var message : String? = nil
     var pickerShown = false
+    
+    var subscriptionSection : Int?
+    var dayTypeSection : Int = 0
+    var banSection : Int?
     
     @IBOutlet var sendButton : UIBarButtonItem?
     @IBAction func Cancel() {
@@ -49,25 +59,42 @@ public class Allow2RequestViewController: UITableViewController {
             return ban["id"] as! UInt64
         }
         print("newDayType: \(String(describing: dayTypeId)), lift: \(lift), message: \(String(describing: self.message))")
+        SVProgressHUD.show(withStatus: "Sending Request...")
+        UIApplication.shared.beginIgnoringInteractionEvents()
         Allow2.shared.request(dayTypeId: dayTypeId, lift: lift.count > 0 ? lift : nil, message: self.message) { response in
             print("\(response)")
-            switch (response) {
-            case let .Request(requestSent):
-                if !requestSent {
+            DispatchQueue.main.async {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                switch (response) {
+                case let .Request(requestSent):
+                    if !requestSent {
+                        SVProgressHUD.showError(withStatus: "Unable to Send")
+                        return
+                    }
+                    SVProgressHUD.showSuccess(withStatus: "Request Sent")
+                    self.presentingViewController?.dismiss(animated: true)
+                case let .Error(err):
+                    // warning: show a suitable error somehow
+                    SVProgressHUD.showError(withStatus: err.localizedDescription)
+                    print("\(err)")
+                    return
+                default:
                     return
                 }
-                self.presentingViewController?.dismiss(animated: true)
-            case let .Error(err):
-                // warning: show a suitable error somehow
-                print("\(err)")
-                return
-            default:
-                return
             }
         }
     }
     
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        enableSendButton()
+        SVProgressHUD.setDefaultStyle(.custom)
+        SVProgressHUD.setForegroundColor(.allow2Gold)
+        SVProgressHUD.setBackgroundColor(.allow2DarkGray)
+    }
+    
     func shouldEnableSend() -> Bool {
+        if needSubscription { return true }
         let atLeastOneBan = currentBans.reduce(false) { (result, ban) -> Bool in
             return result || ban["selected"] as? Bool ?? false
         }
@@ -87,11 +114,14 @@ public class Allow2RequestViewController: UITableViewController {
 extension Allow2RequestViewController {
     
     override public func numberOfSections(in tableView: UITableView) -> Int {
-        return 2 + ( currentBans.count > 0 ? 1 : 0 )
+        return 2 + (needSubscription ? 1 : 0) + (currentBans.count > 0 ? 1 : 0)
     }
     
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        if section == subscriptionSection {
+            return 1
+        }
+        if section == dayTypeSection {
             return 2
         }
         if section >= self.numberOfSections(in: tableView) - 1 {
@@ -101,7 +131,10 @@ extension Allow2RequestViewController {
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
+        if section == subscriptionSection {
+            return "Subscription Needed"
+        }
+        if section == dayTypeSection {
             return "Change Day Type"
         }
         if section >= self.numberOfSections(in: tableView) - 1 {
@@ -112,13 +145,14 @@ extension Allow2RequestViewController {
     }
     
     override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath.section == 0) && (indexPath.row == 1) && !pickerShown {
+        if (indexPath.section == dayTypeSection) && (indexPath.row == 1) && !pickerShown {
             return 0
         }
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
     
     override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == subscriptionSection { return false }
         return indexPath.section < self.numberOfSections(in: tableView) - 1
     }
     
@@ -130,7 +164,13 @@ extension Allow2RequestViewController {
     }
     
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == subscriptionSection {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
+            cell.textLabel?.text = "Allow2 needs an active subscription"
+            cell.accessoryType = .checkmark
+            return cell
+        }
+        if indexPath.section == dayTypeSection {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
                 cell.textLabel?.text = self.newDayType.name
@@ -161,8 +201,11 @@ extension Allow2RequestViewController {
     
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath)
-        if indexPath.section == 0 {
-            tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == subscriptionSection {
+            return
+        }
+        if indexPath.section == dayTypeSection {
             if indexPath.row == 0 {
                 pickerShown = !pickerShown
                 tableView.beginUpdates()
@@ -171,7 +214,6 @@ extension Allow2RequestViewController {
             return
         }
         if indexPath.section < self.numberOfSections(in: tableView) - 1 {
-            tableView.deselectRow(at: indexPath, animated: false)
             self.currentBans[indexPath.row]["selected"] = !(self.currentBans[indexPath.row]["selected"] as? Bool ?? false)
             //formatBanCell(self.tableView(tableView, cellForRowAt: indexPath), forRowAt: indexPath)
             tableView.beginUpdates()
@@ -183,8 +225,6 @@ extension Allow2RequestViewController {
         
         let cell = self.tableView(tableView, cellForRowAt: indexPath) as! MessageCell
         cell.messageField?.becomeFirstResponder()
-        
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
@@ -211,6 +251,9 @@ extension Allow2RequestViewController : DayTypePickerCellDelegate {
     func dayTypePickerCell(_ cell: DayTypePickerCell, didChooseDayType dayType: Allow2Day) {
         self.newDayType = dayType
         DispatchQueue.main.async {
+            self.tableView.beginUpdates()
+            self.tableView.reloadRows(at: [IndexPath(row: 0, section: self.dayTypeSection)], with: .fade)
+            self.tableView.endUpdates()
             self.enableSendButton()
         }
     }

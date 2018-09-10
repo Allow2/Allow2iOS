@@ -35,6 +35,27 @@
 			remoteGlobalIDString = 497D6B611E1F962A0021EAB8;
 			remoteInfo = Allow2Framework;
 		};
+		498F4FCA21465257001F72AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 498F4FC521465256001F72AA /* SVProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4A9D7DD81AB345980039B273;
+			remoteInfo = "SVProgressHUD-Framework";
+		};
+		498F4FCC21465257001F72AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 498F4FC521465256001F72AA /* SVProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65F021FC15C857EF0030BBEF;
+			remoteInfo = SVProgressHUD;
+		};
+		498F4FCE2146527F001F72AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 498F4FC521465256001F72AA /* SVProgressHUD.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4A9D7DD71AB345980039B273;
+			remoteInfo = "SVProgressHUD-Framework";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +76,7 @@
 		497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		497D6B9A1E20750B0021EAB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		498460642037D2360040731E /* Allow2.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Allow2.podspec; sourceTree = SOURCE_ROOT; };
+		498F4FC521465256001F72AA /* SVProgressHUD.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SVProgressHUD.xcodeproj; sourceTree = "<group>"; };
 		49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Allow2RequestViewController.swift; sourceTree = "<group>"; };
 		49992B6A1F99DAAF00A9294F /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		49BAC25C202C84D1008F6B50 /* PinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinVC.swift; sourceTree = "<group>"; };
@@ -120,6 +142,7 @@
 				497D6B661E1F962A0021EAB8 /* Info.plist */,
 				498460642037D2360040731E /* Allow2.podspec */,
 				495A90C51E21099E00439C70 /* README.md */,
+				498F4FC521465256001F72AA /* SVProgressHUD.xcodeproj */,
 			);
 			path = Allow2Framework;
 			sourceTree = "<group>";
@@ -131,6 +154,15 @@
 				497D6B721E1F962A0021EAB8 /* Info.plist */,
 			);
 			path = Allow2FrameworkTests;
+			sourceTree = "<group>";
+		};
+		498F4FC621465256001F72AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				498F4FCB21465257001F72AA /* SVProgressHUD.framework */,
+				498F4FCD21465257001F72AA /* libSVProgressHUD.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		49992B691F99DA9000A9294F /* RequestView */ = {
@@ -169,6 +201,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				498F4FCF2146527F001F72AA /* PBXTargetDependency */,
 			);
 			name = Allow2;
 			productName = Allow2Framework;
@@ -226,6 +259,12 @@
 			mainGroup = 497D6B581E1F962A0021EAB8;
 			productRefGroup = 497D6B631E1F962A0021EAB8 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 498F4FC621465256001F72AA /* Products */;
+					ProjectRef = 498F4FC521465256001F72AA /* SVProgressHUD.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				497D6B611E1F962A0021EAB8 /* Allow2 */,
@@ -233,6 +272,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		498F4FCB21465257001F72AA /* SVProgressHUD.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SVProgressHUD.framework;
+			remoteRef = 498F4FCA21465257001F72AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		498F4FCD21465257001F72AA /* libSVProgressHUD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSVProgressHUD.a;
+			remoteRef = 498F4FCC21465257001F72AA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		497D6B601E1F962A0021EAB8 /* Resources */ = {
@@ -289,6 +345,11 @@
 			isa = PBXTargetDependency;
 			target = 497D6B611E1F962A0021EAB8 /* Allow2 */;
 			targetProxy = 497D6B6D1E1F962A0021EAB8 /* PBXContainerItemProxy */;
+		};
+		498F4FCF2146527F001F72AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SVProgressHUD-Framework";
+			targetProxy = 498F4FCE2146527F001F72AA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -416,6 +477,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Allow2Framework",
+				);
 				INFOPLIST_FILE = Allow2Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -437,6 +502,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Allow2Framework",
+				);
 				INFOPLIST_FILE = Allow2Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

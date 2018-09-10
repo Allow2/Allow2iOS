@@ -70,6 +70,7 @@ public enum Allow2Response {
             Allow2.shared._children = []
             Allow2.shared._dayTypes = []
             return .CheckResult(Allow2CheckResult(
+                subscription: [],
                 allowed: true,
                 activities: [],
                 dayTypes: [],
@@ -86,6 +87,7 @@ public enum Allow2Response {
             return .Error(Allow2Error.InvalidResponse)
         }
         let activities = json["activities"]
+        let subscription = json["subscription"]
         let dayTypes = json["dayTypes"]
         let children = json["children"]
         let allDayTypes = json["allDayTypes"]
@@ -96,6 +98,7 @@ public enum Allow2Response {
         }
         
         return .CheckResult(Allow2CheckResult(
+            subscription: subscription,
             allowed: allowed,
             activities: activities,
             dayTypes: dayTypes,
@@ -259,6 +262,7 @@ public class Allow2 {
     
     private init (){
         //print("Allow2 has been initialised")
+        
     }
     
     /**
@@ -598,7 +602,7 @@ extension Allow2 {
             body["changeDayType"] = true
         }
         
-        let key = body.rawString()!
+        //let key = body.rawString()!
         
         let url = URL(string: "\(apiUrl)/request/createRequest")
         var request = URLRequest(url: url!)
@@ -651,4 +655,10 @@ extension Allow2 {
             completion?(Allow2Response.Error( err ))
         }
     }
+}
+
+extension UIColor {
+    //static let allow2Yellow = UIColor(red: 242/255, green: 203/255, blue: 41/255, alpha: 1.0)
+    static let allow2Gold = UIColor(red: 255/255, green: 205/255, blue: 5/255, alpha: 1.0)
+    static let allow2DarkGray = UIColor(red: 88/255, green: 89/255, blue: 91/255, alpha: 1.0)
 }

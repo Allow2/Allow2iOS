@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -101,6 +101,7 @@
                     <connections>
                         <outlet property="dayTypeLabel" destination="oxY-qQ-cdx" id="fle-Rc-pdV"/>
                         <outlet property="descriptionLabel" destination="sap-ie-4uy" id="bi0-5b-H9c"/>
+                        <outlet property="requestButton" destination="REb-7o-TyH" id="71Y-ps-AkF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zg1-le-iX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -645,6 +646,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Allow2 Logo" width="170" height="170"/>
+        <image name="Allow2 Logo" width="512" height="512"/>
     </resources>
 </document>

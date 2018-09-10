@@ -19,11 +19,13 @@ public class Allow2BlockViewController: UIViewController {
     private var checkResult : Allow2CheckResult?
     @IBOutlet var dayTypeLabel : UILabel!
     @IBOutlet var descriptionLabel : UILabel!
-    
+    @IBOutlet var requestButton : UIButton!
+
     public func checkResult(checkResult: Allow2CheckResult!) {
         self.checkResult = checkResult
         dayTypeLabel.text = checkResult.today.name
         descriptionLabel.text = checkResult.explanation
+        
     }
     
 //    @IBAction func newRequest() {
