@@ -19,6 +19,7 @@
 		497D6B911E1F97390021EAB8 /* Allow2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D6B901E1F97390021EAB8 /* Allow2.swift */; };
 		497D6B991E1FA6F90021EAB8 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D6B981E1FA6F90021EAB8 /* SwiftyJSON.swift */; };
 		497D6B9B1E20750B0021EAB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497D6B9A1E20750B0021EAB8 /* Assets.xcassets */; };
+		498F4FF12147A12E001F72AA /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498F4FCB21465257001F72AA /* SVProgressHUD.framework */; };
 		49992B681F99C53F00A9294F /* Allow2RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49992B671F99C53F00A9294F /* Allow2RequestViewController.swift */; };
 		49992B6B1F99DAAF00A9294F /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49992B6A1F99DAAF00A9294F /* MessageCell.swift */; };
 		49BAC25D202C84D1008F6B50 /* PinVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BAC25C202C84D1008F6B50 /* PinVC.swift */; };
@@ -90,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				498F4FF12147A12E001F72AA /* SVProgressHUD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +112,7 @@
 				497D6B641E1F962A0021EAB8 /* Allow2Framework */,
 				497D6B6F1E1F962A0021EAB8 /* Allow2FrameworkTests */,
 				497D6B631E1F962A0021EAB8 /* Products */,
+				498F4FEF2147A12E001F72AA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,6 +166,13 @@
 				498F4FCD21465257001F72AA /* libSVProgressHUD.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		498F4FEF2147A12E001F72AA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		49992B691F99DA9000A9294F /* RequestView */ = {
