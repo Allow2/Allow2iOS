@@ -13,7 +13,7 @@ public class Allow2LoginViewController: UIViewController, UITableViewDataSource,
     @IBOutlet var noChildrenView : UIView?
     @IBOutlet var tableView : UITableView?
 
-    var children = [Allow2Child]()
+    var _children = [Allow2Child]()
     var child : Allow2Child?
         
     override public func viewWillAppear(_ animated: Bool) {
@@ -29,7 +29,7 @@ public class Allow2LoginViewController: UIViewController, UITableViewDataSource,
     
     func updateChildren() {
         let newChildren = Allow2.shared.children
-        children = newChildren.sorted(by: { (a, b) -> Bool in
+        _children = newChildren.sorted(by: { (a, b) -> Bool in
             a.name < b.name
         })
     }
@@ -60,18 +60,18 @@ public class Allow2LoginViewController: UIViewController, UITableViewDataSource,
 
 extension Allow2LoginViewController {
     public func numberOfSections(in tableView: UITableView) -> Int {
-        let hasChildren = children.count > 0
+        let hasChildren = _children.count > 0
         self.tableView?.isHidden = !hasChildren
         noChildrenView?.isHidden = hasChildren
         return hasChildren ? 1 : 0
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return children.count
+        return _children.count
     }
     
     func configureCell(_ cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let child = children[indexPath.row];
+        let child = _children[indexPath.row];
         cell.textLabel?.text = child.name
     }
     
@@ -91,7 +91,7 @@ extension Allow2LoginViewController {
 extension Allow2LoginViewController : PinVCDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView?.deselectRow(at: indexPath, animated: true)
-        child = children[indexPath.row]
+        child = _children[indexPath.row]
         
         let storyboard = UIStoryboard(name: "Allow2Storyboard", bundle: Allow2.bundle)
         let pinVC = storyboard.instantiateViewController(withIdentifier: "PinVC") as! PinVC
