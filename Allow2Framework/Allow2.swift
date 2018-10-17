@@ -555,16 +555,19 @@ public class Allow2 {
     }
     
     public class Allow2Day {
-        public var id : Int {
-            get {
-                return self.id
-            }
-        }
-        public var name : String {
-            get {
-                return self.name
-            }
-        }
+        public var id : Int = 0
+        public var name : String = ""
+
+ //       public var id : Int {
+ //           get {
+ //               return self.id
+ //           }
+ //       }
+ //       public var name : String {
+ //           get {
+ //               return self.name
+ //           }
+ //       }
         
         init (json: JSON) {
             

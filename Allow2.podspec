@@ -21,4 +21,5 @@ Pod::Spec.new do |s|
     s.resource_bundles = {
         'Allow2' => ['Allow2Framework/**/*.{lproj,storyboard,xib}', 'Allow2Framework/**/*.xcassets']
     }	
+    s.dependency 'SVProgressHUD', '~> 2.2.5'
 end
