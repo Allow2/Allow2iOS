@@ -144,6 +144,20 @@ extension Allow2RequestViewController {
         return "Lift Ban"
     }
     
+    override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == subscriptionSection {
+            return "Your parent account needs a subscription to grant your request, so a message to tell your parents will be included. You cannot remove this from your request."
+        }
+        if section == dayTypeSection {
+            return "If you want to ask for your day to be a different type today, select that type here."
+        }
+        if section >= self.numberOfSections(in: tableView) - 1 {
+            return "Add an optional message to your parents/carers."
+        }
+        
+        return "Lift Ban"
+    }
+    
     override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath.section == dayTypeSection) && (indexPath.row == 1) && !pickerShown {
             return 0
@@ -168,28 +182,33 @@ extension Allow2RequestViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
             cell.textLabel?.text = "Allow2 needs an active subscription"
             cell.accessoryType = .checkmark
+            cell.backgroundColor = .allow2Gold
             return cell
         }
         if indexPath.section == dayTypeSection {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypeCell")!
                 cell.textLabel?.text = self.newDayType.name
+                cell.backgroundColor = .allow2Gold
                 return cell
             }
             let cell = tableView.dequeueReusableCell(withIdentifier: "DayTypePickerCell") as! DayTypePickerCell
             cell.delegate = self
             cell.dayTypes = self.dayTypes
+            cell.backgroundColor = .allow2Gold
             return cell
         }
         if indexPath.section >= self.numberOfSections(in: tableView) - 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell") as! MessageCell
             cell.messageField?.text = self.message
             cell.messageField?.delegate = self
+            cell.backgroundColor = .allow2Gold
             return cell
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "BanCell")!
         formatBanCell(cell, forRowAt: indexPath)
+        cell.backgroundColor = .allow2Gold
         return cell
     }
 }

@@ -586,6 +586,7 @@ extension Array where Element:Allow2.Allow2Activity {
 }
 
 extension Allow2 {
+    // don't need to send a "needSubscription" do we? The server knows that! This is just a trigger to send it really.
     public func request(dayTypeId: UInt64?, lift: [UInt64]?, message: String?, completion: ((Allow2Response) -> Void)? = nil) {
         
         guard self.isPaired else {
