@@ -59,11 +59,11 @@ func Allow2CheckResultNotification(notification:NSNotification) {
 
 | Screenshot | Description |
 | --- | --- |
-| <img src="Screenshots/pairing.jpg" alt="Pairing" width="150"/> | Pairing <br> Initial Setup |
-| <img src="Screenshots/select.jpg" alt="Choose Child" width="150"/> | When there is more than one child, and the app can be used by any child |
-| <img src="Screenshots/pin.jpg" alt="Enter Pin" width="150"/> | Before a child can use the app, they need to enter their pin <br> (if more than one child) |
-| <img src="Screenshots/banned.jpg" alt="Banned" width="150"/> | If usage is not allowed at that time, or they ran out of quota, or have been banned. |
-| <img src="Screenshots/request.jpg" alt="Request" width="150"/> | Children can request changes directly from within your game or app |
+| <img src="https://github.com/Allow2/Allow2iOS/blob/master/Screenshots/pairing.jpg" alt="Pairing" width="150"/> | Pairing <br> Initial Setup |
+| <img src="https://github.com/Allow2/Allow2iOS/blob/master/Screenshots/select.jpg" alt="Choose Child" width="150"/> | When there is more than one child, and the app can be used by any child |
+| <img src="https://github.com/Allow2/Allow2iOS/blob/master/Screenshots/pin.jpg" alt="Enter Pin" width="150"/> | Before a child can use the app, they need to enter their pin <br> (if more than one child) |
+| <img src="https://github.com/Allow2/Allow2iOS/blob/master/Screenshots/banned.jpg" alt="Banned" width="150"/> | If usage is not allowed at that time, or they ran out of quota, or have been banned. |
+| <img src="https://github.com/Allow2/Allow2iOS/blob/master/Screenshots/request.jpg" alt="Request" width="150"/> | Children can request changes directly from within your game or app |
 
 ## Requirements
 
