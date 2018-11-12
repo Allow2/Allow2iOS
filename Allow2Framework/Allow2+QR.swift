@@ -11,6 +11,9 @@ import UIKit
 extension Allow2 {
     public func generateQRImage(name: String, withSize size: CGSize) -> UIImage {
         
+        guard name.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {
+            return UIImage(named: "qrcode", in: Bundle(for: Allow2.self), compatibleWith: nil)!
+        }
         let json = "{\"uuid\":\"\(UIDevice.current.identifierForVendor!.uuidString)\", \"name\":\"\(name.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) ?? "")\", \"deviceToken\": \"\(deviceToken ?? "MISSING")\"}"
 
         let data = json.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
@@ -32,6 +35,6 @@ extension Allow2 {
             }
         }
         
-        return UIImage(named: "Allow2 Logo")!
+        return UIImage(named: "qrcode", in: Bundle(for: Allow2.self), compatibleWith: nil)!
     }
 }

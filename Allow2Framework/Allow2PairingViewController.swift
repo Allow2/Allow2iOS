@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import StoreKit
+import SVProgressHUD
 
 public protocol Allow2PairingViewControllerDelegate {
     func Allow2PairingCompleted(result: Allow2Response)
 }
 
-public class Allow2PairingViewController: UITableViewController {
+public class Allow2PairingViewController: UIViewController {
     
     public var delegate : Allow2PairingViewControllerDelegate?
     
@@ -23,6 +25,13 @@ public class Allow2PairingViewController: UITableViewController {
     @IBOutlet var passwordField : UITextField?
     @IBOutlet var connectButton : UIButton?
     @IBOutlet var activityIndicator : UIActivityIndicatorView?
+    @IBOutlet var generatingLabel : UILabel?
+    @IBOutlet var generateButton : UIButton?
+    
+    @IBOutlet var scanView : UIView?
+    @IBOutlet var manualView : UIView?
+    @IBOutlet var orConnectManuallyButton : UIButton?
+    @IBOutlet var orScanButton : UIButton?
     
     var pollingTimer: Timer!
     var bluetooth = Allow2Bluetooth()
@@ -72,6 +81,7 @@ public class Allow2PairingViewController: UITableViewController {
         bluetooth.startAdvertising()
 
         self.pollingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(Allow2PairingViewController.pollPairing), userInfo: nil, repeats: true)
+        self.navigationItem.title = "Parental Freedom"
     }
     
     override public func viewDidDisappear(_ animated: Bool) {
@@ -93,22 +103,17 @@ public class Allow2PairingViewController: UITableViewController {
     }
     
     func updateBarcode() {
-        //if let name = deviceNameField?.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         activityIndicator?.startAnimating()
-        let hasName = (deviceName.count > 0)
-        if hasName {
-            barcodeImageView?.isHidden = false
-            let size = CGSize(width: self.barcodeImageView!.frame.width, height: self.barcodeImageView!.frame.height)
-            DispatchQueue.global(qos: .background).async() {
-                let newQR = Allow2.shared.generateQRImage(name: self.deviceName, withSize: size)
-                DispatchQueue.main.async() {
-                    self.barcodeImageView?.image = newQR
-                    self.activityIndicator?.stopAnimating()
-                }
+        generatingLabel?.isHidden = false
+        generateButton?.isHidden = true
+        let size = CGSize(width: self.barcodeImageView!.frame.width, height: self.barcodeImageView!.frame.height)
+        DispatchQueue.global(qos: .background).async() {
+            let newQR = Allow2.shared.generateQRImage(name: self.deviceName, withSize: size)
+            DispatchQueue.main.async() {
+                self.barcodeImageView?.image = newQR
+                self.activityIndicator?.stopAnimating()
+                self.generatingLabel?.isHidden = true
             }
-        } else {
-            barcodeImageView?.isHidden = true
-            barcodeImageView?.image = nil
         }
         enableLogin()
     }
@@ -124,6 +129,7 @@ public class Allow2PairingViewController: UITableViewController {
         
         UIApplication.shared.beginIgnoringInteractionEvents()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        SVProgressHUD.show(withStatus: "Contacting Allow2")
         Allow2.shared.pair(user: user, password: password, deviceName: deviceName) { (result) in
             DispatchQueue.main.async {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -133,31 +139,83 @@ public class Allow2PairingViewController: UITableViewController {
             case .PairResult(let pairResult):
                 print("paired \(pairResult)")
                 //self.selectChild(result.children)
+                DispatchQueue.main.async {
+                    SVProgressHUD.showSuccess(withStatus: "Connected")
+                }
                 self.delegate?.Allow2PairingCompleted(result: result)
                 break
             case .Error(let error):
                 print("pair error \(error)")
+                DispatchQueue.main.async {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                }
                 self.delegate?.Allow2PairingCompleted(result: result)
                 return
             default:
+                DispatchQueue.main.async {
+                    SVProgressHUD.showError(withStatus: "Unknown Error")
+                }
                 break // cannot happen
             }
         }
     }
+    
+    @IBAction func scanMode() {
+        setScanMode(scan: true)
+    }
+    
+    @IBAction func manualMode() {
+        setScanMode(scan: false)
+    }
+    
+    func setScanMode(scan : Bool) {
+        orScanButton?.isHidden = scan
+        orConnectManuallyButton?.isHidden = !scan
+        scanView?.isHidden = !scan
+        manualView?.isHidden = scan
+    }
+    
+    @IBAction func getAllow2() {
+        //if let URL = https://geo.itunes.apple.com/us/app/allow2/id569486440?mt=12
+        let storeProductVC = SKStoreProductViewController()
+        storeProductVC.delegate = self
+        storeProductVC.loadProduct(withParameters: [
+            SKStoreProductParameterITunesItemIdentifier : "569486440",
+            SKStoreProductParameterCampaignToken: "Allow2iOSApp"
+        ]) { (success, err) in
+//            if let err = err {
+//                SVProgressHUD.showError(withStatus: err.localizedDescription)
+//            }
+
+            storeProductVC.presentingViewController?.dismiss(animated: true)
+        }
+        
+        // present right away to avoid pause
+        self.present(storeProductVC, animated:true, completion:nil)
+        //UIApplication.shared.delegate?.window??.rootViewController?.present(storeProductVC, animated:true, completion:nil)
+    }
 }
 
 extension Allow2PairingViewController : UITextFieldDelegate {
-    
-    @IBAction func textFieldEdited(textField: UITextField) {
-        if textField == self.deviceNameField {
-            let newDeviceName = textField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            if newDeviceName != self.deviceName {
-                self.deviceName = newDeviceName
+        
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard textField != self.deviceNameField else {
+            if let text = textField.text,
+                let textRange = Range(range, in: text) {
+                let updatedText = text.replacingCharacters(in: textRange,
+                                                           with: string).trimmingCharacters(in: .whitespacesAndNewlines)
+                if updatedText != self.deviceName {
+                    self._deviceName = updatedText
+                    barcodeUpdateDebouncer.call()
+                }
+            } else {
+                self._deviceName = nil
+                barcodeUpdateDebouncer.call()
             }
-            barcodeUpdateDebouncer.call()
-            return
+            return true
         }
         enableLogin()
+        return true
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -177,6 +235,21 @@ extension Allow2PairingViewController : UITextFieldDelegate {
             return true
         }
         return true
+    }
+    
+    @IBAction func dismissKeyboard() {
+        if (self.deviceNameField?.isFirstResponder ?? false) {
+            self.deviceNameField?.resignFirstResponder()
+            return
+        }
+        if (self.usernameField?.isFirstResponder ?? false) {
+            self.usernameField?.resignFirstResponder()
+            return
+        }
+        if (self.passwordField?.isFirstResponder ?? false) {
+            self.passwordField?.resignFirstResponder()
+            return
+        }
     }
 }
 
@@ -249,6 +322,9 @@ extension Allow2PairingViewController {
     }
 }
 
+extension Allow2PairingViewController : SKStoreProductViewControllerDelegate {
+    
+}
 
 class Debouncer: NSObject {
     var callback: (() -> ())
