@@ -363,45 +363,39 @@ public class Allow2 {
                 print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
                 
                 // todo: better error handling on data -> JSON
-                guard let json = try? JSON(data: data!) else {
-                    if (completion != nil) {
-                        completion!(Allow2Response.Error(Allow2Error.Other(message: "Invalid Response" )))
-                    }
+                guard let json = try? JSON(data: data!), let status = json["status"].string else {
+                    completion?(Allow2Response.Error(Allow2Error.Other(message: "Invalid Response" )))
                     return
                 }
                 
-                if let status = json["status"].string {
-                    
-                    guard status == "success" else {
-                        if (completion != nil) {
-                            completion!(Allow2Response.Error(Allow2Error.Other(message: json["message"].string ?? "Unknown Error" )))
-                        }
-                        return
+                guard status == "success" else {
+                    completion?(Allow2Response.Error(Allow2Error.Other(message: json["message"].string ?? "Unknown Error" )))
+                    return
+                }
+                
+                self.pairId = "\(json["pairId"].uInt64Value)"
+                self.userId = "\(json["userId"].uInt64Value)"
+                let childrenJson = json["children"].array ?? []
+                
+                // todo: maintain the list of children internally
+                
+                if (completion != nil) {
+                    var newChildren : [Allow2Child] = []
+                    for child in childrenJson {
+                        newChildren.append(Allow2Child(id: child["id"].uInt64Value,
+                                                       name: child["name"].stringValue,
+                                                       pin: child["pin"].stringValue))
                     }
+                    self._children = newChildren
                     
-                    self.pairId = "\(json["pairId"].uInt64Value)"
-                    self.userId = "\(json["userId"].uInt64Value)"
-                    let childrenJson = json["children"].array ?? []
-                    
-                    // todo: maintain the list of children internally
-                    
-                    if (completion != nil) {
-                        var newChildren : [Allow2Child] = []
-                        for child in childrenJson {
-                            newChildren.append(Allow2Child(id: child["id"].uInt64Value,
-                                                           name: child["name"].stringValue,
-                                                           pin: child["pin"].stringValue))
-                        }
-                        self._children = newChildren
-                        
-                        completion!(Allow2Response.PairResult(Allow2PairResult( children: self.children )))
-                    }
+                    completion!(Allow2Response.PairResult(Allow2PairResult( children: self.children )))
                 }
             }
             task.resume()
             
         } catch (let err) {
             print(err)
+            completion?(Allow2Response.Error(Allow2Error.Other(message: "Unknown Error" )))
         }
     }
     

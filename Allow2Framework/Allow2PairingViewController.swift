@@ -37,7 +37,10 @@ public class Allow2PairingViewController: UIViewController {
     var bluetooth = Allow2Bluetooth()
     
     let qrQueue = DispatchQueue(label: "Allow2QRGenerationQueue")
-    
+ 
+    var username : String! = ""
+    var password : String! = ""
+
     var _deviceName : String! = UIDevice.current.name
     var deviceName : String! {
         get {
@@ -94,11 +97,9 @@ public class Allow2PairingViewController: UIViewController {
     
     func enableLogin() {
         let hasName = (deviceName.count > 0)
-        let username = usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let password = passwordField?.text ?? ""
         // todo: better sanity checks
         DispatchQueue.main.async() {
-            self.connectButton?.isEnabled = hasName && (username.count > 4) && (password.count > 4)
+            self.connectButton?.isEnabled = hasName && (self.username.count > 4) && (self.password.count > 4)
         }
     }
     
@@ -173,6 +174,28 @@ public class Allow2PairingViewController: UIViewController {
         orConnectManuallyButton?.isHidden = !scan
         scanView?.isHidden = !scan
         manualView?.isHidden = scan
+        let editingDeviceName = self.deviceNameField?.isFirstResponder == true
+        let editingUsername = self.usernameField?.isFirstResponder == true
+        let editingPassword = self.passwordField?.isFirstResponder == true
+        if scan {
+            if editingUsername {
+                self.usernameField?.resignFirstResponder()
+                return
+            }
+            if editingPassword {
+                self.passwordField?.resignFirstResponder()
+                return
+            }
+        } else if !editingDeviceName {
+            if self.usernameField?.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0 < 1 {
+                self.usernameField?.becomeFirstResponder()
+                return
+            }
+            if self.passwordField?.text?.count ?? 0 < 1 {
+                self.passwordField?.becomeFirstResponder()
+                return
+            }
+        }
     }
     
     @IBAction func getAllow2() {
@@ -199,35 +222,43 @@ public class Allow2PairingViewController: UIViewController {
 extension Allow2PairingViewController : UITextFieldDelegate {
         
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text,
+            let textRange = Range(range, in: text) else {
+            return true
+        }
+        
+        let updatedText = text.replacingCharacters(in: textRange, with: string)
+    
         guard textField != self.deviceNameField else {
-            if let text = textField.text,
-                let textRange = Range(range, in: text) {
-                let updatedText = text.replacingCharacters(in: textRange,
-                                                           with: string).trimmingCharacters(in: .whitespacesAndNewlines)
-                if updatedText != self.deviceName {
-                    self._deviceName = updatedText
-                    barcodeUpdateDebouncer.call()
-                }
-            } else {
-                self._deviceName = nil
+            let trimmed = updatedText.trimmingCharacters(in: .whitespacesAndNewlines)
+            if updatedText != self.deviceName {
+                self._deviceName = trimmed
                 barcodeUpdateDebouncer.call()
             }
+            enableLogin()
             return true
+        }
+        if textField == self.usernameField {
+            self.username = updatedText.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        if textField == self.passwordField {
+            self.password = updatedText
         }
         enableLogin()
         return true
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if (textField == self.deviceNameField) {
+        if textField == self.deviceNameField {
             textField.resignFirstResponder()
+            // todo: if self.manualView is visible, we can allow the "next" function to go to the username field (tab through)
             return true
         }
-        if (textField == self.usernameField) {
+        if textField == self.usernameField {
             self.passwordField?.becomeFirstResponder()
             return true
         }
-        if (textField == self.passwordField) {
+        if textField == self.passwordField {
             textField.resignFirstResponder()
             if connectButton?.isEnabled ?? false {
                 connect()
