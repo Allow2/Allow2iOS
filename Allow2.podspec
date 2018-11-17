@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name        = "Allow2"
-    s.version     = "1.5.1"
+    s.version     = "1.5.2"
     s.summary     = "Allow2 Parental Freedom Platform makes it easy to add screentime limits to your apps"
     s.description = <<-DESC
 	Easily add quota, time management, time limits, bans, chores and much more to your app.

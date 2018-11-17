@@ -206,11 +206,10 @@ public class Allow2PairingViewController: UIViewController {
             SKStoreProductParameterITunesItemIdentifier : "569486440",
             SKStoreProductParameterCampaignToken: "Allow2iOSApp"
         ]) { (success, err) in
-//            if let err = err {
-//                SVProgressHUD.showError(withStatus: err.localizedDescription)
-//            }
-
-            storeProductVC.presentingViewController?.dismiss(animated: true)
+            if let err = err {
+                SVProgressHUD.showError(withStatus: err.localizedDescription)
+                storeProductVC.presentingViewController?.dismiss(animated: true)
+            }
         }
         
         // present right away to avoid pause
