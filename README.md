@@ -186,12 +186,13 @@ Warnings fire once per level transition to avoid spamming:
 
 Every Allow2 integration follows this lifecycle:
 
-1. **Pairing** (one-time) — QR or PIN, parent approves on their phone
-2. **Child identification** (every session) — child selects name + enters PIN
-3. **Permission checks** (continuous) — every 30s with `log: true`
-4. **Warnings & countdowns** — progressive, culminating in block
-5. **Request more time** — child asks, parent approves from their phone
-6. **Feedback** — parent reports issues directly to you
+1. **Pairing** (one-time) — QR code or 6-digit PIN, parent never enters credentials on device
+2. **Child identification** (every session) — OS account mapping, child selector with PIN, or verification via the child's Allow2 app (iOS/Android) or web portal
+3. **Parent access** — parent verifies via their Allow2 app or locally with PIN for unrestricted mode
+4. **Permission checks** (continuous) — POST to service URL every 30-60s with `log: true`
+5. **Warnings & countdowns** — progressive alerts before blocking
+6. **Request more time** — child requests, parent approves/denies from their phone (also works offline)
+7. **Feedback** — bug reports and feature requests sent directly to you, the developer
 
 ## Migration from v1
 
