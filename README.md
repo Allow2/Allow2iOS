@@ -188,7 +188,7 @@ Every Allow2 integration follows this lifecycle:
 
 1. **Pairing** (one-time) — QR code or 6-digit PIN, parent never enters credentials on device
 2. **Child identification** (every session) — OS account mapping, child selector with PIN, or verification via the child's Allow2 app (iOS/Android) or web portal
-3. **Parent access** — parent verifies via their Allow2 app or locally with PIN for unrestricted mode
+3. **Parent access** — parent verifies via their Allow2 app (iOS/Android), web portal, or locally with PIN for unrestricted mode
 4. **Permission checks** (continuous) — POST to service URL every 30-60s with `log: true`
 5. **Warnings & countdowns** — progressive alerts before blocking
 6. **Request more time** — child requests, parent approves/denies from their phone (also works offline)
@@ -211,6 +211,19 @@ The legacy v1 framework remains in `Allow2Framework/` for reference.
 - Developer Portal: [https://developer.allow2.com](https://developer.allow2.com)
 - Documentation: [https://developer.allow2.com/docs](https://developer.allow2.com/docs)
 - Issues: [https://github.com/Allow2/allow2-swift/issues](https://github.com/Allow2/allow2-swift/issues)
+
+## Offline Operation
+
+Once a device is paired, Allow2 remains fully configurable even when the device is offline. The parent can still manage the child's limits, approve requests, and change settings from their Allow2 app or the web portal — changes are synchronised the next time the device connects.
+
+On the device side:
+
+- **Cached permissions** — the last successful check result is cached locally. During a configurable grace period (default 5 minutes), the device continues to enforce the cached result.
+- **Deny-by-default** — after the grace period expires without connectivity, all activities are blocked. This prevents children from bypassing controls by disabling Wi-Fi or enabling airplane mode.
+- **Request More Time (offline)** — children can still submit requests even when the device is offline. The request is presented to the parent via their app or a voice code that can be read over the phone. The parent approves or denies from their end, and the device applies the result when connectivity resumes (or immediately via a voice code response entered locally).
+- **Automatic resync** — when the device comes back online, it immediately fetches the latest permissions, processes any queued requests, and resumes normal check polling.
+
+This means a paired device is never "unmanageable" — the parent always has control, regardless of the device's network state.
 
 ## License
 
