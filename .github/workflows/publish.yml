@@ -1,0 +1,83 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - '[0-9]+.*'
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Build (iOS)
+        run: |
+          xcodebuild build \
+            -scheme Allow2 \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -skipPackagePluginValidation
+
+      - name: Build (macOS)
+        run: |
+          xcodebuild build \
+            -scheme Allow2 \
+            -destination 'platform=macOS' \
+            -skipPackagePluginValidation
+
+      - name: Build XCFramework
+        run: |
+          # iOS device
+          xcodebuild archive \
+            -scheme Allow2 \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/Allow2-iOS \
+            -skipPackagePluginValidation \
+            SKIP_INSTALL=NO \
+            BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
+          # iOS Simulator
+          xcodebuild archive \
+            -scheme Allow2 \
+            -destination 'generic/platform=iOS Simulator' \
+            -archivePath build/Allow2-iOS-Simulator \
+            -skipPackagePluginValidation \
+            SKIP_INSTALL=NO \
+            BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
+          # macOS
+          xcodebuild archive \
+            -scheme Allow2 \
+            -destination 'generic/platform=macOS' \
+            -archivePath build/Allow2-macOS \
+            -skipPackagePluginValidation \
+            SKIP_INSTALL=NO \
+            BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
+          # Create XCFramework
+          xcodebuild -create-xcframework \
+            -framework build/Allow2-iOS.xcarchive/Products/Library/Frameworks/Allow2.framework \
+            -framework build/Allow2-iOS-Simulator.xcarchive/Products/Library/Frameworks/Allow2.framework \
+            -framework build/Allow2-macOS.xcarchive/Products/Library/Frameworks/Allow2.framework \
+            -output build/Allow2.xcframework
+
+      - name: Package XCFramework
+        run: |
+          cd build
+          zip -r Allow2.xcframework.zip Allow2.xcframework
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Allow2 Swift SDK ${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          files: |
+            build/Allow2.xcframework.zip
