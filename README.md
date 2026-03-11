@@ -140,7 +140,7 @@ The SDK is composed of focused modules, all orchestrated by `Allow2Daemon`:
 | `Allow2Checker` | Periodic permission check loop (30s default) |
 | `Allow2Warnings` | Progressive warnings (15m, 5m, 1m, 30s, 10s) — fire once per level |
 | `Allow2Offline` | Cache last check, grace period, deny-by-default |
-| `Allow2Request` | Request more time with status polling |
+| `Allow2Request` | Request flow (more time, day type change, ban lift) with status polling |
 | `Allow2Feedback` | Submit feedback, view threads, reply |
 | `Allow2Updates` | Poll for child/activity list changes |
 
@@ -191,7 +191,7 @@ Every Allow2 integration follows this lifecycle:
 3. **Parent access** — parent verifies via their Allow2 app (iOS/Android), web portal, or locally with PIN for unrestricted mode
 4. **Permission checks** (continuous) — POST to service URL every 30-60s with `log: true`
 5. **Warnings & countdowns** — progressive alerts before blocking
-6. **Request more time** — child requests, parent approves/denies from their phone (also works offline)
+6. **Requests** — child requests changes (more time, day type change, ban lift), parent approves/denies from their phone (also works offline via voice codes)
 7. **Feedback** — bug reports and feature requests sent directly to you, the developer
 
 ## Migration from v1
@@ -220,7 +220,7 @@ On the device side:
 
 - **Cached permissions** — the last successful check result is cached locally. During a configurable grace period (default 5 minutes), the device continues to enforce the cached result.
 - **Deny-by-default** — after the grace period expires without connectivity, all activities are blocked. This prevents children from bypassing controls by disabling Wi-Fi or enabling airplane mode.
-- **Request More Time (offline)** — children can still submit requests even when the device is offline. The request is presented to the parent via their app or a voice code that can be read over the phone. The parent approves or denies from their end, and the device applies the result when connectivity resumes (or immediately via a voice code response entered locally).
+- **Requests (offline)** — children can still submit all request types (more time, day type change, ban lift) even when the device is offline. The request is presented to the parent via their app or a voice code that can be read over the phone. The parent approves or denies from their end, and the device applies the result when connectivity resumes (or immediately via a voice code response entered locally).
 - **Automatic resync** — when the device comes back online, it immediately fetches the latest permissions, processes any queued requests, and resumes normal check polling.
 
 This means a paired device is never "unmanageable" — the parent always has control, regardless of the device's network state.
